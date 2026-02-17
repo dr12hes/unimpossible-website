@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Agent } from "@/data/agents"
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 
@@ -7,10 +8,22 @@ interface AgentCardProps {
 
 export function AgentCard({ agent }: AgentCardProps) {
   return (
-    <Card className="hover:shadow-xl hover:shadow-primary/10 hover:border-neutral-700 transition-all">
+    <Card className="hover:shadow-xl hover:shadow-primary/20 hover:border-primary/40 hover:ring-1 hover:ring-primary/40 transition-all">
       <CardHeader>
         <div className="flex items-center gap-3 mb-2">
-          <span className="text-4xl">{agent.emoji}</span>
+          {agent.avatar ? (
+            <div className="relative w-16 h-16 rounded-full overflow-hidden ring-2 ring-primary/50 flex-shrink-0">
+              <Image
+                src={agent.avatar}
+                alt={`${agent.name} headshot`}
+                fill
+                className="object-cover"
+                sizes="64px"
+              />
+            </div>
+          ) : (
+            <span className="text-4xl flex-shrink-0">{agent.emoji}</span>
+          )}
           <div>
             <CardTitle className="text-2xl">{agent.name}</CardTitle>
             <p className="text-sm text-neutral-400">{agent.role}</p>
