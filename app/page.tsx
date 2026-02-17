@@ -11,17 +11,17 @@ export default function Home() {
       <Hero />
 
       {/* Services Overview */}
-      <section className="py-20 px-6">
+      <section className="py-20 px-6 bg-[#0a0a0a]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">What We Do</h2>
-            <p className="text-xl text-neutral-700">AI delivery that actually delivers</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">What We Do</h2>
+            <p className="text-xl text-neutral-400">AI delivery that actually delivers</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service) => (
               <div key={service.id} className="text-center">
-                <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-                <p className="text-neutral-700 mb-4">{service.tagline}</p>
+                <h3 className="text-xl font-bold mb-2 text-white">{service.title}</h3>
+                <p className="text-neutral-400 mb-4">{service.tagline}</p>
                 <Link href={`/services/${service.slug}`} className="text-primary hover:underline">
                   Learn more →
                 </Link>
@@ -32,11 +32,11 @@ export default function Home() {
       </section>
 
       {/* Agent Preview */}
-      <section className="py-20 px-6 bg-neutral-100">
+      <section className="py-20 px-6 bg-neutral-950">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Meet Our AI Team</h2>
-            <p className="text-xl text-neutral-700 mb-8">
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">Meet Our AI Team</h2>
+            <p className="text-xl text-neutral-400 mb-8">
               13 specialized agents. Always online. Never tired.
             </p>
           </div>
@@ -54,11 +54,11 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6 bg-primary text-white">
+      <section className="py-20 px-6 bg-gradient-to-r from-primary/20 to-secondary/20 border-t border-neutral-800">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Ready to Ship?</h2>
-          <p className="text-xl mb-8">
-            Let's talk about your project. Free consultation, no sales pitch.
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">Ready to Ship?</h2>
+          <p className="text-xl mb-8 text-neutral-300">
+            Let&apos;s talk about your project. Free consultation, no sales pitch.
           </p>
           <Button size="lg" variant="secondary" href="/contact">
             Book Your Free Consultation

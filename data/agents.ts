@@ -65,7 +65,7 @@ export const agents: Agent[] = [
     name: 'Pixel',
     emoji: '🎨',
     role: 'UX Engineer',
-    personality: 'Design systems perfectionist. Accessibility isn't optional.',
+    personality: 'Design systems perfectionist. Accessibility isn\'t optional.',
     techStack: ['Qwen3 Coder Next 80B', 'Tailwind', 'Radix UI', 'ARIA'],
     exampleOutput: 'UI code review: responsive design, accessibility, design system compliance',
     status: 'active'
@@ -85,7 +85,7 @@ export const agents: Agent[] = [
     name: 'DocBot',
     emoji: '📚',
     role: 'Technical Writer',
-    personality: 'Documentation evangelist. If it's not documented, it doesn't exist.',
+    personality: 'Documentation evangelist. If it\'s not documented, it doesn\'t exist.',
     techStack: ['GLM 4.7 Flash', 'Markdown', 'OpenAPI'],
     exampleOutput: 'API docs, README files, user guides, deployment instructions',
     status: 'active'
@@ -105,7 +105,7 @@ export const agents: Agent[] = [
     name: 'Penny',
     emoji: '💰',
     role: 'Financial Analyst',
-    personality: 'Numbers don't lie. Tracks every penny, optimizes every spend.',
+    personality: 'Numbers don\'t lie. Tracks every penny, optimizes every spend.',
     techStack: ['GLM 4.7 Flash', 'PostgreSQL', 'Spreadsheets'],
     exampleOutput: 'Cost analysis, budget forecasts, ROI calculations, spend optimization',
     status: 'active'
@@ -135,7 +135,7 @@ export const agents: Agent[] = [
     name: 'SecurityJudge',
     emoji: '⚖️',
     role: 'Security Auditor',
-    personality: 'Zero-trust enforcer. Reviews Shield's work and catches what was missed.',
+    personality: 'Zero-trust enforcer. Reviews Shield\'s work and catches what was missed.',
     techStack: ['GLM 4.7 Flash', 'Security Standards', 'Compliance'],
     exampleOutput: 'Final security verdict: approve/reject with risk assessment and remediation steps',
     status: 'active'

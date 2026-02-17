@@ -14,7 +14,7 @@ export const services: Service[] = [
     id: 'ai-project-delivery',
     title: 'AI Project Delivery',
     slug: 'ai-project-delivery',
-    tagline: 'We don't just advise — we ship',
+    tagline: 'We don\'t just advise — we ship',
     description: 'From spec to production, our autonomous team handles the full lifecycle. You get working code, not PowerPoints.',
     deliverables: [
       'Working code in production',
