@@ -1,0 +1,25 @@
+services:
+  web:
+    image: nginx:alpine
+    container_name: unimpossible-website
+    restart: always
+    volumes:
+      - ./live:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.unimpossible-http.rule=Host(`unimpossible.co.uk`) || Host(`www.unimpossible.co.uk`)
+      - traefik.http.routers.unimpossible-http.entrypoints=web
+      - traefik.http.routers.unimpossible-http.middlewares=redirect-to-https
+      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+      - traefik.http.services.unimpossible-http.loadbalancer.server.port=80
+      - traefik.http.routers.unimpossible-web.rule=Host(`unimpossible.co.uk`) || Host(`www.unimpossible.co.uk`)
+      - traefik.http.routers.unimpossible-web.entrypoints=websecure
+      - traefik.http.routers.unimpossible-web.tls.certresolver=letsencrypt
+      - traefik.http.routers.unimpossible-web.service=unimpossible-http
+    networks:
+      - traefik-public
+
+networks:
+  traefik-public:
+    external: true

@@ -1,69 +1,42 @@
-# Unimpossible Website
+# unimpossible.co.uk
 
-Marketing website for Unimpossible Consultants Limited — AI delivery partner specializing in autonomous agent systems.
-
-## Stack
-
-- **Next.js 15** (App Router)
-- **TypeScript**
-- **Tailwind CSS**
-- **shadcn/ui** components
-- **Resend** for email delivery
-
-## Features
-
-- 🏠 Homepage with hero, services overview, and agent preview
-- 👥 Team page showcasing all 13 AIMY agents
-- 🛠️ Services pages (AI Project Delivery, Fractional AI CTO, AI Integration, Hospitality AI)
-- 📚 Case studies with real project results
-- 📧 Contact form with email notifications
-- 📖 Blog (placeholder)
-- ⚖️ Legal pages (Privacy Policy, Terms of Service)
-
-## Setup
-
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Copy `.env.example` to `.env.local` and add your `RESEND_API_KEY`
-4. Run development server: `npm run dev`
-5. Open [http://localhost:3000](http://localhost:3000)
-
-## Deployment
-
-Designed for deployment on Vercel:
-
-1. Connect GitHub repo to Vercel
-2. Set `RESEND_API_KEY` environment variable
-3. Configure custom domain (unimpossible.co.uk)
-4. Deploy!
-
-## Project Structure
+The UNimpossible website: one static page, no build step, no framework.
 
 ```
-app/
-├── page.tsx              # Homepage
-├── team/                 # AI team profiles
-├── services/             # Service pages
-├── case-studies/         # Case studies
-├── about/                # About David
-├── blog/                 # Blog (placeholder)
-├── contact/              # Contact form
-├── legal/                # Privacy & Terms
-└── api/contact/          # Contact form API route
-
-data/
-├── agents.ts             # 13 AIMY agent profiles
-├── case-studies.ts       # Case study content
-└── services.ts           # Service descriptions
-
-components/
-├── ui/                   # shadcn/ui components
-├── hero.tsx              # Homepage hero
-├── agent-card.tsx        # Agent profile card
-├── navbar.tsx            # Site navigation
-└── footer.tsx            # Site footer
+site/        the web root — index.html, privacy.html, site.css, site.js, favicons, og.png, robots, sitemap
+deploy/      nginx.conf + docker-compose.yml (nginx:alpine behind Traefik, same pattern as floorfllr/candengo) and deploy.sh
 ```
 
-## License
+## Editing
 
-© 2026 Unimpossible Consultants Limited. All rights reserved.
+Open `site/index.html`. Copy is in the HTML, styles in `site/site.css`, the two bits of behaviour (the website-check demo
+and the enquiry form) in `site/site.js`. Preview locally with any static server, e.g. `python3 -m http.server -d site 8080`.
+
+Design tokens: paper `#FFFFFF`, chalk `#EEF4F1`, teal ink `#0F3D33`, mint `#8FD9C4` (tints `#C9F2E6`, `#E3F6EF`, mid `#2E8B73`),
+amber `#D98E04` for report scores only. Type: Bricolage Grotesque (Google Fonts). The impossible triangle is inline SVG
+(`viewBox="3 6.6 64 56"`); the logo pack lives in `site/logo/`.
+
+## Deploying
+
+The site is served from VPS1 (144.126.238.139) and VPS2 (68.183.43.115), load-balanced by Cloudflare, so both are updated together:
+
+```bash
+./deploy/deploy.sh          # both; or ./deploy/deploy.sh vps1
+```
+
+It refuses to ship uncommitted changes, tars `site/`, copies it to `/home/docker/unimpossible/live` on each server
+(previous release kept in `live-previous`), retires the old single-page container if it is still routing the domain,
+(re)creates the `unimpossible-website` nginx container from `deploy/docker-compose.yml`, and checks every route per server.
+VPS2 is reached through VPS1 as a jump host. Override targets with `UNIMP_VPS1` / `UNIMP_VPS2` (ssh aliases work).
+
+Rollback: `ssh root@144.126.238.139 'cd /home/docker/unimpossible && rm -rf live && mv live-previous live && docker compose up -d --force-recreate'` (and the same on VPS2).
+
+## Enquiries
+
+By default the form opens the visitor's email app addressed to hello@unimpossible.co.uk with the message filled in.
+To post enquiries into Optaro Core instead, create the page once with `deploy/provision_core_page.py` (instructions in the file),
+paste the token into `window.UNIMPOSSIBLE.pageToken` at the foot of `site/index.html`, commit and deploy.
+
+## History
+
+The previous Next.js redesign (never deployed) is on the `skunkworks/d7b2e3ad` branch.
