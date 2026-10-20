@@ -3,6 +3,7 @@
 ._*
 .env
 scanner/**/__pycache__/
+scanner/.env.dev
 scanner/.pytest_cache/
 scanner/.venv/
 scanner/data/

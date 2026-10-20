@@ -12,6 +12,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from . import store as S
@@ -224,5 +225,13 @@ async def admin_get(scan_id: str, x_admin_key: str | None = Header(default=None)
 
 
 @app.exception_handler(HTTPException)
-async def http_error(_: Request, exc: HTTPException):
+async def http_error(request: Request, exc: HTTPException):
+    if exc.status_code == 404 and not request.url.path.startswith("/api/"):
+        return HTMLResponse("Not found", status_code=404)
     return JSONResponse({"error": exc.detail}, status_code=exc.status_code)
+
+
+# Local development only: serve site/ from the same origin so the page's fetch('/api/...') calls just work.
+_site_dir = load_settings().serve_site
+if _site_dir:
+    app.mount("/", StaticFiles(directory=_site_dir, html=True), name="site")

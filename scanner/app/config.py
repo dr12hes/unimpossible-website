@@ -50,6 +50,7 @@ class Settings:
     hook_rate_per_ip: int       # per 10 minutes
     report_rate_per_ip: int     # per hour
     hooks_per_hour: int         # across everyone
+    serve_site: str             # local dev only: a directory of static files to serve at /
 
 
 def load_settings() -> Settings:
@@ -95,4 +96,5 @@ def load_settings() -> Settings:
         hook_rate_per_ip=_int("SCANNER_HOOK_RATE_PER_IP", 6),
         report_rate_per_ip=_int("SCANNER_REPORT_RATE_PER_IP", 3),
         hooks_per_hour=_int("SCANNER_HOOKS_PER_HOUR", 60),
+        serve_site=_env("SCANNER_SERVE_SITE"),
     )

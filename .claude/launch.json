@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "scanner", "runtimeExecutable": "bash", "runtimeArgs": ["scanner/dev.sh"], "port": 8000 }
+  ]
+}
