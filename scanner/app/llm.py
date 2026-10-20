@@ -223,7 +223,8 @@ class LLM:
         if not settings.anthropic_api_key:
             raise LLMError("ANTHROPIC_API_KEY is not set")
         self.s = settings
-        self.client = anthropic.AsyncAnthropic(api_key=settings.anthropic_api_key, max_retries=3)
+        headers = {"anthropic-workspace-id": settings.anthropic_workspace_id} if settings.anthropic_workspace_id else None
+        self.client = anthropic.AsyncAnthropic(api_key=settings.anthropic_api_key, max_retries=3, default_headers=headers)
         self.usage: dict[str, dict[str, int]] = defaultdict(lambda: {"calls": 0, "input": 0, "output": 0, "cache_read": 0, "cache_write": 0})
 
     def cost_usd(self) -> float:

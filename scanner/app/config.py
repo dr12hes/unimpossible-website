@@ -24,6 +24,7 @@ class Settings:
     public_origin: str
     secret: str
     anthropic_api_key: str
+    anthropic_workspace_id: str   # required when the key is organisation-level rather than workspace-scoped
     hook_model: str
     notes_model: str
     judge_model: str
@@ -70,6 +71,7 @@ def load_settings() -> Settings:
         public_origin=_env("SCANNER_PUBLIC_ORIGIN", "https://unimpossible.co.uk").rstrip("/"),
         secret=secret,
         anthropic_api_key=_env("ANTHROPIC_API_KEY"),
+        anthropic_workspace_id=_env("ANTHROPIC_WORKSPACE_ID"),
         hook_model=_env("SCANNER_HOOK_MODEL", "claude-sonnet-5-5"),
         notes_model=_env("SCANNER_NOTES_MODEL", "claude-haiku-5-5"),
         judge_model=_env("SCANNER_JUDGE_MODEL", "claude-sonnet-5-5"),
