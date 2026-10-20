@@ -18,18 +18,21 @@ amber `#D98E04` for report scores only. Type: Bricolage Grotesque (Google Fonts)
 
 ## Deploying
 
-The site is served from VPS1 (144.126.238.139) and VPS2 (68.183.43.115), load-balanced by Cloudflare, so both are updated together:
+The site is served from one server: the Hetzner box `v1` at 46.4.219.113 (`vps1` / `hetzner-pub` in `~/.ssh/config`; it also
+serves floorfllr.com and candengo.com). Cloudflare holds the DNS only (proxy off, a single A record for the apex and www), so
+nothing load-balances it. The 144.126.238.139 / 68.183.43.115 DigitalOcean addresses in older notes are gone.
 
 ```bash
-./deploy/deploy.sh          # both; or ./deploy/deploy.sh vps1
+./deploy/deploy.sh
 ```
 
-It refuses to ship uncommitted changes, tars `site/`, copies it to `/home/docker/unimpossible/live` on each server
-(previous release kept in `live-previous`), retires the old single-page container if it is still routing the domain,
-(re)creates the `unimpossible-website` nginx container from `deploy/docker-compose.yml`, and checks every route per server.
-VPS2 is reached through VPS1 as a jump host. Override targets with `UNIMP_VPS1` / `UNIMP_VPS2` (ssh aliases work).
+It refuses to ship uncommitted changes, tars `site/`, copies it to `/home/docker/unimpossible/live` on the server (previous
+release kept in `live-previous`), retires any other container routing the domain, (re)creates the `unimpossible-website` nginx
+container from `deploy/docker-compose.yml`, then checks every route and the page title against the server's own IP and exits
+non-zero if anything is off. It signs in with `~/.ssh/hetzner_dedicated` when present (`UNIMP_SSH_KEY` to change). A second
+server can be added with `UNIMP_VPS2=root@host` (reached through the first as a jump host) once DNS actually points at it.
 
-Rollback: `ssh root@144.126.238.139 'cd /home/docker/unimpossible && rm -rf live && mv live-previous live && docker compose up -d --force-recreate'` (and the same on VPS2).
+Rollback: `ssh -i ~/.ssh/hetzner_dedicated root@46.4.219.113 'cd /home/docker/unimpossible && rm -rf live && mv live-previous live && docker compose up -d --force-recreate'`.
 
 ## Enquiries
 

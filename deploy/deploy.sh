@@ -1,27 +1,50 @@
 #!/usr/bin/env bash
-# Deploy site/ to VPS1 and VPS2 (Cloudflare load-balances between them, so both must match).
+# Deploy site/ to the server that unimpossible.co.uk points at.
 #
-#   ./deploy/deploy.sh            # both servers
-#   ./deploy/deploy.sh vps1       # one server
+#   ./deploy/deploy.sh            # vps1 (plus vps2 when UNIMP_VPS2 is set)
+#   ./deploy/deploy.sh vps1       # one explicit target
+#
+# Where the site lives (checked 2026-10-20): Cloudflare holds the DNS with the proxy OFF and a single A record for
+# the apex and www -> 46.4.219.113, the Hetzner dedicated box (hostname v1; `vps1` / `hetzner` / `hetzner-pub` in
+# ~/.ssh/config; it also serves floorfllr.com, candengo.com and the optaro sites). Nothing load-balances it. The
+# DigitalOcean addresses an earlier version of this script shipped to (144.126.238.139, 68.183.43.115) are not ours
+# any more (host key changed / unreachable) and never routed the domain.
 #
 # What it does on each server, in /home/docker/unimpossible:
-#   1. retires any other container currently routing unimpossible.co.uk (the old single-page site)
-#   2. unpacks the new site into live/ (previous release kept in live-previous/)
+#   1. unpacks the new site into live/ (previous release kept in live-previous/; on the first run after the Feb-2026
+#      single-page site, that site's web root ./website becomes live-previous so the rollback below still works)
+#   2. retires any other container routing unimpossible.co.uk (the Feb-2026 site ran from this same directory as
+#      compose service "website"), so Traefik has exactly one target
 #   3. (re)creates the nginx:alpine container from deploy/docker-compose.yml; Traefik routes it from its labels
-#   4. checks the page from inside the container and then from the public internet, per server
+#   4. checks the page from inside the container, then every route and the title from the public internet against
+#      each server's own IP, and exits non-zero if anything is off
 #
-# Rollback:  ssh <server> 'cd /home/docker/unimpossible && rm -rf live && mv live-previous live && docker compose up -d --force-recreate'
+# Rollback:  ssh -i ~/.ssh/hetzner_dedicated root@46.4.219.113 'cd /home/docker/unimpossible && rm -rf live && mv live-previous live && docker compose up -d --force-recreate'
 #
-# Override hosts with UNIMP_VPS1 / UNIMP_VPS2 (ssh targets or ~/.ssh/config aliases). VPS2 is reached through VPS1 unless UNIMP_VPS2_DIRECT=1.
+# Overrides: UNIMP_VPS1 (ssh target or ~/.ssh/config alias), UNIMP_VPS1_IP (for the public checks), UNIMP_SSH_KEY
+# (default ~/.ssh/hetzner_dedicated when it exists), UNIMP_VPS2 / UNIMP_VPS2_IP (a second server, only used when set;
+# reached through VPS1 as a jump host unless UNIMP_VPS2_DIRECT=1), UNIMP_REMOTE_DIR.
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
 REMOTE_DIR="${UNIMP_REMOTE_DIR:-/home/docker/unimpossible}"
-VPS1="${UNIMP_VPS1:-root@144.126.238.139}"
-VPS2="${UNIMP_VPS2:-root@68.183.43.115}"
-VPS1_IP="${UNIMP_VPS1_IP:-144.126.238.139}"
-VPS2_IP="${UNIMP_VPS2_IP:-68.183.43.115}"
-TARGETS=("$@"); [ ${#TARGETS[@]} -eq 0 ] && TARGETS=(vps1 vps2)
-for t in "${TARGETS[@]}"; do case "$t" in vps1|vps2) ;; *) echo "unknown target '$t' (use vps1, vps2)" >&2; exit 1;; esac; done
+VPS1="${UNIMP_VPS1:-root@46.4.219.113}"
+VPS1_IP="${UNIMP_VPS1_IP:-46.4.219.113}"
+VPS2="${UNIMP_VPS2:-}"
+VPS2_IP="${UNIMP_VPS2_IP:-${VPS2##*@}}"
+SSH_KEY="${UNIMP_SSH_KEY:-$HOME/.ssh/hetzner_dedicated}"
+SSH_OPTS="-o BatchMode=yes -o ConnectTimeout=10"
+[ -f "$SSH_KEY" ] && SSH_OPTS="$SSH_OPTS -o IdentitiesOnly=yes -i $SSH_KEY"   # no spaces in the key path, please
+EXPECT_TITLE='UNimpossible — understand what AI can do for your business'
+
+TARGETS=("$@")
+if [ ${#TARGETS[@]} -eq 0 ]; then TARGETS=(vps1); [ -n "$VPS2" ] && TARGETS=(vps1 vps2); fi
+for t in "${TARGETS[@]}"; do
+  case "$t" in
+    vps1) ;;
+    vps2) [ -n "$VPS2" ] || { echo "vps2 requested but UNIMP_VPS2 is not set: unimpossible.co.uk has one A record (46.4.219.113), there is no second server." >&2; exit 1; } ;;
+    *) echo "unknown target '$t' (use vps1, vps2)" >&2; exit 1 ;;
+  esac
+done
 
 cd "$HERE"
 if [ -n "$(git status --porcelain -- site deploy 2>/dev/null)" ]; then
@@ -37,10 +60,19 @@ echo "release $REV ($(du -h "$TGZ" | cut -f1)) built from site/"
 
 host_for() { case "$1" in vps1) echo "$VPS1";; vps2) echo "$VPS2";; esac; }
 ip_for()   { case "$1" in vps1) echo "$VPS1_IP";; vps2) echo "$VPS2_IP";; esac; }
-jump_for() { if [ "$1" = vps2 ] && [ "${UNIMP_VPS2_DIRECT:-0}" != 1 ]; then echo "-J"; echo "$VPS1"; fi; }
-# macOS ships bash 3.2, so no mapfile/associative arrays here.
-run_ssh() { local t="$1"; shift; ssh -o BatchMode=yes -o ConnectTimeout=10 $(jump_for "$t") "$(host_for "$t")" "$@"; }
-run_scp() { local t="$1"; shift; scp -q -o BatchMode=yes -o ConnectTimeout=10 $(jump_for "$t") "$@" "$(host_for "$t"):/tmp/"; }
+via_jump() { [ "$1" = vps2 ] && [ "${UNIMP_VPS2_DIRECT:-0}" != 1 ]; }
+# macOS ships bash 3.2 (no mapfile/associative arrays). vps2 goes through vps1 with ProxyCommand rather than -J, so the
+# jump hop gets the same key and BatchMode options (command-line options do not apply to -J hops).
+run_ssh() {
+  local t="$1"; shift
+  if via_jump "$t"; then ssh $SSH_OPTS -o "ProxyCommand=ssh $SSH_OPTS -W %h:%p $VPS1" "$VPS2" "$@"
+  else ssh $SSH_OPTS "$(host_for "$t")" "$@"; fi
+}
+run_scp() {   # files... -> /tmp/ on the target
+  local t="$1"; shift
+  if via_jump "$t"; then scp -q $SSH_OPTS -o "ProxyCommand=ssh $SSH_OPTS -W %h:%p $VPS1" "$@" "$VPS2:/tmp/"
+  else scp -q $SSH_OPTS "$@" "$(host_for "$t"):/tmp/"; fi
+}
 
 deploy_to() {
   local t="$1"
@@ -51,32 +83,34 @@ deploy_to() {
 set -euo pipefail
 mkdir -p "$REMOTE_DIR"; cd "$REMOTE_DIR"
 
-# 1. Retire whatever else is routing the domain (the old static site), so Traefik has one target.
-for c in $(docker ps -q); do
+# 1. Stage the release, keep the previous one. First run after the Feb-2026 site: its web root becomes live-previous.
+rm -rf live-next && mkdir live-next && tar xzf "$TGZ" -C live-next && rm -f "$TGZ"
+echo "$REV $STAMP" > live-next/.release
+if [ -d live ]; then rm -rf live-previous && mv live live-previous
+elif [ -d website ] && [ ! -d live-previous ]; then echo "keeping the old ./website root as live-previous"; mv website live-previous; fi
+mv live-next live
+cp /tmp/nginx.conf nginx.conf && cp /tmp/docker-compose.yml docker-compose.yml && rm -f /tmp/nginx.conf /tmp/docker-compose.yml
+
+# 2. Retire whatever else carries the hostname, so Traefik has exactly one target. Ours is the container created from
+#    this directory as compose service "web"; the Feb-2026 site was service "website" in this same directory.
+for c in $(docker ps -aq); do
+  docker inspect -f '{{json .Config.Labels}}' "$c" | grep -q 'unimpossible\.co\.uk' || continue
   name="$(docker inspect -f '{{.Name}}' "$c" | sed 's#^/##')"
-  [ "$name" = unimpossible-website ] && continue
-  if docker inspect -f '{{json .Config.Labels}}' "$c" | grep -q 'unimpossible\.co\.uk'; then
-    wd="$(docker inspect -f '{{index .Config.Labels "com.docker.compose.project.working_dir"}}' "$c")"
-    echo "retiring $name (compose dir: ${wd:-none})"
-    if [ -n "$wd" ] && [ -f "$wd/docker-compose.yml" ] && [ "$wd" != "$REMOTE_DIR" ]; then
-      (cd "$wd" && docker compose down) || docker rm -f "$c"
-      tar czf "$REMOTE_DIR/retired-$name-$STAMP.tgz" -C "$wd" . 2>/dev/null || true
-    else
-      docker rm -f "$c"
-    fi
+  wd="$(docker inspect -f '{{index .Config.Labels "com.docker.compose.project.working_dir"}}' "$c")"
+  svc="$(docker inspect -f '{{index .Config.Labels "com.docker.compose.service"}}' "$c")"
+  [ "$wd" = "$REMOTE_DIR" ] && [ "$svc" = web ] && continue
+  echo "retiring $name (compose dir: ${wd:-none}, service: ${svc:-none})"
+  if [ -n "$wd" ] && [ "$wd" != "$REMOTE_DIR" ] && [ -f "$wd/docker-compose.yml" ]; then
+    tar czf "$REMOTE_DIR/retired-$name-$STAMP.tgz" -C "$wd" . 2>/dev/null || true
+    (cd "$wd" && docker compose down) || docker rm -f "$c"
+  else
+    docker rm -f "$c"
   fi
 done
 
-# 2. Stage the release, keep the previous one.
-rm -rf live-next && mkdir live-next && tar xzf "$TGZ" -C live-next && rm -f "$TGZ"
-echo "$REV $STAMP" > live-next/.release
-if [ -d live ]; then rm -rf live-previous && mv live live-previous; fi
-mv live-next live
-cp /tmp/nginx.conf nginx.conf && cp /tmp/docker-compose.yml docker-compose.yml
-
 # 3. Start or recreate the container (the html mount is a directory we just swapped, so recreate rather than reload).
 docker compose up -d --force-recreate --remove-orphans
-sleep 2
+for i in 1 2 3 4 5; do docker exec unimpossible-website nginx -t >/dev/null 2>&1 && break; sleep 1; done
 docker exec unimpossible-website nginx -t
 code="$(docker exec unimpossible-website wget -q -O /dev/null -S --header='Host: unimpossible.co.uk' http://127.0.0.1/ 2>&1 | awk '/HTTP\//{print $2}' | tail -1)"
 title="$(docker exec unimpossible-website wget -q -O - --header='Host: unimpossible.co.uk' http://127.0.0.1/ | grep -o '<title>[^<]*' | head -1)"
@@ -88,13 +122,24 @@ REMOTE
 
 for t in "${TARGETS[@]}"; do deploy_to "$t"; done
 
-echo; echo "== public checks (per server, bypassing Cloudflare's choice)"
+echo; echo "== public checks (per server, against its own IP)"
+fail=0
 for t in "${TARGETS[@]}"; do
   ip="$(ip_for "$t")"
-  for path in / /privacy /site.css /og.png /favicon.svg /robots.txt /sitemap.xml; do
-    code="$(curl -sk -o /dev/null -w '%{http_code}' --resolve "unimpossible.co.uk:443:$ip" "https://unimpossible.co.uk$path" || echo ERR)"
+  for path in / /privacy /site.css /site.js /og.png /favicon.svg /robots.txt /sitemap.xml; do
+    code="$(curl -sk -m 15 -o /dev/null -w '%{http_code}' --resolve "unimpossible.co.uk:443:$ip" "https://unimpossible.co.uk$path" || echo ERR)"
+    [ "$code" = 200 ] || fail=1
     printf '%-5s %-14s %s\n' "$t" "$path" "$code"
   done
+  for h in unimpossible.co.uk www.unimpossible.co.uk; do
+    title="$(curl -sk -m 15 --resolve "$h:443:$ip" "https://$h/" | grep -o '<title>[^<]*' | head -1 | sed 's/^<title>//')"
+    [ "$title" = "$EXPECT_TITLE" ] || fail=1
+    printf '%-5s %-26s %s\n' "$t" "$h" "${title:-NO TITLE}"
+  done
 done
-echo; printf 'public  /  '; curl -s -o /dev/null -w '%{http_code}\n' https://unimpossible.co.uk/
-curl -s https://unimpossible.co.uk/ | grep -o '<title>[^<]*' | head -1
+echo; echo "== public URL (whatever DNS resolves to)"
+for h in unimpossible.co.uk www.unimpossible.co.uk; do
+  printf '%-26s HTTP %s  %s\n' "$h" "$(curl -s -m 15 -o /dev/null -w '%{http_code}' "https://$h/")" "$(curl -s -m 15 "https://$h/" | grep -o '<title>[^<]*' | head -1 | sed 's/^<title>//')"
+done
+[ "$fail" = 0 ] || { echo; echo "DEPLOY INCOMPLETE: a route or title above is not what site/ contains." >&2; exit 1; }
+echo; echo "all routes 200 and the title matches on every target."
