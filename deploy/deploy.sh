@@ -15,7 +15,9 @@
 #      single-page site, that site's web root ./website becomes live-previous so the rollback below still works)
 #   2. retires any other container routing unimpossible.co.uk (the Feb-2026 site ran from this same directory as
 #      compose service "website"), so Traefik has exactly one target
-#   3. (re)creates the nginx:alpine container from deploy/docker-compose.yml; Traefik routes it from its labels
+#   3. ships scanner/ (the website read and audit service), builds its image, and (re)creates both containers from
+#      deploy/docker-compose.yml; Traefik routes them from their labels. Secrets live in <remote>/.env (never in git):
+#      deploy/scanner.env.example is copied there on first run and must be filled in.
 #   4. checks the page from inside the container, waits for Traefik to pick the container up, then checks every
 #      route and the title from the public internet against each server's own IP; exits non-zero if anything is off
 #
@@ -56,7 +58,11 @@ STAMP="$(date +%Y%m%d%H%M)"
 TGZ="${TMPDIR:-/tmp}/unimpossible-site-$STAMP.tgz"
 trap 'rm -f "$TGZ"' EXIT
 COPYFILE_DISABLE=1 tar czf "$TGZ" --exclude="._*" --exclude=".DS_Store" -C "$HERE/site" .
-echo "release $REV ($(du -h "$TGZ" | cut -f1)) built from site/"
+SCANNER_TGZ="${TMPDIR:-/tmp}/unimpossible-scanner-$STAMP.tgz"
+trap 'rm -f "$TGZ" "$SCANNER_TGZ"' EXIT
+COPYFILE_DISABLE=1 tar czf "$SCANNER_TGZ" --exclude="._*" --exclude=".DS_Store" --exclude=".venv" --exclude="__pycache__" \
+  --exclude=".pytest_cache" -C "$HERE/scanner" .
+echo "release $REV ($(du -h "$TGZ" | cut -f1) site, $(du -h "$SCANNER_TGZ" | cut -f1) scanner) built from site/ and scanner/"
 
 host_for() { case "$1" in vps1) echo "$VPS1";; vps2) echo "$VPS2";; esac; }
 ip_for()   { case "$1" in vps1) echo "$VPS1_IP";; vps2) echo "$VPS2_IP";; esac; }
@@ -77,9 +83,10 @@ run_scp() {   # files... -> /tmp/ on the target
 deploy_to() {
   local t="$1"
   echo; echo "== $t ($(host_for "$t"))"
-  run_scp "$t" "$TGZ" "$HERE/deploy/nginx.conf" "$HERE/deploy/docker-compose.yml"
+  run_scp "$t" "$TGZ" "$SCANNER_TGZ" "$HERE/deploy/nginx.conf" "$HERE/deploy/docker-compose.yml" "$HERE/deploy/scanner.env.example"
   local tgz_name; tgz_name="$(basename "$TGZ")"
-  run_ssh "$t" "REMOTE_DIR='$REMOTE_DIR' TGZ='/tmp/$tgz_name' REV='$REV' STAMP='$STAMP' bash -s" <<'REMOTE'
+  local scanner_tgz_name; scanner_tgz_name="$(basename "$SCANNER_TGZ")"
+  run_ssh "$t" "REMOTE_DIR='$REMOTE_DIR' TGZ='/tmp/$tgz_name' SCANNER_TGZ='/tmp/$scanner_tgz_name' REV='$REV' STAMP='$STAMP' bash -s" <<'REMOTE'
 set -euo pipefail
 mkdir -p "$REMOTE_DIR"; cd "$REMOTE_DIR"
 
@@ -91,14 +98,25 @@ elif [ -d website ] && [ ! -d live-previous ]; then echo "keeping the old ./webs
 mv live-next live
 cp /tmp/nginx.conf nginx.conf && cp /tmp/docker-compose.yml docker-compose.yml && rm -f /tmp/nginx.conf /tmp/docker-compose.yml
 
+# 1b. The scanner's source (built into an image below), its data dir, and its env file.
+rm -rf scanner-next && mkdir scanner-next && tar xzf "$SCANNER_TGZ" -C scanner-next && rm -f "$SCANNER_TGZ"
+rm -rf scanner && mv scanner-next scanner
+mkdir -p data && chown 10001 data
+if [ ! -f .env ]; then
+  cp /tmp/scanner.env.example .env && chmod 600 .env
+  echo "WARNING: created $REMOTE_DIR/.env from the example; the read will fail until ANTHROPIC_API_KEY is set in it" >&2
+fi
+rm -f /tmp/scanner.env.example
+
 # 2. Retire whatever else carries the hostname, so Traefik has exactly one target. Ours is the container created from
-#    this directory as compose service "web"; the Feb-2026 site was service "website" in this same directory.
+#    this directory (web, scanner); compose --remove-orphans retires old services from this directory itself, and the
+#    Feb-2026 site had no compose labels at all.
 for c in $(docker ps -aq); do
   docker inspect -f '{{json .Config.Labels}}' "$c" | grep -q 'unimpossible\.co\.uk' || continue
   name="$(docker inspect -f '{{.Name}}' "$c" | sed 's#^/##')"
   wd="$(docker inspect -f '{{index .Config.Labels "com.docker.compose.project.working_dir"}}' "$c")"
   svc="$(docker inspect -f '{{index .Config.Labels "com.docker.compose.service"}}' "$c")"
-  [ "$wd" = "$REMOTE_DIR" ] && [ "$svc" = web ] && continue
+  [ "$wd" = "$REMOTE_DIR" ] && continue
   echo "retiring $name (compose dir: ${wd:-none}, service: ${svc:-none})"
   if [ -n "$wd" ] && [ "$wd" != "$REMOTE_DIR" ] && [ -f "$wd/docker-compose.yml" ]; then
     tar czf "$REMOTE_DIR/retired-$name-$STAMP.tgz" -C "$wd" . 2>/dev/null || true
@@ -108,7 +126,8 @@ for c in $(docker ps -aq); do
   fi
 done
 
-# 3. Start or recreate the container (the html mount is a directory we just swapped, so recreate rather than reload).
+# 3. Build the scanner image first (so the site is only down for the recreate), then recreate both containers.
+docker compose build --quiet scanner
 docker compose up -d --force-recreate --remove-orphans
 for i in 1 2 3 4 5; do docker exec unimpossible-website nginx -t >/dev/null 2>&1 && break; sleep 1; done
 docker exec unimpossible-website nginx -t
@@ -116,6 +135,13 @@ code="$(docker exec unimpossible-website wget -q -O /dev/null -S --header='Host:
 title="$(docker exec unimpossible-website wget -q -O - --header='Host: unimpossible.co.uk' http://127.0.0.1/ | grep -o '<title>[^<]*' | head -1)"
 echo "container: HTTP $code  $title"
 [ "$code" = 200 ] || { echo "container not serving 200; rolled nothing back, inspect $REMOTE_DIR" >&2; exit 1; }
+for i in $(seq 1 20); do
+  docker exec unimpossible-scanner python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)" >/dev/null 2>&1 && break
+  sleep 1
+done
+docker exec unimpossible-scanner python -c "import urllib.request; print('scanner:', urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3).read().decode())" \
+  || { echo "scanner container is not answering; docker logs unimpossible-scanner" >&2; docker logs --tail 30 unimpossible-scanner >&2; exit 1; }
+grep -q '^ANTHROPIC_API_KEY=.\+' .env || echo "WARNING: ANTHROPIC_API_KEY is empty in $REMOTE_DIR/.env; the read will fail until it is set" >&2
 echo "$(hostname): release $REV live in $REMOTE_DIR/live"
 REMOTE
 }
@@ -138,7 +164,7 @@ echo; echo "== public checks (per server, against its own IP)"
 fail=0
 for t in "${TARGETS[@]}"; do
   ip="$(ip_for "$t")"
-  for path in / /privacy /site.css /site.js /og.png /favicon.svg /robots.txt /sitemap.xml; do
+  for path in / /privacy /site.css /site.js /og.png /favicon.svg /robots.txt /sitemap.xml /api/health; do
     code="$(curl -sk -m 15 -o /dev/null -w '%{http_code}' --resolve "unimpossible.co.uk:443:$ip" "https://unimpossible.co.uk$path" || echo ERR)"
     [ "$code" = 200 ] || fail=1
     printf '%-5s %-14s %s\n' "$t" "$path" "$code"

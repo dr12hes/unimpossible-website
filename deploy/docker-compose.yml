@@ -20,6 +20,32 @@ services:
     networks:
       - traefik-public
 
+  # The website read and audit (scanner/). Same hostnames, /api/ prefix, so the page calls it same-origin.
+  scanner:
+    build: ./scanner
+    image: unimpossible-scanner:latest
+    container_name: unimpossible-scanner
+    restart: always
+    env_file: .env
+    volumes:
+      - ./data:/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.unimpossible-api.rule=(Host(`unimpossible.co.uk`) || Host(`www.unimpossible.co.uk`)) && PathPrefix(`/api/`)
+      - traefik.http.routers.unimpossible-api.entrypoints=websecure
+      - traefik.http.routers.unimpossible-api.tls.certresolver=letsencrypt
+      - traefik.http.routers.unimpossible-api.priority=20
+      - traefik.http.routers.unimpossible-api.service=unimpossible-api
+      - traefik.http.services.unimpossible-api.loadbalancer.server.port=8000
+    networks:
+      - traefik-public
+
 networks:
   traefik-public:
     external: true

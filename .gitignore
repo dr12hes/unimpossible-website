@@ -1,3 +1,8 @@
+*.tgz
 .DS_Store
 ._*
-*.tgz
+.env
+scanner/**/__pycache__/
+scanner/.pytest_cache/
+scanner/.venv/
+scanner/data/
