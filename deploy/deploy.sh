@@ -16,8 +16,8 @@
 #   2. retires any other container routing unimpossible.co.uk (the Feb-2026 site ran from this same directory as
 #      compose service "website"), so Traefik has exactly one target
 #   3. (re)creates the nginx:alpine container from deploy/docker-compose.yml; Traefik routes it from its labels
-#   4. checks the page from inside the container, then every route and the title from the public internet against
-#      each server's own IP, and exits non-zero if anything is off
+#   4. checks the page from inside the container, waits for Traefik to pick the container up, then checks every
+#      route and the title from the public internet against each server's own IP; exits non-zero if anything is off
 #
 # Rollback:  ssh -i ~/.ssh/hetzner_dedicated root@46.4.219.113 'cd /home/docker/unimpossible && rm -rf live && mv live-previous live && docker compose up -d --force-recreate'
 #
@@ -121,6 +121,18 @@ REMOTE
 }
 
 for t in "${TARGETS[@]}"; do deploy_to "$t"; done
+
+# Traefik learns about the recreated container from Docker events a few seconds after it starts; checking sooner sees
+# its 404 for the hostname, not ours.
+wait_for_router() {
+  local ip="$1" i
+  for i in $(seq 1 30); do
+    [ "$(curl -sk -m 10 -o /dev/null -w '%{http_code}' --resolve "unimpossible.co.uk:443:$ip" https://unimpossible.co.uk/ || true)" = 200 ] && return 0
+    sleep 1
+  done
+  return 1
+}
+for t in "${TARGETS[@]}"; do wait_for_router "$(ip_for "$t")" || echo "$t: Traefik is still not routing unimpossible.co.uk to the container after 30s" >&2; done
 
 echo; echo "== public checks (per server, against its own IP)"
 fail=0
