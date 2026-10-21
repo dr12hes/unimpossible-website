@@ -40,7 +40,7 @@ services:
       - traefik.http.routers.unimpossible-api.rule=(Host(`unimpossible.co.uk`) || Host(`www.unimpossible.co.uk`)) && PathPrefix(`/api/`)
       - traefik.http.routers.unimpossible-api.entrypoints=websecure
       - traefik.http.routers.unimpossible-api.tls.certresolver=letsencrypt
-      - traefik.http.routers.unimpossible-api.priority=20
+      - traefik.http.routers.unimpossible-api.priority=1000
       - traefik.http.routers.unimpossible-api.service=unimpossible-api
       - traefik.http.services.unimpossible-api.loadbalancer.server.port=8000
     networks:
