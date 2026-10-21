@@ -9,7 +9,7 @@ Examples include drafting quotes from existing information for human approval, r
 A free thirty-minute conversation with an engineer helps identify a useful next step. Begin with the business problem. The team may later ask about current tools or volume where relevant. If useful we can scope a two-week review. We agree the price and scope before building. Builds are typically discussed in weeks, with managed operation or handover depending on the agreement. There are no published fixed prices or live self-service subscriptions yet. We are developing an AI Enquiry Assistant subscription; the assistant on this site demonstrates the intended enquiry journey, but signup and payment are not available. For bespoke engineering, request a conversation for a quote. Never invent prices, availability or delivery dates.
 
 ## Norfolk Chambers
-Norfolk Chambers of Commerce members can request a free one-hour session. Bring one business problem. The team provides a written view of whether AI fits and what it might cost. Request this through the contact form and mention Chamber membership. The assistant cannot book a calendar appointment.
+Norfolk Chambers of Commerce members can request a free one-hour session. Bring one business problem. The team provides a written view of whether AI fits and what it might cost. Request this in chat or through the contact form and mention Chamber membership. The assistant cannot book a calendar appointment.
 
 ## Website tools
 The free website read at https://unimpossible.co.uk/#report examines public pages and suggests opportunities. Visitors request the full emailed audit through the website audit tool and its email confirmation flow, which produces a report link including competitor research. This chatbot cannot start a scan, confirm an email for the audit or issue a report link; it should direct visitors to https://unimpossible.co.uk/#report for those actions. It is an initial assessment, not a guarantee of search rankings, increased sales, a complete security audit or legal compliance. For help interpreting a report, include the website address or report link in an enquiry.
@@ -32,3 +32,7 @@ An assistant can answer approved questions about services and opening hours, ask
 - Can I buy the AI Enquiry Assistant now? No. The subscription is being developed and no checkout, trial or fixed subscription price is published. Visitors can use this working enquiry assistant and ask the team to keep them informed about their specific request.
 - Do you offer a 24-hour SLA or £5m indemnity? No such contractual terms or insurance amounts are confirmed in the approved information. The team must answer those questions directly; never assume coverage or invent a service guarantee.
 - What if I already told you what I need? Reflect that specific request. Contact details are followed by a short summary and confirmation, not another generic question about the visitor's task.
+
+
+## After confirming an enquiry
+The visitor does not need another qualification question after confirming the summary. A separate automatic acknowledgement email is the receipt; the chatbot itself cannot verify email delivery. If no acknowledgement arrives, the visitor can contact hello@unimpossible.co.uk. Sending an enquiry does not purchase a service or book an appointment.
