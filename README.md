@@ -51,12 +51,15 @@ The branded **UNimpossible website assistant** is bot ID 3 in the optaro tenant.
 knowledge base and is restricted to the apex and www website origins. The embed token is public.
 Approved FAQs live in `docs/chatbot-knowledge.md`. To refresh them, copy that document into the Core API
 container as `/tmp/unimpossible-chatbot-knowledge.md` and run `deploy/provision_core_chatbot.py` inside it.
-The script preserves an existing bot's configuration and refreshes its page knowledge through Core's
+The script reconciles this bot's approved persona, greeting and per-bot enquiry delivery policy, preserves its identity/theme, and refreshes page knowledge through Core's
 canonical knowledge service. Do not refresh the bot from the website URL: that replaces the curated FAQs.
 
-Chat helps visitors understand the service and directs human enquiries to the notified contact form.
-Core can also capture contactable chat leads through `chat_lead_capture`; this is distinct from the
-form's immediate staff email notification. No automatic outreach or calendar booking is configured.
+Chat helps visitors, summarises an enquiry and requests confirmation before the canonical
+`chat_lead_capture` path saves a Sales lead. The bot's policy queues branded staff notification to
+hello@unimpossible.co.uk and a transactional acknowledgement to the visitor, using stable queue keys
+to avoid duplicate mail on retry. Other bots retain their existing sales-trigger behaviour.
+The form remains a fallback. No marketing outreach, autonomous quotations or calendar booking is configured.
+Deploy the supporting Core chat-capture release before running this provisioning script.
 
 ## History
 
