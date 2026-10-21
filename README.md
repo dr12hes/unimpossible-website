@@ -54,7 +54,7 @@ container as `/tmp/unimpossible-chatbot-knowledge.md` and run `deploy/provision_
 The script reconciles this bot's approved persona, greeting and per-bot enquiry delivery policy, preserves its identity/theme, and refreshes page knowledge through Core's
 canonical knowledge service. Do not refresh the bot from the website URL: that replaces the curated FAQs.
 
-Chat helps visitors, summarises an enquiry and requests confirmation before the canonical
+Chat helps visitors and shows an enquiry review card. The visitor presses **Send enquiry** before the canonical
 `chat_lead_capture` path saves a Sales lead. The bot's policy queues branded staff notification to
 hello@unimpossible.co.uk and a transactional acknowledgement to the visitor, using stable queue keys
 to avoid duplicate mail on retry. Other bots retain their existing sales-trigger behaviour.
