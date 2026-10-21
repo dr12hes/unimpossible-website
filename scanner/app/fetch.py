@@ -43,7 +43,11 @@ def normalise_url(raw: str) -> str:
         host.encode("idna")
     except UnicodeError as e:
         raise FetchError("That doesn't look like a website address.") from e
-    if parts.port not in (None, 80, 443):
+    try:
+        port = parts.port
+    except ValueError as e:
+        raise FetchError("That doesn't look like a website address.") from e
+    if port not in (None, 80, 443):
         raise FetchError("Only standard web ports are supported.")
     try:
         literal = ipaddress.ip_address(host.strip("[]"))
@@ -129,10 +133,20 @@ async def fetch(client: httpx.AsyncClient, url: str, *, method: str = "GET", max
         host = parts.hostname or ""
         if parts.scheme not in ("http", "https") or not host:
             raise FetchError("That page redirected somewhere we can't follow.")
+        # Pin the connection to a checked address. A second DNS lookup at connect time could rebind to an internal host.
+        cur = normalise_url(cur)
+        target = httpx.URL(cur)
+        headers = {}
+        extensions = {}
         if check:
-            await resolve_public(host)
+            ips = await resolve_public(host)
+            ip = sorted(ips, key=lambda value: ":" in value)[0]
+            target = target.copy_with(host=ip)
+            # Do not reuse an IP-keyed TLS connection for a different hostname sharing that address.
+            headers = {"Host": httpx.URL(cur).netloc.decode("ascii"), "Connection": "close"}
+            extensions = {"sni_hostname": host.encode("idna").decode("ascii")}
         try:
-            async with client.stream(method, cur) as r:
+            async with client.stream(method, target, headers=headers, extensions=extensions) as r:
                 loc = r.headers.get("location")
                 if r.status_code in (301, 302, 303, 307, 308) and loc:
                     redirects.append((cur, r.status_code))
@@ -143,7 +157,7 @@ async def fetch(client: httpx.AsyncClient, url: str, *, method: str = "GET", max
                     buf += chunk
                     if len(buf) >= max_bytes:
                         break
-                return Fetched(url, str(r.url), r.status_code, {k.lower(): v for k, v in r.headers.items()},
+                return Fetched(url, cur, r.status_code, {k.lower(): v for k, v in r.headers.items()},
                                bytes(buf[:max_bytes]), int((time.monotonic() - t0) * 1000), redirects)
         except httpx.TimeoutException as e:
             raise FetchError(f"{host} took too long to respond.") from e

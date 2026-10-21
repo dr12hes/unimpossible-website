@@ -60,7 +60,7 @@ def test_extract_page_fields():
     assert p.image_count == 2 and p.images_missing_alt == 1
     assert p.external_link_count == 1
     assert "var x=1" not in p.text and "Rewires, EICRs" in p.text
-    assert {l.href for l in p.internal_links} >= {"https://acme.example/about", "https://acme.example/contact"}
+    assert {link.href for link in p.internal_links} >= {"https://acme.example/about", "https://acme.example/contact"}
     assert p.headers.get("strict-transport-security")
 
 
@@ -69,3 +69,53 @@ def test_choose_pages_prefers_informative_and_skips_privacy():
     assert "https://acme.example/privacy" not in chosen
     assert set(chosen) <= {"https://acme.example/about", "https://acme.example/services/rewires", "https://acme.example/contact", "https://acme.example/quote"}
     assert len(chosen) == 3
+
+
+@pytest.mark.parametrize("bad", ["https://example.com:bad", "https://example.com:99999"])
+def test_malformed_ports_are_validation_errors(bad):
+    with pytest.raises(FetchError):
+        normalise_url(bad)
+
+
+@pytest.mark.asyncio
+async def test_fetch_pins_checked_ip_and_preserves_hostname(monkeypatch):
+    import httpx
+    from app.fetch import fetch
+
+    async def resolve(host):
+        assert host == "public.example"
+        return ["8.8.8.8"]
+
+    def respond(request):
+        assert request.url.host == "8.8.8.8"
+        assert request.headers["Host"] == "public.example"
+        assert request.headers["Connection"] == "close"
+        assert request.extensions["sni_hostname"] == "public.example"
+        return httpx.Response(200, text="public page")
+
+    monkeypatch.setattr("app.fetch.resolve_public", resolve)
+    async with httpx.AsyncClient(transport=httpx.MockTransport(respond)) as client:
+        result = await fetch(client, "https://public.example/about")
+    assert result.final_url == "https://public.example/about"
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("location", ["http://127.0.0.1/", "https://public.example:8000/"])
+async def test_redirect_cannot_reach_private_address_or_non_web_port(monkeypatch, location):
+    import httpx
+    from app.fetch import fetch
+
+    async def resolve(host):
+        return ["8.8.8.8"]
+
+    seen = []
+
+    def respond(request):
+        seen.append(request)
+        return httpx.Response(302, headers={"Location": location})
+
+    monkeypatch.setattr("app.fetch.resolve_public", resolve)
+    async with httpx.AsyncClient(transport=httpx.MockTransport(respond)) as client:
+        with pytest.raises(FetchError):
+            await fetch(client, "https://public.example/")
+    assert len(seen) == 1

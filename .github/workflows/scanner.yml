@@ -1,0 +1,17 @@
+name: Scanner checks
+on:
+  push:
+    branches: [main, fix/deploy-target-hetzner]
+  pull_request:
+jobs:
+  scanner:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r scanner/requirements.txt pytest pytest-asyncio ruff
+      - run: ruff check scanner deploy/sync-secrets.py
+      - run: python -m pytest scanner/tests -q
+      - run: bash -n deploy/deploy.sh scanner/dev.sh

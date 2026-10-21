@@ -1,16 +1,20 @@
-"""Outbound email over SMTP. Without SMTP settings, messages are written to data/outbox as .eml files."""
+"""Transactional mail through Postmark; an explicit local outbox is available for development."""
 from __future__ import annotations
 
-import asyncio
 import logging
-import smtplib
-import time
+import secrets
 from email.message import EmailMessage
-from email.utils import formatdate, make_msgid
+from email.utils import formatdate, make_msgid, parseaddr
+
+import httpx
 
 from .config import Settings
 
 log = logging.getLogger("scanner.mail")
+
+
+class MailError(Exception):
+    """Delivery was not accepted. Never include provider response bodies or credentials."""
 
 
 class Mailer:
@@ -19,36 +23,44 @@ class Mailer:
         self.outbox = settings.data_dir / "outbox"
 
     async def send(self, to: str, subject: str, text: str, html: str | None = None, bcc: str | None = None) -> None:
-        await asyncio.to_thread(self._send, to, subject, text, html, bcc)
-
-    def _send(self, to: str, subject: str, text: str, html: str | None, bcc: str | None) -> None:
-        msg = EmailMessage()
-        msg["From"] = self.s.mail_from
-        msg["To"] = to
-        msg["Subject"] = subject
-        msg["Date"] = formatdate(localtime=True)
-        msg["Message-ID"] = make_msgid(domain="unimpossible.co.uk")
-        msg.set_content(text)
-        if html:
-            msg.add_alternative(html, subtype="html")
-        recipients = [to] + ([bcc] if bcc and bcc != to else [])
-        if not self.s.smtp_host:
+        copy = bcc if bcc and parseaddr(bcc)[1].lower() != parseaddr(to)[1].lower() else None
+        if self.s.mail_outbox:
+            msg = EmailMessage()
+            msg["From"], msg["To"], msg["Subject"] = self.s.mail_from, to, subject
+            if self.s.mail_reply_to:
+                msg["Reply-To"] = self.s.mail_reply_to
+            msg["Date"], msg["Message-ID"] = formatdate(), make_msgid(domain="unimpossible.co.uk")
+            if copy:
+                msg["Bcc"] = copy
+            msg.set_content(text)
+            if html:
+                msg.add_alternative(html, subtype="html")
             self.outbox.mkdir(parents=True, exist_ok=True)
-            path = self.outbox / f"{int(time.time())}-{to.replace('@', '_at_')}.eml"
-            path.write_bytes(bytes(msg))
-            log.warning("SMTP not configured; wrote %s", path)
+            (self.outbox / f"{secrets.token_hex(16)}.eml").write_bytes(bytes(msg))
             return
+        if not self.s.postmark_server_token:
+            raise MailError("Postmark is not configured")
+        payload = {
+            "From": self.s.mail_from, "To": to, "Subject": subject, "TextBody": text,
+            "MessageStream": self.s.postmark_message_stream, "Tag": "unimpossible-scanner",
+            "TrackOpens": False, "TrackLinks": "None",
+        }
+        if self.s.mail_reply_to:
+            payload["ReplyTo"] = self.s.mail_reply_to
+        if html:
+            payload["HtmlBody"] = html
+        if copy:
+            payload["Bcc"] = copy
         try:
-            if self.s.smtp_port == 465:
-                server = smtplib.SMTP_SSL(self.s.smtp_host, self.s.smtp_port, timeout=30)
-            else:
-                server = smtplib.SMTP(self.s.smtp_host, self.s.smtp_port, timeout=30)
-                server.starttls()
-            with server:
-                if self.s.smtp_user:
-                    server.login(self.s.smtp_user, self.s.smtp_pass)
-                server.send_message(msg, to_addrs=recipients)
-            log.info("sent '%s' to %s", subject, to)
-        except (smtplib.SMTPException, OSError) as e:
-            log.error("mail to %s failed: %s", to, e)
-            raise
+            async with httpx.AsyncClient(timeout=30) as client:
+                response = await client.post(
+                    "https://api.postmarkapp.com/email", json=payload,
+                    headers={"X-Postmark-Server-Token": self.s.postmark_server_token, "Accept": "application/json"},
+                )
+            response.raise_for_status()
+            result = response.json()
+        except (httpx.HTTPError, ValueError) as exc:
+            raise MailError("Postmark could not accept the message") from exc
+        if result.get("ErrorCode") != 0 or not result.get("MessageID"):
+            raise MailError("Postmark rejected the message")
+        log.info("Postmark accepted message %s", result["MessageID"])

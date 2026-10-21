@@ -49,8 +49,8 @@ for t in "${TARGETS[@]}"; do
 done
 
 cd "$HERE"
-if [ -n "$(git status --porcelain -- site deploy 2>/dev/null)" ]; then
-  echo "Refusing to deploy uncommitted changes in site/ or deploy/. Commit first." >&2; exit 1
+if [ -n "$(git status --porcelain -- site deploy scanner 2>/dev/null)" ]; then
+  echo "Refusing to deploy uncommitted changes in site/, deploy/ or scanner/. Commit first." >&2; exit 1
 fi
 REV="$(git rev-parse --short=7 HEAD 2>/dev/null || date +%Y%m%d%H%M)"
 STAMP="$(date +%Y%m%d%H%M)"
@@ -61,7 +61,7 @@ COPYFILE_DISABLE=1 tar czf "$TGZ" --exclude="._*" --exclude=".DS_Store" -C "$HER
 SCANNER_TGZ="${TMPDIR:-/tmp}/unimpossible-scanner-$STAMP.tgz"
 trap 'rm -f "$TGZ" "$SCANNER_TGZ"' EXIT
 COPYFILE_DISABLE=1 tar czf "$SCANNER_TGZ" --exclude="._*" --exclude=".DS_Store" --exclude=".venv" --exclude="__pycache__" \
-  --exclude=".pytest_cache" -C "$HERE/scanner" .
+  --exclude=".pytest_cache" --exclude=".env*" --exclude="data" -C "$HERE/scanner" .
 echo "release $REV ($(du -h "$TGZ" | cut -f1) site, $(du -h "$SCANNER_TGZ" | cut -f1) scanner) built from site/ and scanner/"
 
 host_for() { case "$1" in vps1) echo "$VPS1";; vps2) echo "$VPS2";; esac; }
@@ -146,7 +146,12 @@ echo "$(hostname): release $REV live in $REMOTE_DIR/live"
 REMOTE
 }
 
-for t in "${TARGETS[@]}"; do deploy_to "$t"; done
+# Resolve credentials on the operator's machine; the server never needs a vault session.
+for t in "${TARGETS[@]}"; do
+  if via_jump "$t"; then echo "Secret sync for jump hosts is not configured." >&2; exit 1; fi
+  python3 "$HERE/deploy/sync-secrets.py" --host "$(host_for "$t")" --key "$SSH_KEY" --remote-dir "$REMOTE_DIR"
+  deploy_to "$t"
+done
 
 # Traefik learns about the recreated container from Docker events a few seconds after it starts; checking sooner sees
 # its 404 for the hostname, not ours.
@@ -169,6 +174,8 @@ for t in "${TARGETS[@]}"; do
     [ "$code" = 200 ] || fail=1
     printf '%-5s %-14s %s\n' "$t" "$path" "$code"
   done
+  health="$(curl -fsS -m 15 --resolve "unimpossible.co.uk:443:$ip" https://unimpossible.co.uk/api/health)" || fail=1
+  printf '%s' "$health" | python3 -c 'import json,sys; assert json.load(sys.stdin) == {"ok": True}' || fail=1
   for h in unimpossible.co.uk www.unimpossible.co.uk; do
     title="$(curl -sk -m 15 --resolve "$h:443:$ip" "https://$h/" | grep -o '<title>[^<]*' | head -1 | sed 's/^<title>//')"
     [ "$title" = "$EXPECT_TITLE" ] || fail=1

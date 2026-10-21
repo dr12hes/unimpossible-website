@@ -72,7 +72,7 @@ async def lifespan(app: FastAPI):
     app.state.hooks, app.state.reports = hooks, reports
     app.state.hook_limit = RateLimiter(s.hook_rate_per_ip, 600)
     app.state.report_limit = RateLimiter(s.report_rate_per_ip, 3600)
-    log.info("scanner ready; search=%s, smtp=%s, model key=%s", s.search_provider or "none", bool(s.smtp_host), bool(s.anthropic_api_key))
+    log.info("scanner ready; search=%s, postmark=%s, model key=%s", s.search_provider or "none", bool(s.postmark_server_token), bool(s.anthropic_api_key))
     try:
         yield
     finally:
@@ -158,7 +158,7 @@ async def get_scan(scan_id: str):
 
 @app.post("/api/scan/{scan_id}/report")
 async def request_report(scan_id: str, body: ReportIn, request: Request):
-    s, store = app.state.s, app.state.store
+    store = app.state.store
     scan = store.get(scan_id)
     if not scan:
         raise HTTPException(404, "Unknown scan.")

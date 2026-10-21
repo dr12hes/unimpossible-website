@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import asyncio
-import re
 import socket
 import ssl
 from datetime import datetime, timezone
@@ -10,7 +9,7 @@ from urllib.parse import urlsplit, urlunsplit
 
 import httpx
 
-from .fetch import Fetched, FetchError, Page, fetch
+from .fetch import resolve_public, Fetched, FetchError, Page, fetch
 
 AI_BOTS = ["GPTBot", "ChatGPT-User", "OAI-SearchBot", "ClaudeBot", "Claude-SearchBot", "anthropic-ai", "Google-Extended",
            "PerplexityBot", "CCBot", "Applebot-Extended", "Bytespider", "meta-externalagent"]
@@ -59,10 +58,10 @@ def ai_bot_access(robots: dict | None) -> dict[str, str]:
     return out
 
 
-def _cert_days_left(host: str) -> int | None:
+def _cert_days_left(host: str, ip: str) -> int | None:
     try:
         ctx = ssl.create_default_context()
-        with socket.create_connection((host, 443), timeout=8) as sock, ctx.wrap_socket(sock, server_hostname=host) as s:
+        with socket.create_connection((ip, 443), timeout=8) as sock, ctx.wrap_socket(sock, server_hostname=host) as s:
             cert = s.getpeercert()
         exp = datetime.strptime(cert["notAfter"], "%b %d %H:%M:%S %Y %Z").replace(tzinfo=timezone.utc)
         return (exp - datetime.now(timezone.utc)).days
@@ -133,8 +132,16 @@ async def technical_checks(client: httpx.AsyncClient, home: Page, *, light: bool
         except Exception:
             http_redirect = "unknown"
 
+    async def certificate_days():
+        try:
+            ips = await resolve_public(host)
+            ip = sorted(ips, key=lambda value: ":" in value)[0]
+            return await asyncio.to_thread(_cert_days_left, host, ip)
+        except FetchError:
+            return None
+
     sitemap, llms, cert_days = await asyncio.gather(
-        probe("/sitemap.xml"), probe("/llms.txt"), asyncio.to_thread(_cert_days_left, host))
+        probe("/sitemap.xml"), probe("/llms.txt"), certificate_days())
     out.update({"sitemap_xml": sitemap, "llms_txt": llms, "http_to_https": http_redirect,
                 "certificate_days_left": cert_days})
 

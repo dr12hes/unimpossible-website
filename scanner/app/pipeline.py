@@ -13,7 +13,7 @@ import httpx
 
 from . import store as S
 from .config import Settings
-from .fetch import FetchError, Page, choose_pages, domain_of, extract_page, fetch, normalise_url
+from .fetch import FetchError, Page, choose_pages, domain_of, extract_page, fetch
 from .llm import LLM, LLMError
 from .mailer import Mailer
 from .report import render_report
@@ -46,7 +46,7 @@ def _page_for_llm(p: Page, chars: int) -> dict:
         "url": p.final_url, "title": p.title, "description": p.description, "h1": p.h1, "h2": p.h2[:8],
         "first_screen_text": p.above_fold, "text_excerpt": p.excerpt(chars), "word_count": p.word_count,
         "phone_links": p.tel, "email_links": p.mailto, "forms": [f.fields for f in p.forms], "buttons": p.buttons[:12],
-        "navigation": [l.text for l in p.nav_links][:20], "structured_data_types": p.jsonld_types,
+        "navigation": [link.text for link in p.nav_links][:20], "structured_data_types": p.jsonld_types,
     }
 
 
@@ -277,8 +277,9 @@ class Pipeline:
                 "competitors": [{"domain": c["crawl"]["domain"], "why_chosen": c["pick"], "assessment": a.model_dump(),
                                  "measured_facts": summarise_tech(c["crawl"]["tech"]), "google_reviews": place_facts.get(c["crawl"]["domain"]),
                                  "authority_rank_0_to_10": ranks.get(c["crawl"]["domain"])} for c, a in zip(comps, theirs)],
-                "search": {"queries_run": queries, "provider_configured": searched, "visibility": visibility},
-                "notes_for_writer": ("No search provider was available, so competitors could not be researched; say so plainly and judge the site alone."
+                "search": {"queries_run": queries, "provider_configured": searched, "provider": self.s.search_provider, "visibility": visibility},
+                "notes_for_writer": ("Search positions are the provider's result order, not measured Google rankings. "
+                                     if self.s.search_provider == "tavily" else "") + ("No search provider was available, so competitors could not be researched; say so plainly and judge the site alone."
                                      if not searched else "") + ("" if comps else " No competitor site could be read."),
             })
             html = render_report(report, {"domain": domain, "business_name": model.name, "pages_read": [p.final_url for p in site["pages"]],

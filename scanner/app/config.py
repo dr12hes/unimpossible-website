@@ -1,4 +1,4 @@
-"""Settings from the environment. Everything optional degrades gracefully; only the Anthropic key is required."""
+"""Settings from the environment. Production uses Anthropic, a search provider and Postmark. Secrets are injected from 1Password."""
 from __future__ import annotations
 
 import os
@@ -32,14 +32,15 @@ class Settings:
     search_provider: str
     brave_api_key: str
     serper_api_key: str
+    tavily_api_key: str
     companies_house_api_key: str
     google_places_api_key: str
     openpagerank_api_key: str
-    smtp_host: str
-    smtp_port: int
-    smtp_user: str
-    smtp_pass: str
+    postmark_server_token: str
+    postmark_message_stream: str
+    mail_outbox: bool
     mail_from: str
+    mail_reply_to: str
     mail_bcc: str
     admin_key: str
     user_agent: str
@@ -79,14 +80,15 @@ def load_settings() -> Settings:
         search_provider=_env("SEARCH_PROVIDER").lower(),
         brave_api_key=_env("BRAVE_API_KEY"),
         serper_api_key=_env("SERPER_API_KEY"),
+        tavily_api_key=_env("TAVILY_API_KEY"),
         companies_house_api_key=_env("COMPANIES_HOUSE_API_KEY"),
         google_places_api_key=_env("GOOGLE_PLACES_API_KEY"),
         openpagerank_api_key=_env("OPENPAGERANK_API_KEY"),
-        smtp_host=_env("SMTP_HOST"),
-        smtp_port=_int("SMTP_PORT", 465),
-        smtp_user=_env("SMTP_USER"),
-        smtp_pass=_env("SMTP_PASS"),
+        postmark_server_token=_env("POSTMARK_SERVER_TOKEN"),
+        postmark_message_stream=_env("POSTMARK_MESSAGE_STREAM", "outbound"),
+        mail_outbox=_env("SCANNER_MAIL_OUTBOX") == "1",
         mail_from=_env("MAIL_FROM", "UNimpossible <hello@unimpossible.co.uk>"),
+        mail_reply_to=_env("MAIL_REPLY_TO", "hello@unimpossible.co.uk"),
         mail_bcc=_env("MAIL_BCC", "hello@unimpossible.co.uk"),
         admin_key=_env("SCANNER_ADMIN_KEY"),
         user_agent=_env("SCANNER_USER_AGENT", "Mozilla/5.0 (compatible; UNimpossibleAudit/1.0; +https://unimpossible.co.uk/)"),
