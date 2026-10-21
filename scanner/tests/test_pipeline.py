@@ -37,3 +37,22 @@ async def test_cached_report_gets_private_link_and_compact_email_for_new_recipie
     assert "https://unimpossible.co.uk/api/report/" + sent["report_token"] in args[2]
     assert "original-private-token" not in args[2] and "original@example.com" not in args[2]
     assert "Generated text" not in args[2] and len(args[2]) < 600
+
+    assert "Read my audit" in kwargs["html"]
+    assert sent["report_token"] in kwargs["html"]
+    assert "original-private-token" not in kwargs["html"]
+
+
+@pytest.mark.asyncio
+async def test_confirmation_sends_branded_html_and_plain_text(tmp_path):
+    settings = replace(load_settings(), public_origin="https://unimpossible.co.uk")
+    mailer = AsyncMock()
+    async with httpx.AsyncClient() as client:
+        await Pipeline(settings, Store(tmp_path / "scanner.sqlite"), client, mailer).send_confirmation(
+            {"email": "reader@example.com", "name": "David Reader", "domain": "example.com",
+             "confirm_token": "confirmation-token"})
+    args, kwargs = mailer.send.await_args
+    assert "Hello David" in args[2]
+    assert "https://unimpossible.co.uk/api/confirm/confirmation-token" in args[2]
+    assert "Confirm &amp; start my audit" in kwargs["html"]
+    assert "https://unimpossible.co.uk/api/confirm/confirmation-token" in kwargs["html"]

@@ -13,6 +13,7 @@ import httpx
 
 from . import store as S
 from .config import Settings
+from .email_templates import render_email
 from .fetch import FetchError, Page, choose_pages, domain_of, extract_page, fetch
 from .llm import LLM, LLMError
 from .mailer import Mailer
@@ -309,7 +310,9 @@ class Pipeline:
                 f"Click to confirm and we'll start the full audit of {scan['domain']}, including who you're up against:\n\n{link}\n\n"
                 "It takes a few minutes. The report arrives by email as a link.\n\n"
                 "If you didn't ask for this, ignore it and nothing happens.\n\nUNimpossible\nhello@unimpossible.co.uk\n")
-        await self.mailer.send(scan["email"], f"Confirm your website audit for {scan['domain']}", text)
+        await self.mailer.send(scan["email"], f"Confirm your website audit for {scan['domain']}", text,
+                               html=render_email("confirmation", name=scan.get("name") or "",
+                                                 domain=scan["domain"], link=link, origin=self.s.public_origin))
 
     async def _send_report(self, scan: dict, token: str) -> None:
         link = f"{self.s.public_origin}/api/report/{token}"
@@ -321,6 +324,8 @@ class Pipeline:
                 "Reply to this email if you'd like to talk through the findings.\n\n"
                 "UNimpossible\nhello@unimpossible.co.uk\n")
         await self.mailer.send(scan["email"], f"Your UNimpossible audit: {scan['domain']}", text,
+                               html=render_email("report", name=scan.get("name") or "",
+                                                 domain=scan["domain"], link=link, origin=self.s.public_origin),
                                bcc=self.s.mail_bcc or None)
 
     async def _notify_failure(self, scan: dict, reason: str) -> None:
