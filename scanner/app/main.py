@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 import re
 import secrets
@@ -141,7 +142,7 @@ async def start_scan(body: ScanIn, request: Request):
     recent = store.recent(domain, S.HOOK_DONE, s.reuse_days * 86400)
     if recent and recent.get("hook_json"):
         scan = store.create_scan(url, domain, ip, S.HOOK_DONE, hook_json=recent["hook_json"],
-                                 usage_json='{"reused_from": "%s"}' % recent["id"])
+                                 usage_json=json.dumps({"reused_from": recent["id"]}))
         return _public(scan)
     scan = store.create_scan(url, domain, ip, S.HOOK_QUEUED)
     app.state.hooks.put_nowait(scan["id"])

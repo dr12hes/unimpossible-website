@@ -239,14 +239,14 @@ class LLM:
         sys_block: dict = {"type": "text", "text": system}
         if cache_system:
             sys_block["cache_control"] = {"type": "ephemeral"}
-        kwargs = dict(model=model, max_tokens=max_tokens, system=[sys_block],
-                      messages=[{"role": "user", "content": user}], output_format=schema,
-                      output_config={"effort": effort})
+        kwargs = {"model": model, "max_tokens": max_tokens, "system": [sys_block],
+                  "messages": [{"role": "user", "content": user}], "output_format": schema,
+                  "output_config": {"effort": effort}}
         # Server-side fallback on a safety decline (Sonnet/Opus 5.x, Claude API only). Dropped if the API rejects it.
         extra = {}
         if model.startswith(("claude-sonnet-5-5", "claude-opus-5")):
-            extra = dict(extra_headers={"anthropic-beta": "server-side-fallback-2026-07-01"},
-                         extra_body={"fallbacks": "default"})
+            extra = {"extra_headers": {"anthropic-beta": "server-side-fallback-2026-07-01"},
+                     "extra_body": {"fallbacks": "default"}}
         try:
             resp = await self.client.messages.parse(**kwargs, **extra)
         except anthropic.BadRequestError as e:

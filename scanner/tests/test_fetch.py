@@ -1,6 +1,14 @@
 import pytest
-
-from app.fetch import FetchError, Fetched, Page, choose_pages, domain_of, extract_page, normalise_url, _is_private
+from app.fetch import (
+    Fetched,
+    FetchError,
+    Page,
+    _is_private,
+    choose_pages,
+    domain_of,
+    extract_page,
+    normalise_url,
+)
 
 
 def test_normalise_adds_scheme_and_keeps_path():

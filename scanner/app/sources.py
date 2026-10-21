@@ -8,7 +8,7 @@ import httpx
 from .config import Settings
 from .store import Store
 
-_SUFFIX = re.compile(r"\b(ltd|limited|llp|plc|cic|t/a|trading as)\b\.?", re.I)
+_SUFFIX = re.compile(r"\b(ltd|limited|llp|plc|cic|t/a|trading as)\b\.?", re.IGNORECASE)
 
 
 def clean_company_name(name: str) -> str:

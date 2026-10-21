@@ -60,7 +60,7 @@ def normalise_url(raw: str) -> str:
 
 def domain_of(url: str) -> str:
     host = (urlsplit(url).hostname or "").lower()
-    return host[4:] if host.startswith("www.") else host
+    return host.removeprefix("www.")
 
 
 def same_site(a: str, b: str) -> bool:
@@ -140,7 +140,7 @@ async def fetch(client: httpx.AsyncClient, url: str, *, method: str = "GET", max
         extensions = {}
         if check:
             ips = await resolve_public(host)
-            ip = sorted(ips, key=lambda value: ":" in value)[0]
+            ip = min(ips, key=lambda value: ":" in value)
             target = target.copy_with(host=ip)
             # Do not reuse an IP-keyed TLS connection for a different hostname sharing that address.
             headers = {"Host": httpx.URL(cur).netloc.decode("ascii"), "Connection": "close"}
@@ -294,7 +294,7 @@ def extract_page(f: Fetched, *, text_cap: int = 15000) -> Page:
 
     buttons = [_clean(b.text()) for b in tree.css("button")] + \
               [_clean(i.attributes.get("value")) for i in tree.css('input[type="submit"]')] + \
-              [_clean(a.text()) for a in tree.css("a") if re.search(r"btn|button|cta", a.attributes.get("class") or "", re.I)]
+              [_clean(a.text()) for a in tree.css("a") if re.search(r"btn|button|cta", a.attributes.get("class") or "", re.IGNORECASE)]
     page.buttons = [b for b in dict.fromkeys(buttons) if b][:20]
 
     nav_nodes = tree.css("nav a[href], header a[href]")
@@ -348,7 +348,7 @@ _SCORE = [
     (r"faq|questions", 1), (r"areas?|locations?|where", 1), (r"why-us|why-choose|guarantee|accredit", 1),
 ]
 _SKIP = re.compile(r"login|sign-?in|account|cart|basket|checkout|privacy|terms|cookie|sitemap|wp-|feed|/tag/|/category/"
-                   r"|/author/|\.(pdf|jpe?g|png|gif|svg|zip|docx?|xlsx?)(\?|$)", re.I)
+                   r"|/author/|\.(pdf|jpe?g|png|gif|svg|zip|docx?|xlsx?)(\?|$)", re.IGNORECASE)
 
 
 def choose_pages(home: Page, limit: int) -> list[str]:

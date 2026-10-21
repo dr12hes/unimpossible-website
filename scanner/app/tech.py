@@ -2,14 +2,15 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import socket
 import ssl
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from urllib.parse import urlsplit, urlunsplit
 
 import httpx
 
-from .fetch import resolve_public, Fetched, FetchError, Page, fetch
+from .fetch import Fetched, FetchError, Page, fetch, resolve_public
 
 AI_BOTS = ["GPTBot", "ChatGPT-User", "OAI-SearchBot", "ClaudeBot", "Claude-SearchBot", "anthropic-ai", "Google-Extended",
            "PerplexityBot", "CCBot", "Applebot-Extended", "Bytespider", "meta-externalagent"]
@@ -63,9 +64,9 @@ def _cert_days_left(host: str, ip: str) -> int | None:
         ctx = ssl.create_default_context()
         with socket.create_connection((ip, 443), timeout=8) as sock, ctx.wrap_socket(sock, server_hostname=host) as s:
             cert = s.getpeercert()
-        exp = datetime.strptime(cert["notAfter"], "%b %d %H:%M:%S %Y %Z").replace(tzinfo=timezone.utc)
-        return (exp - datetime.now(timezone.utc)).days
-    except Exception:
+        exp = datetime.strptime(cert["notAfter"], "%b %d %H:%M:%S %Y %Z").replace(tzinfo=UTC)
+        return (exp - datetime.now(UTC)).days
+    except (OSError, ValueError, KeyError, TypeError):
         return None
 
 
@@ -129,13 +130,13 @@ async def technical_checks(client: httpx.AsyncClient, home: Page, *, light: bool
             http_redirect = f"no redirect (HTTP {f.status})"
         except FetchError as e:
             http_redirect = "redirects to https" if "redirects too many" in str(e) else str(e)
-        except Exception:
+        except (ValueError, httpx.HTTPError):
             http_redirect = "unknown"
 
     async def certificate_days():
         try:
             ips = await resolve_public(host)
-            ip = sorted(ips, key=lambda value: ":" in value)[0]
+            ip = min(ips, key=lambda value: ":" in value)
             return await asyncio.to_thread(_cert_days_left, host, ip)
         except FetchError:
             return None
@@ -154,8 +155,8 @@ async def technical_checks(client: httpx.AsyncClient, home: Page, *, light: bool
             cl = f.headers.get("content-length")
             if cl and cl.isdigit():
                 sizes.append(int(cl))
-        except (FetchError, Exception):
-            pass
+        except FetchError as exc:
+            logging.getLogger("scanner.tech").debug("Image measurement skipped: %s", exc)
 
     await asyncio.gather(*(head(u) for u in home.image_srcs[:8] if u.startswith("http")))
     out["image_bytes_sampled"] = {"images": len(sizes), "total_kb": sum(sizes) // 1024, "largest_kb": (max(sizes) // 1024) if sizes else 0}

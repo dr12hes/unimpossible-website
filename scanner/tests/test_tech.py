@@ -1,6 +1,5 @@
 from app.tech import ai_bot_access, parse_robots, summarise_tech
 
-
 ROBOTS = """
 User-agent: *
 Disallow: /admin

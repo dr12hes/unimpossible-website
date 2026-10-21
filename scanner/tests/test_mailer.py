@@ -5,9 +5,8 @@ from email.parser import BytesParser
 
 import httpx
 import pytest
-
 from app.config import load_settings
-from app.mailer import MailError, Mailer
+from app.mailer import Mailer, MailError
 
 
 @pytest.mark.asyncio

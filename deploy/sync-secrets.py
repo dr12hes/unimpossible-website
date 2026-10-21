@@ -2,10 +2,10 @@
 """Resolve 1Password references in memory and atomically install the scanner environment over SSH."""
 import argparse
 import os
-from pathlib import Path
 import shlex
 import subprocess
 import sys
+from pathlib import Path
 
 
 def main():

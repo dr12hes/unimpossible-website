@@ -38,7 +38,7 @@ NOT_COMPETITORS = {
     "rightmove.co.uk", "zoopla.co.uk", "onthemarket.com", "autotrader.co.uk", "motors.co.uk", "dnb.com", "endole.co.uk",
     "companycheck.co.uk", "bizstats.co.uk", "ukbusinessdirectory.org.uk", "localsearch.co.uk", "approvedbusiness.co.uk",
 }
-_NOT_COMPETITOR_RE = re.compile(r"(directory|directories|\.gov\.|\.ac\.uk|\.nhs\.|news|jobs?|wiki)", re.I)
+_NOT_COMPETITOR_RE = re.compile(r"(directory|directories|\.gov\.|\.ac\.uk|\.nhs\.|news|jobs?|wiki)", re.IGNORECASE)
 
 
 def _page_for_llm(p: Page, chars: int) -> dict:
@@ -76,7 +76,7 @@ class Pipeline:
         try:
             p = await self.get_page(url)
             return p if p.status < 400 and p.text else None
-        except (FetchError, Exception) as e:  # one bad inner page never sinks the job
+        except (FetchError, ValueError, httpx.HTTPError) as e:  # one bad inner page never sinks the job
             log.info("skip %s: %s", url, e)
             return None
 

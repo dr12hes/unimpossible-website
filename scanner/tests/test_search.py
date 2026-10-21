@@ -3,7 +3,6 @@ from dataclasses import replace
 
 import httpx
 import pytest
-
 from app.config import load_settings
 from app.search import web_search
 from app.store import Store
