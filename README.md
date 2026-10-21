@@ -60,11 +60,12 @@ As verified on 21 October 2026, Tavily is the working search provider. The share
 provider credit; do not select them until funded. Tavily result order is not represented as measured Google rankings.
 Companies House, Google Places and Open PageRank are optional and currently unconfigured.
 
-Email uses Postmark's transactional API and the stored message stream. `hello@unimpossible.co.uk` is not yet a verified
-Postmark sender, so mail is branded **UNimpossible**, sent through the existing verified `hello@optaro.io` address,
-and has `Reply-To: hello@unimpossible.co.uk`. After verifying the UNimpossible sender/domain in Postmark, change
-`MAIL_FROM` in the reference template and redeploy. Missing/rejected Postmark delivery fails visibly; development can
-explicitly set `SCANNER_MAIL_OUTBOX=1` to write `.eml` files instead.
+Email uses Postmark's transactional API and the stored message stream. The `unimpossible.co.uk` domain has verified
+DKIM and a verified custom Return-Path (`pm-bounces.unimpossible.co.uk`), checked on 21 October 2026.
+All scanner mail sends as **UNimpossible <hello@unimpossible.co.uk>**, with the same address as Reply-To.
+Cloudflare holds the Postmark DKIM TXT and unproxied Return-Path CNAME; existing Fastmail records are preserved.
+Missing/rejected Postmark delivery fails visibly; development can explicitly set `SCANNER_MAIL_OUTBOX=1`
+to write `.eml` files instead.
 
 Focused validation:
 
