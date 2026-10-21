@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light">
+<title>{% if confirmation %}Confirm your website audit{% else %}Your website audit is ready{% endif %} — UNimpossible</title>
+<style>
+@media only screen and (max-width: 600px) {
+  .outer { padding: 16px 10px !important; }
+  .pad { padding-left: 24px !important; padding-right: 24px !important; }
+  .headline { font-size: 36px !important; }
+  .button { display: block !important; text-align: center !important; }
+}
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#EEF4F1;color:#0F3D33;font-family:Arial,Helvetica,sans-serif;-webkit-text-size-adjust:100%;">
+<div style="display:none;font-size:1px;color:#EEF4F1;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">{% if confirmation %}One click to start your full website and competitor audit.{% else %}Your website, your competitors, and three moves worth making. Open your private report.{% endif %}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#EEF4F1">
+<tr><td class="outer" align="center" style="padding:40px 16px;">
+<!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;">
+<tr><td class="pad" bgcolor="#0F3D33" style="padding:30px 40px 34px;border-radius:16px 16px 0 0;">
+<a href="{{ origin }}/" style="color:#FFFFFF;text-decoration:none;font-size:26px;letter-spacing:-1px;line-height:36px;"><img src="{{ origin }}/logo/unimpossible-email-on-dark.png" width="248" height="47" alt="UNimpossible" border="0" style="display:block;width:248px;max-width:100%;height:auto;color:#FFFFFF;font-size:26px;"></a>
+<p style="margin:9px 0 0;color:#C9F2E6;font-size:12px;letter-spacing:1.8px;line-height:18px;">A CLEARER VIEW. A BETTER NEXT MOVE.</p>
+</td></tr>
+<tr><td class="pad" bgcolor="#FFFFFF" style="padding:38px 40px 30px;">
+<p style="margin:0 0 18px;color:#2E8B73;font-size:12px;font-weight:bold;letter-spacing:1.7px;line-height:18px;">YOUR WEBSITE &amp; COMPETITOR AUDIT</p>
+<h1 class="headline" style="margin:0 0 24px;color:#0F3D33;font-size:44px;letter-spacing:-1.8px;line-height:1.08;font-weight:700;">{% if confirmation %}A little clarity.<br>One click away.{% else %}Your next move<br>starts here.{% endif %}</h1>
+<p style="margin:0 0 14px;font-size:16px;line-height:26px;color:#1F4A40;">Hello{% if first %} {{ first }}{% endif %},</p>
+<p style="margin:0 0 26px;font-size:16px;line-height:26px;color:#1F4A40;">{% if confirmation %}Ready to see <strong>{{ domain }}</strong> from the outside? Confirm your email and we’ll take a closer look at your website, the competitors we find, and where you could go next.{% else %}Your audit of <strong>{{ domain }}</strong> is ready. We’ve brought the findings together in one private report, so you can see the picture and decide what to do next.{% endif %}</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="#8FD9C4" style="border-radius:8px;text-align:center;mso-padding-alt:18px 28px;"><a class="button" href="{{ link }}" style="display:inline-block;padding:18px 28px;border:1px solid #8FD9C4;border-radius:8px;color:#0F3D33;font-size:16px;font-weight:bold;text-decoration:none;line-height:22px;">{% if confirmation %}Confirm &amp; start my audit{% else %}Read my audit{% endif %} &nbsp; &rarr;</a></td></tr></table>
+<p style="margin:16px 0 0;font-size:13px;line-height:21px;color:#5B7A70;">{% if confirmation %}It takes a few minutes. We’ll email you when your report is ready.{% else %}This link opens your private report. Keep it for your records.{% endif %}</p>
+</td></tr>
+<tr><td class="pad" bgcolor="#FFFFFF" style="padding:0 40px 32px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#E3F6EF" style="border-radius:10px;"><tr><td style="padding:24px;">
+<p style="margin:0 0 18px;font-size:12px;font-weight:bold;letter-spacing:1.4px;color:#2E8B73;line-height:18px;">{% if confirmation %}WHAT WE’LL LOOK AT{% else %}INSIDE YOUR REPORT{% endif %}</p>
+<p style="margin:0 0 14px;color:#0F3D33;font-size:15px;line-height:23px;"><strong>01 &nbsp; Your business, from the outside</strong><br><span style="color:#3C5A52;">What your website communicates to a new visitor.</span></p>
+<p style="margin:0 0 14px;color:#0F3D33;font-size:15px;line-height:23px;"><strong>02 &nbsp; The competitive picture</strong><br><span style="color:#3C5A52;">The alternatives we find and how they present themselves.</span></p>
+<p style="margin:0;color:#0F3D33;font-size:15px;line-height:23px;"><strong>03 &nbsp; Three moves to consider</strong><br><span style="color:#3C5A52;">Practical actions, grounded in what we find.</span></p>
+</td></tr></table>
+</td></tr>
+<tr><td class="pad" bgcolor="#FFFFFF" style="padding:0 40px 32px;border-radius:0 0 16px 16px;">
+<p style="margin:0;padding-top:24px;border-top:1px solid #DCE7E2;color:#3C5A52;font-size:14px;line-height:23px;">{% if confirmation %}Didn’t request this? You can ignore this email. We won’t start the audit unless you confirm.{% else %}Want to talk through the findings? Just reply. We’re here to help you work out what’s worth doing next.{% endif %}</p>
+<p style="margin:22px 0 0;font-size:12px;line-height:20px;color:#5B7A70;">Button not working? <a href="{{ link }}" style="color:#0F3D33;text-decoration:underline;">{% if confirmation %}Confirm your audit here{% else %}Open your report here{% endif %}</a>.</p>
+</td></tr>
+<tr><td align="center" style="padding:26px 16px 8px;color:#5B7A70;font-size:12px;line-height:21px;">
+<p style="margin:0 0 6px;color:#0F3D33;font-size:15px;"><strong>UN</strong>impossible</p>
+<p style="margin:0;">Understand what AI can do for your business.</p>
+<p style="margin:10px 0 0;"><a href="mailto:hello@unimpossible.co.uk" style="color:#3C5A52;text-decoration:none;">hello@unimpossible.co.uk</a> &nbsp;·&nbsp; <a href="{{ origin }}/privacy" style="color:#3C5A52;text-decoration:underline;">Privacy</a></p>
+<p style="margin:10px 0 0;">Sent because you requested a website audit at unimpossible.co.uk.</p>
+</td></tr>
+</table>
+<!--[if mso]></td></tr></table><![endif]-->
+</td></tr></table>
+</body></html>
