@@ -29,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/site.css?v=20261021">
 
 <script type="application/ld+json">
 {
@@ -81,33 +81,43 @@
     </div>
 
     <div class="report" id="report">
-      <p class="report-title">Try it: your website, read the way AI reads it.</p>
-      <p class="report-sub">Free. Seven checks in about twenty seconds, then the full report by email if you want it.</p>
+      <p class="report-title">Try it: your website, read the way an AI expert reads it.</p>
+      <p class="report-sub">Enter your address. In about fifteen seconds we'll say what we think your business does, what a customer of a business like yours needs to see, and three things we noticed. Then, if you want it, the full audit: how you compare with the competitors we find, regional and national.</p>
       <form class="report-form" id="scan-form" novalidate>
         <label>Website address
           <input class="field" type="text" name="site" id="scan-url" placeholder="yourbusiness.co.uk" autocomplete="url" inputmode="url" spellcheck="false">
         </label>
-        <button type="submit" class="btn" id="scan-button">Scan my site</button>
+        <button type="submit" class="btn" id="scan-button">Read my site</button>
       </form>
-      <ul class="checks" id="checks" aria-live="polite" aria-atomic="false">
-        <li><span class="label">Speed</span><span class="track"><span class="bar" data-score="41"></span></span><span class="score"></span></li>
-        <li><span class="label">Search</span><span class="track"><span class="bar" data-score="72"></span></span><span class="score"></span></li>
-        <li><span class="label">Mobile</span><span class="track"><span class="bar" data-score="58"></span></span><span class="score"></span></li>
-        <li><span class="label">Accessibility</span><span class="track"><span class="bar" data-score="80"></span></span><span class="score"></span></li>
-        <li><span class="label">Security</span><span class="track"><span class="bar" data-score="66"></span></span><span class="score"></span></li>
-        <li><span class="label">AI readiness</span><span class="track"><span class="bar" data-score="28"></span></span><span class="score"></span></li>
-        <li><span class="label">Winning enquiries</span><span class="track"><span class="bar" data-score="47"></span></span><span class="score"></span></li>
-      </ul>
+      <p class="report-status" id="scan-status" aria-live="polite"></p>
       <div class="report-result" id="scan-result" hidden>
-        <p>Three fixes worth doing first</p>
-        <ol>
-          <li>Compress the home-page images; mobile load time halves.</li>
-          <li>Put a phone number and a quote form above the fold.</li>
-          <li>Add the business details AI assistants read, so they can recommend you.</li>
-        </ol>
-        <a href="#talk" class="btn small" id="scan-cta">Get the full report by email</a>
+        <div class="read">
+          <p class="eyebrow">What we think you do</p>
+          <p class="one-line" id="read-one-line"></p>
+          <p id="read-detail"></p>
+          <p class="small" id="read-confidence"></p>
+        </div>
+        <div class="read">
+          <p class="eyebrow">What a customer of a business like yours needs to see</p>
+          <ul id="read-yardstick"></ul>
+        </div>
+        <div class="read">
+          <p class="eyebrow">Three things we noticed</p>
+          <ol id="read-observations"></ol>
+        </div>
+        <form class="report-email" id="report-form" novalidate>
+          <p class="eyebrow">The full audit</p>
+          <p>Who you're up against, regionally and nationally, and how you compare on the things that win business. We find the competitors ourselves from what your site says. It takes a few minutes, so it arrives by email as a link.</p>
+          <div class="row">
+            <label>Email<input class="field" type="email" name="email" id="report-email" autocomplete="email"></label>
+            <label>Name<input class="field" type="text" name="name" id="report-name" autocomplete="name" placeholder="optional"></label>
+            <label class="hp" aria-hidden="true">Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+          </div>
+          <button type="submit" class="btn" id="report-button">Send me the full audit</button>
+          <p class="report-status" id="report-status" aria-live="polite"></p>
+        </form>
       </div>
-      <p class="report-note">Demo with example scores. Also free: the AI readiness check and the admin cost calculator.</p>
+      <p class="report-note">A real read of your pages by Claude, Anthropic's model, with our own fetching and measurements. Nothing invented: where we can't tell, we say so. We keep your address and email only to send the audit. <a href="/privacy">Privacy</a>.</p>
     </div>
   </div>
 </section>
@@ -218,8 +228,8 @@
 <script>
   /* Enquiry delivery. Leave pageToken empty and the form opens the visitor's email app with the message filled in.
      Set it to an Optaro Core published-page token (see deploy/provision_core_page.py) and enquiries post to Core. */
-  window.UNIMPOSSIBLE = { coreOrigin: 'https://core.optaro.io', tenant: 'optaro', pageToken: '' };
+  window.UNIMPOSSIBLE = { coreOrigin: 'https://core.optaro.io', tenant: 'optaro', pageToken: '', apiOrigin: '' };
 </script>
-<script src="/site.js" defer></script>
+<script src="/site.js?v=20261021" defer></script>
 </body>
 </html>

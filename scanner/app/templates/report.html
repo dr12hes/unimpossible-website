@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>{{ r.title }} — UNimpossible</title>
+<link rel="icon" href="{{ meta.public_origin }}/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet">
+<style>
+:root { --paper:#fff; --chalk:#EEF4F1; --ink:#0F3D33; --ink-2:#2A5A4F; --ink-3:#4F6F67; --rule:#D8E4DF; --mint:#8FD9C4; --mint-light:#E3F6EF; --mint-mid:#2E8B73; --amber:#D98E04; --amber-light:#FBEFD6; }
+* { box-sizing:border-box } html { -webkit-text-size-adjust:100% }
+body { margin:0; background:var(--chalk); color:var(--ink); font-family:"Bricolage Grotesque", system-ui, sans-serif; font-size:17px; line-height:1.6 }
+main { max-width:880px; margin:0 auto; padding:32px 16px 80px }
+.sheet { background:var(--paper); border-radius:16px; padding:36px; box-shadow:0 1px 0 var(--rule) }
+h1 { font-size:34px; line-height:1.15; letter-spacing:-.02em; margin:0 0 8px } h2 { font-size:24px; letter-spacing:-.02em; margin:44px 0 12px; padding-top:20px; border-top:1px solid var(--rule) }
+h3 { font-size:19px; margin:24px 0 6px } p { margin:0 0 14px } .kicker { color:var(--ink-3); font-size:15px; margin:0 0 24px }
+.summary { background:var(--mint-light); border-radius:12px; padding:20px 22px; font-size:19px; line-height:1.55 } .summary p:last-child { margin:0 }
+.brand { display:flex; align-items:center; gap:10px; margin-bottom:28px; font-weight:600; letter-spacing:-.01em; text-decoration:none; color:var(--ink) }
+.brand svg { width:30px; height:26px }
+ul, ol { padding-left:22px } li { margin:0 0 8px }
+table { width:100%; border-collapse:collapse; font-size:15px; margin:12px 0 4px } th, td { text-align:left; vertical-align:top; padding:10px 10px; border-bottom:1px solid var(--rule) }
+th { font-weight:600; color:var(--ink-2); background:var(--chalk) } td.c { white-space:nowrap } .score { display:inline-block; min-width:30px; padding:2px 8px; border-radius:999px; font-weight:600; text-align:center; margin-right:8px }
+.good { background:var(--mint); color:var(--ink) } .mid { background:var(--chalk); color:var(--ink-2); border:1px solid var(--rule) } .low { background:var(--amber-light); color:#7A4F00 }
+.note { color:var(--ink-3); font-size:14px } .tablewrap { overflow-x:auto }
+.comp { border:1px solid var(--rule); border-radius:12px; padding:18px 20px; margin:14px 0 } .comp h3 { margin:0 0 4px } .tier { font-size:13px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.06em }
+.cols { display:grid; grid-template-columns:1fr 1fr; gap:16px } @media (max-width:640px) { .cols { grid-template-columns:1fr } .sheet { padding:22px } h1 { font-size:28px } }
+.move { border-left:4px solid var(--mint); padding:4px 0 4px 18px; margin:18px 0 } .move h3 { margin:0 0 6px } .effort { font-size:13px; color:var(--ink-3); margin-left:8px; font-weight:400 }
+.cta { margin-top:40px; background:var(--ink); color:#fff; border-radius:14px; padding:26px 28px } .cta a { color:var(--mint); font-weight:600 } .cta p:last-child { margin:0 }
+.small { font-size:14px; color:var(--ink-3) } footer { margin:28px 0 0; font-size:13px; color:var(--ink-3); text-align:center }
+@media print { body { background:#fff } .sheet { box-shadow:none; padding:0 } .cta { display:none } }
+</style>
+</head>
+<body>
+<main>
+<article class="sheet">
+  <a class="brand" href="{{ meta.public_origin }}/"><svg viewBox="3 6.6 64 56" aria-hidden="true"><polygon points="30,8.66 5,51.96 10,60.62 15,51.96 45,51.96 40,43.3 20,43.3 35,17.32" fill="#8FD9C4"/><polygon points="10,60.62 60,60.62 65,51.96 55,51.96 40,25.98 35,34.64 45,51.96 15,51.96" fill="#2E8B73"/><polygon points="65,51.96 40,8.66 30,8.66 35,17.32 20,43.3 30,43.3 40,25.98 55,51.96" fill="#0F3D33"/></svg>UNimpossible</a>
+  <h1>{{ r.title }}</h1>
+  <p class="kicker">{{ meta.domain }} · {{ date }} · read against {{ meta.competitors|length }} competitor site{{ '' if meta.competitors|length == 1 else 's' }}</p>
+  <div class="summary">{{ r.summary|paras }}</div>
+
+  <h2>What we think you do</h2>
+  {{ r.what_we_think_you_do|paras }}
+  <p class="note">If this is wrong, everything after it is judged against the wrong yardstick. Reply to the email and we'll re-run it.</p>
+
+  <h2>How your customers buy</h2>
+  {{ r.how_customers_buy|paras }}
+
+  <h2>The yardstick</h2>
+  {{ r.yardstick_intro|paras }}
+
+  <h2>Side by side</h2>
+  <p class="small">Scores are 0 to 10 for how well each site does that job for your kind of customer. They are not generic website scores.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>What the site has to do</th>{% for cell in r.comparison[0].cells if r.comparison %}<th>{{ cell.site }}</th>{% endfor %}</tr></thead>
+    <tbody>
+    {% for row in r.comparison %}
+    <tr><td>{{ row.criterion }}</td>{% for cell in row.cells %}<td><span class="score {{ cell.score|band }}">{{ cell.score }}</span><span class="note">{{ cell.note }}</span></td>{% endfor %}</tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+
+  <h2>Does the site win enquiries?</h2>
+  {{ r.conversion|paras }}
+
+  <h2>Content and authority</h2>
+  {{ r.content_and_authority|paras }}
+
+  <h2>Who you're up against</h2>
+  {% if r.competitors %}
+  {% for c in r.competitors %}
+  <div class="comp">
+    <div class="tier">{{ c.tier }}</div>
+    <h3>{{ c.name }} <span class="small">· {{ c.domain }}</span></h3>
+    <p>{{ c.who_they_are }}</p>
+    <div class="cols">
+      <div><strong>Where they beat you</strong><ul>{% for x in c.where_they_beat_you %}<li>{{ x }}</li>{% endfor %}</ul></div>
+      <div><strong>Where you beat them</strong><ul>{% for x in c.where_you_beat_them %}<li>{{ x }}</li>{% endfor %}</ul></div>
+    </div>
+  </div>
+  {% endfor %}
+  {% else %}
+  <p>We could not research competitors for this report. The caveats below say why.</p>
+  {% endif %}
+
+  <h2>Search visibility</h2>
+  {{ r.search_visibility|paras }}
+
+  <h2>What an AI assistant can say about you</h2>
+  {{ r.ai_readiness|paras }}
+
+  <h2>Three moves worth making first</h2>
+  {% for m in r.three_moves %}
+  <div class="move">
+    <h3>{{ loop.index }}. {{ m.title }}<span class="effort">{{ m.effort }}</span></h3>
+    <p>{{ m.what_to_do }}</p>
+    <p><strong>Why:</strong> {{ m.why }}</p>
+    <p class="small"><strong>Evidence:</strong> {{ m.evidence }}</p>
+  </div>
+  {% endfor %}
+
+  <h2>Technical footnote</h2>
+  {{ r.technical_footnote|paras }}
+
+  <h2>Caveats</h2>
+  <ul>{% for c in r.caveats %}<li>{{ c }}</li>{% endfor %}</ul>
+
+  <h2>How we did this</h2>
+  {{ r.how_we_did_this|paras }}
+  <p class="small">Pages read on your site: {% for p in meta.pages_read %}{{ p }}{{ ', ' if not loop.last }}{% endfor %}.
+  {% if meta.queries %}Searches run: {% for q in meta.queries %}“{{ q }}”{{ ', ' if not loop.last }}{% endfor %}.{% endif %}
+  Reading and judgment by Claude (Anthropic); fetching, searching and the measurements by our own code. Nothing in this report was written without the pages to back it.</p>
+
+  <div class="cta">
+    <p><strong>Want to talk it through?</strong> A free 30-minute conversation, no slides, no pitch: <a href="{{ meta.public_origin }}/#talk">book one</a> or reply to the email this came with.</p>
+    <p>UNimpossible Consultants Limited, Watton, Norfolk · hello@unimpossible.co.uk</p>
+  </div>
+</article>
+<footer>This report was produced for the person who requested it and is not indexed. Share the link if you like.</footer>
+</main>
+</body>
+</html>
