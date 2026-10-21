@@ -201,7 +201,7 @@
       <p class="muted">Thirty minutes with an engineer, not a salesperson. You'll leave with at least one idea worth acting on, whether or not you work with us. We reply within one working day.</p>
       <p><a href="mailto:hello@unimpossible.co.uk">hello@unimpossible.co.uk</a></p>
     </div>
-    <form class="contact" id="contact-form" method="post" action="mailto:hello@unimpossible.co.uk" novalidate>
+    <form class="contact" id="contact-form" method="post" action="https://core.optaro.io/api/v1/portal/pages/5SNX3Ai8krN26csnSyyiGA/submit-form?t=optaro" novalidate>
       <div class="row">
         <label>Name<input class="field" type="text" name="name" autocomplete="name" required></label>
         <label>Company<input class="field" type="text" name="company" autocomplete="organization"></label>
@@ -210,6 +210,7 @@
       <label>What takes up too much of your team's time?<textarea class="field" name="message" rows="4"></textarea></label>
       <label class="hp" aria-hidden="true">Leave this empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
       <input type="hidden" name="interest" value="">
+      <p class="muted small">Your enquiry is saved securely for our team to reply. No mailing list. <a href="/privacy">Privacy</a></p>
       <button type="submit" class="btn">Book a conversation</button>
       <p class="form-status" id="contact-status" role="status" aria-live="polite"></p>
     </form>
@@ -226,10 +227,10 @@
 </footer>
 
 <script>
-  /* Enquiry delivery. Leave pageToken empty and the form opens the visitor's email app with the message filled in.
-     Set it to an Optaro Core published-page token (see deploy/provision_core_page.py) and enquiries post to Core. */
-  window.UNIMPOSSIBLE = { coreOrigin: 'https://core.optaro.io', tenant: 'optaro', pageToken: '', apiOrigin: '' };
+  /* Public Core page identifier; enquiries use Core's lead and notification workflow. */
+  window.UNIMPOSSIBLE = { coreOrigin: 'https://core.optaro.io', tenant: 'optaro', pageToken: '5SNX3Ai8krN26csnSyyiGA', apiOrigin: '' };
 </script>
-<script src="/site.js?v=20261021" defer></script>
+<script src="/site.js?v=20261021-leads" defer></script>
+<script src="https://core.optaro.io/api/v1/portal/chat-bots/embed.js?token=fLGVyCOfwvUSUSHm3JcWTWxHrGfoYXfZ56Qh8dwbcC4&amp;t=optaro" async></script>
 </body>
 </html>

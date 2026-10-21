@@ -9,6 +9,7 @@ identifier, not a credential. Mirrors cloudwlc-website/deploy/provision_core_pag
 
 Change TENANT if UNimpossible gets its own Core tenant; keep it in step with `tenant` in index.html.
 """
+
 import json
 
 from app.database import configure_platform_database, tenant_session_scope
@@ -22,8 +23,18 @@ fields = [
     {"name": "name", "type": "text", "label": "Name", "required": True},
     {"name": "email", "type": "email", "label": "Email", "required": True},
     {"name": "company", "type": "text", "label": "Company", "required": False},
-    {"name": "message", "type": "textarea", "label": "What takes up too much of your team's time?", "required": False},
-    {"name": "interest", "type": "text", "label": "Interest (website report / Chamber session)", "required": False},
+    {
+        "name": "message",
+        "type": "textarea",
+        "label": "What takes up too much of your team's time?",
+        "required": False,
+    },
+    {
+        "name": "interest",
+        "type": "text",
+        "label": "Interest (website report / Chamber session)",
+        "required": False,
+    },
 ]
 
 configure_platform_database()
@@ -34,9 +45,18 @@ with tenant_session_scope(TENANT) as db:
             db,
             slug=SLUG,
             title="UNimpossible website enquiries",
-            blocks=[{"id": SLUG, "type": "form", "fields": fields, "submit_label": "Book a conversation"}],
+            created_by_email="david.riches@optaro.io",
+            blocks=[
+                {
+                    "id": SLUG,
+                    "type": "form",
+                    "fields": fields,
+                    "submit_label": "Book a conversation",
+                }
+            ],
             settings={
                 "verify_email": False,
+                "after_submit": {"notify_email": "david@unimpossible.co.uk"},
                 "external_site": {"url": SITE + "/#talk", "analytics_only": False},
                 "form_list_snapshot": {"fields": fields},
             },
