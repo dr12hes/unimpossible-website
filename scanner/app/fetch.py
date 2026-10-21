@@ -354,6 +354,7 @@ _SKIP = re.compile(r"login|sign-?in|account|cart|basket|checkout|privacy|terms|c
 def choose_pages(home: Page, limit: int) -> list[str]:
     """Pick the internal pages most likely to say what the business does and how to buy."""
     scored: list[tuple[int, str]] = []
+    navigation = {link.href.split("#")[0].rstrip("/") for link in home.nav_links}
     home_key = home.final_url.split("#")[0].rstrip("/")
     for link in home.internal_links:
         href = link.href.split("#")[0]
@@ -361,10 +362,12 @@ def choose_pages(home: Page, limit: int) -> list[str]:
             continue
         path = urlsplit(href).path.lower()
         hay = f"{path} {link.text.lower()}"
-        score = sum(w for pat, w in _SCORE if re.search(pat, hay))
+        # Businesses often name their main pages for their audience, not "services" or "products".
+        # Keep those pages eligible, with a small preference for links in the main navigation.
+        score = max(1, sum(w for pat, w in _SCORE if re.search(pat, hay)))
+        score += int(href.rstrip("/") in navigation)
         depth = path.count("/")
-        if score:
-            scored.append((score * 10 - depth, href))
+        scored.append((score * 10 - depth, href))
     scored.sort(reverse=True)
     out: list[str] = []
     for _, href in scored:

@@ -127,3 +127,12 @@ async def test_redirect_cannot_reach_private_address_or_non_web_port(monkeypatch
         with pytest.raises(FetchError):
             await fetch(client, "https://public.example/")
     assert len(seen) == 1
+
+
+def test_choose_pages_includes_audience_named_navigation():
+    home = extract_page(Fetched("https://acme.example/", "https://acme.example/", 200, {}, b"""
+        <html><body><nav><a href="/hospitality">Hotels and MSPs</a><a href="/business">For your business</a>
+        <a href="/about">About us</a><a href="/privacy">Privacy</a></nav></body></html>""", 1))
+    assert set(choose_pages(home, 7)) == {
+        "https://acme.example/about", "https://acme.example/hospitality", "https://acme.example/business"
+    }
