@@ -154,11 +154,12 @@ for t in "${TARGETS[@]}"; do
 done
 
 # Traefik learns about the recreated container from Docker events a few seconds after it starts; checking sooner sees
-# its 404 for the hostname, not ours.
+# its 404 for the hostname, not ours. Wait for scanner JSON too: the website catch-all also returns 200.
 wait_for_router() {
   local ip="$1" i
   for i in $(seq 1 30); do
-    [ "$(curl -sk -m 10 -o /dev/null -w '%{http_code}' --resolve "unimpossible.co.uk:443:$ip" https://unimpossible.co.uk/ || true)" = 200 ] && return 0
+    curl -fsk -m 10 --resolve "unimpossible.co.uk:443:$ip" https://unimpossible.co.uk/api/health | \
+      python3 -c 'import json,sys; assert json.load(sys.stdin) == {"ok": True}' >/dev/null 2>&1 && return 0
     sleep 1
   done
   return 1
