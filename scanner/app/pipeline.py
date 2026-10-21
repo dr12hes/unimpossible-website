@@ -204,7 +204,7 @@ class Pipeline:
                 self.store.update(scan_id, status=S.REPORT_DONE, report_json=recent["report_json"], report_html=recent["report_html"],
                                   report_token=token, usage_json=json.dumps({"reused_from": recent["id"]}))
                 self.store.log(scan_id, f"reused report from {recent['id']}")
-                await self._send_report(scan, token, json.loads(recent["report_json"]))
+                await self._send_report(scan, token)
                 return
 
             llm = LLM(self.s)
@@ -289,7 +289,7 @@ class Pipeline:
             self.store.update(scan_id, status=S.REPORT_DONE, report_json=report.model_dump_json(), report_html=html, report_token=token,
                               error=None, usage_json=json.dumps({"usage": llm.usage, "cost_usd": llm.cost_usd()}))
             self.store.log(scan_id, f"report done, ${llm.cost_usd()}")
-            await self._send_report(scan, token, report.model_dump())
+            await self._send_report(scan, token)
         except (FetchError, LLMError) as e:
             self.store.update(scan_id, status=S.REPORT_FAILED, error=str(e))
             self.store.log(scan_id, f"report failed: {e}")
@@ -311,17 +311,17 @@ class Pipeline:
                 "If you didn't ask for this, ignore it and nothing happens.\n\nUNimpossible\nhello@unimpossible.co.uk\n")
         await self.mailer.send(scan["email"], f"Confirm your website audit for {scan['domain']}", text)
 
-    async def _send_report(self, scan: dict, token: str, report: dict) -> None:
+    async def _send_report(self, scan: dict, token: str) -> None:
         link = f"{self.s.public_origin}/api/report/{token}"
         first = (scan.get("name") or "").split(" ")[0]
-        moves = "\n".join(f"  {i}. {m['title']}" for i, m in enumerate(report.get("three_moves", []), 1))
-        text = (f"{'Hello ' + first if first else 'Hello'},\n\nYour audit of {scan['domain']} is ready:\n\n{link}\n\n"
-                f"{report.get('summary', '')}\n\nThree moves worth making first:\n{moves}\n\n"
-                "Every finding in the report points at the page it came from. If something is wrong, reply and tell us; "
-                "the first thing we get right is what your business actually does.\n\n"
-                "If you'd like to talk any of it through: reply to this email, or book a free 30-minute conversation at "
-                f"{self.s.public_origin}/#talk.\n\nUNimpossible\nhello@unimpossible.co.uk\n")
-        await self.mailer.send(scan["email"], f"Your website audit: {scan['domain']}", text, bcc=self.s.mail_bcc or None)
+        text = (f"{'Hello ' + first if first else 'Hello'},\n\n"
+                f"Your audit of {scan['domain']} is ready:\n\n{link}\n\n"
+                "The report explains what we think your business does, compares the competitors we found, "
+                "and gives three actions to consider.\n\n"
+                "Reply to this email if you'd like to talk through the findings.\n\n"
+                "UNimpossible\nhello@unimpossible.co.uk\n")
+        await self.mailer.send(scan["email"], f"Your UNimpossible audit: {scan['domain']}", text,
+                               bcc=self.s.mail_bcc or None)
 
     async def _notify_failure(self, scan: dict, reason: str) -> None:
         if not self.s.mail_bcc:
