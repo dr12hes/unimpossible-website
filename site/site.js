@@ -130,19 +130,6 @@
       return true;
     };
 
-    const viaMail = (v) => {
-      const subject = v.interest || 'Conversation with UNimpossible';
-      const body = [
-        'Name: ' + v.name,
-        'Company: ' + (v.company || '-'),
-        'Email: ' + v.email,
-        '',
-        v.message || 'What takes up too much of our time: ',
-      ].join('\n');
-      location.href = 'mailto:hello@unimpossible.co.uk?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-      status.textContent = 'Your email app should open with the message filled in. If it doesn’t, email hello@unimpossible.co.uk.';
-    };
-
     const viaCore = async (v) => {
       busy = true;
       submit.disabled = true;
@@ -175,7 +162,8 @@
       const v = values();
       if (v.honey) return; // bot
       if (!valid(v)) return;
-      if (cfg.pageToken) viaCore(v); else viaMail(v);
+      if (cfg.pageToken) viaCore(v);
+      else status.textContent = 'The enquiry form is temporarily unavailable. Please email hello@unimpossible.co.uk.';
     });
   }
 })();

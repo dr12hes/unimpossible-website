@@ -36,9 +36,27 @@ Rollback: `ssh -i ~/.ssh/hetzner_dedicated root@46.4.219.113 'cd /home/docker/un
 
 ## Enquiries
 
-By default the form opens the visitor's email app addressed to hello@unimpossible.co.uk with the message filled in.
-To post enquiries into Optaro Core instead, create the page once with `deploy/provision_core_page.py` (instructions in the file),
-paste the token into `window.UNIMPOSSIBLE.pageToken` at the foot of `site/index.html`, commit and deploy.
+The enquiry form posts to the published `unimpossible-website-enquiry` page in the **optaro** Core tenant.
+Core saves the submission, captures a Sales lead and sends a staff notification to **david@unimpossible.co.uk**.
+The public page token in `site/index.html` is an identifier, not a credential. Without JavaScript the form
+uses Core's normal HTML submission endpoint. Failed JavaScript submissions retain the visitor's input.
+
+`deploy/provision_core_page.py` creates the page if absent. It preserves existing page configuration.
+Notification routing is `settings.after_submit.notify_email` in Core; no marketing sequence is enrolled.
+**Delivery issue found 21 October 2026:** Fastmail rejects `hello@unimpossible.co.uk` with 550 unknown user.
+Create an alias to the working David mailbox before routing notifications there or relying on direct email.
+Postmark domain verification authorises sending; it does not create a receiving mailbox.
+
+The branded **UNimpossible website assistant** is bot ID 3 in the optaro tenant. It uses only its own
+knowledge base and is restricted to the apex and www website origins. The embed token is public.
+Approved FAQs live in `docs/chatbot-knowledge.md`. To refresh them, copy that document into the Core API
+container as `/tmp/unimpossible-chatbot-knowledge.md` and run `deploy/provision_core_chatbot.py` inside it.
+The script preserves an existing bot's configuration and refreshes its page knowledge through Core's
+canonical knowledge service. Do not refresh the bot from the website URL: that replaces the curated FAQs.
+
+Chat helps visitors understand the service and directs human enquiries to the notified contact form.
+Core can also capture contactable chat leads through `chat_lead_capture`; this is distinct from the
+form's immediate staff email notification. No automatic outreach or calendar booking is configured.
 
 ## History
 
