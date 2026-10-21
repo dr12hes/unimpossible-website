@@ -56,7 +56,7 @@ with tenant_session_scope(TENANT) as db:
             ],
             settings={
                 "verify_email": False,
-                "after_submit": {"notify_email": "david@unimpossible.co.uk"},
+                "after_submit": {"notify_email": "hello@unimpossible.co.uk"},
                 "external_site": {"url": SITE + "/#talk", "analytics_only": False},
                 "form_list_snapshot": {"fields": fields},
             },
