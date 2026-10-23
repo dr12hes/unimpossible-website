@@ -7,3 +7,7 @@ scanner/.env.dev
 scanner/.pytest_cache/
 scanner/.venv/
 scanner/data/
+
+dashboard/node_modules/
+dashboard/dist/
+dashboard/.env*.local

@@ -1,0 +1,16 @@
+import {useEffect,useState} from 'react';
+type Schedule={frequency:string;next_due:string|null;last_started:string|null};
+type Run={id:string;state:string;created_at:string;total:number|null;checked:number;changes:{page_id?:number;title?:string;message:string}[]};
+async function api<T>(path:string,body?:unknown):Promise<T>{const r=await fetch('/api/proof'+path,{method:body===undefined?'GET':'POST',headers:{'Content-Type':'application/json'},...(body===undefined?{}:{body:JSON.stringify(body)})});const value=await r.json();if(!r.ok)throw new Error(typeof value.detail==='string'?value.detail:'Recheck information unavailable.');return value;}
+export function RecheckPanel({siteId}:{siteId:string}){
+ const [schedule,setSchedule]=useState<Schedule>();const [frequency,setFrequency]=useState('off');const [history,setHistory]=useState<Run[]>([]);const [error,setError]=useState('');const [busy,setBusy]=useState(false);
+ const base='/sites/'+siteId;
+ useEffect(()=>{let stopped=false;async function refresh(){try{const [s,h]=await Promise.all([api<Schedule>(base+'/schedule'),api<Run[]>(base+'/history')]);if(!stopped){setSchedule(s);setHistory(h);setError('');}}catch(e){if(!stopped)setError(e instanceof Error?e.message:'Unavailable');}}void refresh();const timer=setInterval(refresh,10000);return()=>{stopped=true;clearInterval(timer);};},[siteId]);
+ useEffect(()=>{if(schedule)setFrequency(schedule.frequency);},[schedule?.frequency]);
+ async function save(){setBusy(true);try{setSchedule(await api<Schedule>(base+'/schedule',{frequency}));setError('');}catch(e){setError(e instanceof Error?e.message:'Unable to save');}finally{setBusy(false);}}
+ return <section className="card"><span className="eyebrow">ONGOING REVIEW</span><h2>Scheduled rechecks & change history</h2><p>Rechecks only inspect your site. Publishing still needs approval.</p>{error&&<p role="alert">{error}</p>}
+ <label htmlFor="recheck-frequency">Recheck frequency</label><select id="recheck-frequency" value={frequency} disabled={busy||!schedule} onChange={e=>setFrequency(e.target.value)}><option value="off">Paused</option><option value="daily">Daily</option><option value="weekly">Weekly</option></select><button disabled={busy||!schedule||schedule.frequency===frequency} onClick={save}>Save schedule</button>
+ <p>{schedule?.frequency==='off'?'Scheduled rechecks are paused.':schedule?.next_due?'Next due: '+new Date(schedule.next_due).toLocaleString():'Loading schedule…'}</p><p className="notice">Core background workers run rechecks independently of this dashboard and API. Workers must be configured and running. Missed intervals produce one catch-up check. Pausing cancels queued checks; an audit already reading may finish.</p>
+ <h3>Recent audits</h3><p>Latest 20 finished attempts. Changes describe observed evidence, not search rankings or proof that our edits caused an improvement.</p>{!history.length?<p>No finished audit yet.</p>:history.map(run=><details key={run.id}><summary>{new Date(run.created_at).toLocaleString()} · {run.state} · {run.checked} URLs processed</summary>{run.changes.map((change,index)=><p key={index}>{change.title&&<strong>{change.title}: </strong>}{change.message}</p>)}</details>)}
+ </section>;
+}
