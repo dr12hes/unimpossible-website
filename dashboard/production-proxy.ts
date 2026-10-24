@@ -14,7 +14,7 @@ export function productionProxy(config:{key:string;tenant:string;site:string}){
   try{
    let body:string|undefined;
    if(description){
-    let raw='';for await(const chunk of req){raw+=chunk.toString();if(Buffer.byteLength(raw)>4096)return send(413,'Request too large');}
+    const chunks:Buffer[]=[];let size=0;for await(const chunk of req){const bytes=Buffer.from(chunk);size+=bytes.length;if(size>4096)return send(413,'Request too large');chunks.push(bytes);}const raw=Buffer.concat(chunks).toString('utf8');
     let value;try{value=JSON.parse(raw);}catch{return send(422,'Invalid description request');}
     if(!value||typeof value!=='object'||Array.isArray(value)||!['draft','approve','publish','verify','undo'].includes(value.action)||Object.keys(value).some(k=>!['action','page_id','key','description'].includes(k)))return send(422,'Invalid description request');
     body=JSON.stringify(value);
