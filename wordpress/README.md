@@ -62,3 +62,9 @@ scanner health, anonymous plugin denial, browser chatbot load and dashboard audi
 No test enquiry/email sent. No new framework or broad Core release suite.
 The live technical baseline is separate from search/traffic measurement: Google
 Search Console and AI referral reporting have not been connected by this migration.
+
+## Measurement update
+
+Search Console verification and anonymous server-side referral counters are now active.
+See [measurement setup and limits](metrics/README.md). Google data is initially pending;
+this supersedes the earlier unconnected-measurement status above.
