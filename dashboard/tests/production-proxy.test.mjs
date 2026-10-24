@@ -37,3 +37,22 @@ test('description actions keep the fixed site and reject caller target fields',a
   assert.deepEqual(JSON.parse(sent.options.body),{action:'approve',key:'a'.repeat(36),description:'Reviewed text'});
  }finally{globalThis.fetch=original;}
 });
+
+test('Google return requires initiating browser cookie and exchanges code server-side',async()=>{
+ const {createHash}=await import('node:crypto');const original=globalThis.fetch;let sent;
+ globalThis.fetch=async(url,options)=>{sent={url,options};return {ok:true,status:200,json:async()=>({connected:true})};};
+ const state='website-metrics.signed';const request={url:'/api/production-results/google-return?state='+state+'&code=private',method:'GET',headers:{host:'127.0.0.1:5187','sec-fetch-site':'cross-site'}};
+ try{
+  const denied=response();await handler(request,denied);assert.equal(denied.statusCode,403);assert.equal(sent,undefined);
+  const res=response();await handler({...request,headers:{...request.headers,cookie:'unimp_google='+createHash('sha256').update(state).digest('hex')}},res);
+  assert.equal(res.statusCode,303);assert.equal(res.headers.Location,'/?google=connected');
+  assert.equal(JSON.parse(sent.options.body).action,'google_finish');assert.equal(sent.options.method,'POST');assert.ok(sent.url.endsWith('/metrics'));
+ }finally{globalThis.fetch=original;}
+});
+
+test('Google start hides state from JavaScript and sets a short-lived HttpOnly cookie',async()=>{
+ const original=globalThis.fetch;globalThis.fetch=async()=>({ok:true,status:200,json:async()=>({state:'signed',url:'https://accounts.google.com/test'})});
+ try{const res=response();await handler({url:'/api/production-results/metrics',method:'POST',headers:{host:'127.0.0.1:5187',origin:'http://127.0.0.1:5187'},async *[Symbol.asyncIterator](){yield JSON.stringify({action:'google_start'});}},res);
+ assert.equal(JSON.parse(res.body).state,undefined);assert.match(res.headers['Set-Cookie'],/HttpOnly; SameSite=Lax/);
+ }finally{globalThis.fetch=original;}
+});

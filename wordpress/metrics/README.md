@@ -54,3 +54,17 @@ Actual nginx checks covered all eight sources, a spoofed hostname, asset request
 known bot and empty real baseline. nginx configuration and logrotate syntax passed.
 One real server timer invocation wrote the private report. No load test, new test
 framework, tracking script, tracking cookies or analytics service was introduced.
+
+## Dashboard import slice
+
+Plugin 0.4.2 adds a connection-authenticated read endpoint for this aggregate.
+The directory/file become root:www-data 0750/0640 so PHP can read, but cannot
+write, the totals. Raw logs are not exported. Core's `website_metrics` CPU job
+retains Google daily totals and referral history, with per-source errors and
+freshness; configuration is restricted to the exact site. Google consent begins
+in Unimpossible and returns there, without a Core staff login. The loopback
+server keeps the scoped key and browser-binding cookie out of JavaScript.
+
+Implementation checks: dashboard build and six proxy-boundary cases; Core
+property/owner/state, stale-worker, independent source failure and data-validation
+checks. Live consent and production daily-import proof remain pending deployment.
