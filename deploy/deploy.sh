@@ -27,6 +27,8 @@
 # (default ~/.ssh/hetzner_dedicated when it exists), UNIMP_VPS2 / UNIMP_VPS2_IP (a second server, only used when set;
 # reached through VPS1 as a jump host unless UNIMP_VPS2_DIRECT=1), UNIMP_REMOTE_DIR.
 set -euo pipefail
+echo "Static deployment retired: the canonical website now runs on isolated-vm WordPress. See wordpress/README.md." >&2
+exit 1
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
 REMOTE_DIR="${UNIMP_REMOTE_DIR:-/home/docker/unimpossible}"
 VPS1="${UNIMP_VPS1:-root@46.4.219.113}"

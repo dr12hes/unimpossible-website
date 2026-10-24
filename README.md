@@ -1,5 +1,7 @@
 # unimpossible.co.uk
 
+**24 October 2026: the canonical site now runs on WordPress.** See [WordPress operations](wordpress/README.md). The static deployment instructions below describe the retained pre-migration implementation; `deploy/deploy.sh` is disabled to prevent an accidental rollback.
+
 The UNimpossible website: one static page, no build step, no framework.
 
 ```
