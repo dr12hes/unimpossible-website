@@ -12,7 +12,7 @@ Older sitemap submissions were retained as history.
 
 Open https://search.google.com/search-console?resource_id=sc-domain%3Aunimpossible.co.uk
 for clicks, impressions, CTR and average position. Google's own reporting is now
-active; the Unimpossible OAuth connection is deployed and awaiting user consent. No new
+active; the Unimpossible OAuth connection is live. No new
 Google API credential or third-party analytics subscription was created.
 
 ## Referral counts
@@ -75,5 +75,9 @@ empty baseline (zero attributed requests), source freshness and next due time.
 Only the existing exact-site key gained `metrics:write`; its value/expiry and
 publication approval remain unchanged. Optaro Production metadata was updated.
 Google consent was started from the dashboard as david@unimpossible.co.uk;
-user consent and the first Google import remain unverified. Google uses the
+user consent succeeded and the first production Google/referral import completed
+at 2026-10-24 15:48:38 UTC with no provider errors. Google returned no rows
+for 2026-07-24 through 2026-10-21; this is not a confirmed zero-search baseline.
+Next metrics import: 2026-10-25 15:48:39 UTC. Dashboard verified both source
+import times, exact property, empty baseline and next due time. Google uses the
 existing Optaro OAuth app; the user does not sign into Core.
