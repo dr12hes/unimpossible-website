@@ -25,3 +25,15 @@ test('audit requests require same origin and use only the fixed audit endpoint',
   assert.equal(res.statusCode,202);assert.equal(sent.url,'https://core.optaro.io/api/v1/integration/websites/'+'a'.repeat(32)+'/audits');assert.equal(sent.options.method,'POST');assert.equal(sent.options.body,undefined);
  }finally{globalThis.fetch=original;}
 });
+
+test('description actions keep the fixed site and reject caller target fields',async()=>{
+ const original=globalThis.fetch;let sent;
+ globalThis.fetch=async(url,options)=>{sent={url,options};return {ok:true,status:200,json:async()=>({state:'ready'})};};
+ const req=value=>({url:'/api/production-results/descriptions',method:'POST',headers:{host:'127.0.0.1:5187',origin:'http://127.0.0.1:5187'},async *[Symbol.asyncIterator](){yield JSON.stringify(value);}});
+ try{
+  const denied=response();await handler(req({action:'draft',page_id:4,url:'https://evil.test'}),denied);assert.equal(denied.statusCode,422);assert.equal(sent,undefined);
+  const res=response();await handler(req({action:'approve',key:'a'.repeat(36),description:'Reviewed text'}),res);
+  assert.equal(sent.url,'https://core.optaro.io/api/v1/integration/websites/'+'a'.repeat(32)+'/descriptions');
+  assert.deepEqual(JSON.parse(sent.options.body),{action:'approve',key:'a'.repeat(36),description:'Reviewed text'});
+ }finally{globalThis.fetch=original;}
+});
