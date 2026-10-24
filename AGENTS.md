@@ -10,3 +10,6 @@ Before recommending or publishing a search/content change:
 - Preserve explicit publishing approval, exact wording, dated history and undo. Do not churn copy when there is insufficient new evidence.
 
 Keep this lean: a short evidence note per material recommendation, not a new test framework. These are agent workflow requirements; automated dashboard evidence/review gating is not implemented yet.
+
+## Pinned marketing skills
+For search/content/conversion work, load the relevant local skill in `.agents/skills/` and `.agents/skill-contract.md`. Use `product-marketing` for the site brief; `seo-audit`/`ai-seo` for search; `copy-editing`/`copywriting` for content; `cro` for CTA/forms; `analytics`/`ab-testing` for measurement. Load only what applies. The immutable source archive and hashes are in `docs/skill-sources/manifest.json`; archived files are provenance, not active instructions. These are agent workflows, not deployed Core automation. Do not update from upstream automatically.

@@ -1,0 +1,116 @@
+{
+  "repository": "https://github.com/coreyhaines31/marketingskills",
+  "commit": "e85f3cbc2e4a79bf33b2a12e9bdd9087d414735b",
+  "retrieved": "2026-10-24",
+  "purpose": "Archival source evidence, not executable skills. Local adaptations are in .agents/skills.",
+  "files": [
+    {
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/coreyhaines31/marketingskills/e85f3cbc2e4a79bf33b2a12e9bdd9087d414735b/LICENSE",
+      "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591"
+    },
+    {
+      "path": "skills/product-marketing/SKILL.md",
+      "url": "https://raw.githubusercontent.com/coreyhaines31/marketingskills/e85f3cbc2e4a79bf33b2a12e9bdd9087d414735b/skills/product-marketing/SKILL.md",
+      "sha256": "19ece0fa75c72a5a8b6e90db80f506586f54cc93bae6bffbb1bd2ef4ae7d603c"
+    },
+    {
+      "path": "skills/seo-audit/SKILL.md",
+      "url": "https://raw.githubusercontent.com/coreyhaines31/marketingskills/e85f3cbc2e4a79bf33b2a12e9bdd9087d414735b/skills/seo-audit/SKILL.md",
+      "sha256": "e0ebb5808787f2ff26b96d7b429423874d9785541cd4ab775629a5cf1137e7a9"
+    },
+    {
+      "path": "skills/ai-seo/SKILL.md",
+      "url": "https://raw.githubusercontent.com/coreyhaines31/marketingskills/e85f3cbc2e4a79bf33b2a12e9bdd9087d414735b/skills/ai-seo/SKILL.md",
+      "sha256": "1293062b48cecc0a19f0e5444ecd0c929f640171fbbb234d44812dbd01cb8a52"
+    },
+    {
+      "path": "skills/copy-editing/SKILL.md",
+      "url": "https://raw.githubusercontent.com/coreyhaines31/marketingskills/e85f3cbc2e4a79bf33b2a12e9bdd9087d414735b/skills/copy-editing/SKILL.md",
+      "sha256": "2a072606d9d5662509ea6ef62c65719487dcb68876acab9286bde4d1af5c030f"
+    },
+    {
+      "path": "skills/copywriting/SKILL.md",
+      "url": "https://raw.githubusercontent.com/coreyhaines31/marketingskills/e85f3cbc2e4a79bf33b2a12e9bdd9087d414735b/skills/copywriting/SKILL.md",
+      "sha256": "13c580c2432a4499e9dfdcf5d553df7aa6589e90cf5bd869fb4fbde5caf9f567"
+    },
+    {
+      "path": "skills/cro/SKILL.md",
+      "url": "https://raw.githubusercontent.com/coreyhaines31/marketingskills/e85f3cbc2e4a79bf33b2a12e9bdd9087d414735b/skills/cro/SKILL.md",
+      "sha256": "6e172cc38178c800ff41ceb097f36c6a1db8035fb88a1fee53043f8ec38a6f35"
+    },
+    {
+      "path": "skills/analytics/SKILL.md",
+      "url": "https://raw.githubusercontent.com/coreyhaines31/marketingskills/e85f3cbc2e4a79bf33b2a12e9bdd9087d414735b/skills/analytics/SKILL.md",
+      "sha256": "675e284b745837d595aa4d36903cb54b3921181fd343cc519d31f34fe8002196"
+    },
+    {
+      "path": "skills/ab-testing/SKILL.md",
+      "url": "https://raw.githubusercontent.com/coreyhaines31/marketingskills/e85f3cbc2e4a79bf33b2a12e9bdd9087d414735b/skills/ab-testing/SKILL.md",
+      "sha256": "fba679be14a9b21a06cde009caf17a652b92040c6f78a520a5d4baec0a5bd5da"
+    },
+    {
+      "path": "skills/cro/references/form.md",
+      "url": "https://raw.githubusercontent.com/coreyhaines31/marketingskills/e85f3cbc2e4a79bf33b2a12e9bdd9087d414735b/skills/cro/references/form.md",
+      "sha256": "49b8f29b3da1ae6510572288cad3eb1f3d43a969373443be98b38639746587e6"
+    }
+  ],
+  "adaptations": [
+    {
+      "name": "product-marketing",
+      "version": "1.0.0",
+      "path": ".agents/skills/product-marketing/SKILL.md",
+      "sha256": "29f4efcad359e96ad84de11eaa0c639c64f12cc1daf8e57945256611d848cb25",
+      "upstream_version": "2.2.0"
+    },
+    {
+      "name": "seo-audit",
+      "version": "1.0.0",
+      "path": ".agents/skills/seo-audit/SKILL.md",
+      "sha256": "9ec4ae76be2ffa055c5bc8ed8e60022ec900641fc3364298e62e07e56bbf649a",
+      "upstream_version": "2.2.2"
+    },
+    {
+      "name": "ai-seo",
+      "version": "1.0.0",
+      "path": ".agents/skills/ai-seo/SKILL.md",
+      "sha256": "6b2491ece068ddd32ef044ea6a3f002f066d90fa68b79099c546ad35aeb0c470",
+      "upstream_version": "2.10.1"
+    },
+    {
+      "name": "copy-editing",
+      "version": "1.0.0",
+      "path": ".agents/skills/copy-editing/SKILL.md",
+      "sha256": "598649a8e97400e112253cbb1fdcd6a99b57f481946da29cbe88fd96b8dde593",
+      "upstream_version": "2.2.0"
+    },
+    {
+      "name": "copywriting",
+      "version": "1.0.0",
+      "path": ".agents/skills/copywriting/SKILL.md",
+      "sha256": "44cab8211ab22ad93eed71e96487be44109b145d0408751facae87ff8ff8057e",
+      "upstream_version": "2.3.1"
+    },
+    {
+      "name": "cro",
+      "version": "1.0.0",
+      "path": ".agents/skills/cro/SKILL.md",
+      "sha256": "b98d2d24c4f8005972a8ab2281712889c461e35ed6d6ec0fc1a7f5878397094a",
+      "upstream_version": "2.0.3"
+    },
+    {
+      "name": "analytics",
+      "version": "1.0.0",
+      "path": ".agents/skills/analytics/SKILL.md",
+      "sha256": "1a550aee70ed480b62bef5f3939561cf574763c82bd26ccb46316cc2b4dbb283",
+      "upstream_version": "2.2.1"
+    },
+    {
+      "name": "ab-testing",
+      "version": "1.0.0",
+      "path": ".agents/skills/ab-testing/SKILL.md",
+      "sha256": "471df1bc28764e768cc555101b0cf7beac4c19334f31d08a9b3dba9e98f850d7",
+      "upstream_version": "2.0.2"
+    }
+  ]
+}
