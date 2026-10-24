@@ -1,24 +1,30 @@
 import {useState} from 'react';
-export type DescriptionWork={id:string;state:string;page_id:number;title:string;url:string;before:string|null;description:string;source:string;message?:string;public_verified:boolean};
+type TimelineEvent={kind:string;at:string|null;description?:string|null;note?:string;legacy?:boolean};
+const eventLabels:Record<string,string>={suggested:'Suggested',revised:'Draft revised',approved:'Approved',published:'Published — WordPress confirmed',verified:'Verified on the staging page',undo_requested:'Undo requested',undo_applied:'Undo applied — WordPress confirmed',undone:'Undone and verified',conflict:'Stopped: page changed',rejected:'Write rejected',unknown:'Write outcome unknown',verification_pending:'Verification pending'};
+function SuggestionTimeline({events}:{events:TimelineEvent[]}){
+ return <details><summary>Suggestion timeline · {events.length} events</summary><p><small>Dates show when Core recorded each action, in your local time. Earlier pilot records may have missing dates.</small></p><ol style={{paddingLeft:24}}>{events.map((event,i)=><li key={i} style={{marginBottom:16}}><strong>{eventLabels[event.kind]??event.kind}</strong><br/>{event.at?<time dateTime={event.at}>{new Date(event.at).toLocaleString(undefined,{dateStyle:'medium',timeStyle:'long'})}</time>:<span>Date not recorded — earlier pilot</span>}{Object.hasOwn(event,'description')&&<p style={{margin:'4px 0'}}>{event.description??'No search description'}</p>}{event.note&&<p style={{margin:'4px 0'}}><small>{event.note}</small></p>}</li>)}</ol></details>;
+}
+export type DescriptionWork={id:string;state:string;page_id:number;title:string;url:string;before:string|null;description:string;source:string;message?:string;public_verified:boolean;timeline?:TimelineEvent[]};
 export async function descriptionAction(body:object){
  const r=await fetch('/api/production-results/descriptions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
  const value=await r.json();if(!r.ok)throw new Error(value.detail||'Description action failed.');return value;
 }
-function Draft({work,changed}:{work:DescriptionWork;changed:()=>void}){
+function Draft({work,changed,canWrite}:{work:DescriptionWork;changed:()=>void;canWrite:boolean}){
  const [text,setText]=useState(work.description);const [busy,setBusy]=useState(false);const [error,setError]=useState('');
  async function act(action:string){setBusy(true);setError('');try{await descriptionAction({action,key:work.id,...(action==='approve'?{description:text}:{})});changed();}catch(e){setError(e instanceof Error?e.message:'Action failed');}finally{setBusy(false);}}
  return <article className="card"><span className="status">{work.state==='ready'?'Awaiting your approval':work.state.replaceAll('_',' ')}</span><h3>{work.title}</h3><p>{work.url}</p><p><strong>Before:</strong> {work.before??'No search description'}</p>
- {work.state==='ready'?<label>Proposed search description<textarea rows={3} maxLength={320} value={text} onChange={e=>setText(e.target.value)} style={{width:'100%',boxSizing:'border-box',minHeight:90,fontFamily:'inherit'}}/><small>{text.length} characters · review for accuracy and clarity</small></label>:<p><strong>Approved description:</strong> {work.description}</p>}
+ {work.state==='ready'&&canWrite?<label>Proposed search description<textarea rows={3} maxLength={320} value={text} onChange={e=>setText(e.target.value)} style={{width:'100%',boxSizing:'border-box',minHeight:90,fontFamily:'inherit'}}/><small>{text.length} characters · review for accuracy and clarity</small></label>:<p><strong>{work.state==='ready'?'Proposed description:':'Approved description:'}</strong> {work.description}</p>}
  <details><summary>Source paragraph used for the draft</summary><p>{work.source}</p></details>
+ <SuggestionTimeline events={work.timeline??[]}/>
  <div className="actions">
- {work.state==='ready'&&<button disabled={busy||!text.trim()} onClick={()=>void act('approve')}>Approve this description</button>}
- {work.state==='approved'&&<button disabled={busy} onClick={()=>void act('publish')}>Publish approved description to staging</button>}
- {['applying','unknown','verifying','verification_pending','undo_pending'].includes(work.state)&&<button disabled={busy} onClick={()=>void act('verify')}>Verify / recover result</button>}
- {work.state==='published'&&<><span>Verified on the rendered staging page</span><button className="secondary" disabled={busy} onClick={()=>void act('undo')}>Undo description</button></>}
+ {canWrite&&work.state==='ready'&&<button disabled={busy||!text.trim()} onClick={()=>void act('approve')}>Approve this description</button>}
+ {canWrite&&work.state==='approved'&&<button disabled={busy} onClick={()=>void act('publish')}>Publish approved description to staging</button>}
+ {canWrite&&['applying','unknown','verifying','verification_pending','undo_pending'].includes(work.state)&&<button disabled={busy} onClick={()=>void act('verify')}>Verify / recover result</button>}
+ {work.state==='published'&&<><span>Verified on the rendered staging page</span>{canWrite&&<button className="secondary" disabled={busy} onClick={()=>void act('undo')}>Undo description</button>}</>}
  {work.state==='undone'&&<span>Original description restored and verified</span>}
  </div>{work.message&&<p>{work.message}</p>}{error&&<p className="error" role="alert">{error}</p>}{busy&&<p role="status">Checking with Core…</p>}
  </article>;
 }
-export function Descriptions({items,changed}:{items:DescriptionWork[];changed:()=>void}){
- return <section className="card"><span className="eyebrow">SEARCH DESCRIPTIONS</span><h2>Review, approve and publish</h2><p>Drafts use existing page text. Review and edit them before approval. Approval saves the exact text; publishing is a separate action. Staging stays blocked from search indexing.</p>{items.length?items.map(work=><Draft key={work.id+':'+work.state+':'+work.description} work={work} changed={changed}/>):<p>Choose “Draft description” beside a missing-description finding below.</p>}</section>;
+export function Descriptions({items,changed,canWrite}:{items:DescriptionWork[];changed:()=>void;canWrite:boolean}){
+ return <section className="card"><span className="eyebrow">SEARCH DESCRIPTIONS</span><h2>Suggestions and change history</h2><p>Drafts use existing page text. Review and edit them before approval. Approval saves the exact text; publishing is a separate action. Staging stays blocked from search indexing.</p>{items.length?items.map(work=><Draft key={work.id+':'+work.state+':'+work.description} work={work} changed={changed} canWrite={canWrite}/>):<p>Choose “Draft description” beside a missing-description finding below.</p>}</section>;
 }
