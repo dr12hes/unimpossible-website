@@ -56,3 +56,13 @@ test('Google start sets a short-lived HttpOnly browser-binding cookie',async()=>
  assert.equal(JSON.parse(res.body).state,undefined);assert.match(res.headers['Set-Cookie'],/HttpOnly; SameSite=Lax/);
  }finally{globalThis.fetch=original;}
 });
+test('test email settings are same-origin, fixed-site and reject manual review payloads',async()=>{
+ const original=globalThis.fetch;let sent;globalThis.fetch=async(url,options)=>{sent={url,options};return {ok:true,status:200,json:async()=>({emails:[]})};};
+ const req=(value,origin='http://127.0.0.1:5187')=>({url:'/api/production-results/test-emails',method:'POST',headers:{host:'127.0.0.1:5187',origin},async *[Symbol.asyncIterator](){yield JSON.stringify(value);}});
+ try{
+  const bad=response();await handler(req({emails:[],submission_id:41}),bad);assert.equal(bad.statusCode,422);assert.equal(sent,undefined);
+  const foreign=response();await handler(req({emails:[]},'https://evil.test'),foreign);assert.equal(foreign.statusCode,403);
+  const good=response();await handler(req({emails:['test@example.com'],expected:null,request_id:'id'}),good);assert.equal(good.statusCode,200);assert.ok(sent.url.endsWith('/'+'a'.repeat(32)+'/test-emails'));
+  const removed=response();await handler({...req({}),url:'/api/production-results/enquiries'},removed);assert.equal(removed.statusCode,404);
+ }finally{globalThis.fetch=original;}
+});

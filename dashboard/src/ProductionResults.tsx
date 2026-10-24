@@ -1,11 +1,12 @@
 import {useEffect,useState} from 'react';
 import './polish.css';
 import {Metrics,type MetricsData,type EnquiryData} from './Metrics';
+import {TestEmails} from './TestEmails';
 import {Impact} from './Impact.tsx';
 import type {ChangeRecord} from './impact-data';
 import {Descriptions,descriptionAction,type DescriptionWork} from './Descriptions';
 type Change={title?:string;message:string};
-type Result={changes?:ChangeRecord[];enquiries?:EnquiryData|null;metrics?:MetricsData|null;permissions:{publish?:boolean;metrics_write?:boolean;audits_run?:boolean;descriptions_write?:boolean};descriptions:DescriptionWork[];source:string;fetched_at:string;site:{name:string;url:string;approval_required:boolean};schedule:{frequency:string;next_due:string|null;last_started:string|null};history:{id:string;state:string;created_at:string;checked:number;total:number|null;changes:Change[]}[];audit:null|{id:string;state:string;updated_at:string;payload:{total:number|null;selected:number;completed:number;audited:number;failed:number;skipped:number;exclusions?:string;message?:string;priorities:{id:string;page_id:number;page_title:string;title:string;priority:string;priority_reason:string;evidence:string}[];pages:{page_id:number;title:string;state:string;message?:string}[]}}};
+type Result={changes?:ChangeRecord[];enquiries?:EnquiryData|null;metrics?:MetricsData|null;permissions:{test_emails_manage?:boolean;publish?:boolean;metrics_write?:boolean;audits_run?:boolean;descriptions_write?:boolean};descriptions:DescriptionWork[];source:string;fetched_at:string;site:{name:string;url:string;approval_required:boolean};schedule:{frequency:string;next_due:string|null;last_started:string|null};history:{id:string;state:string;created_at:string;checked:number;total:number|null;changes:Change[]}[];audit:null|{id:string;state:string;updated_at:string;payload:{total:number|null;selected:number;completed:number;audited:number;failed:number;skipped:number;exclusions?:string;message?:string;priorities:{id:string;page_id:number;page_title:string;title:string;priority:string;priority_reason:string;evidence:string}[];pages:{page_id:number;title:string;state:string;message?:string}[]}}};
 const date=(value:string|null)=>value?new Date(value).toLocaleString(): 'Not recorded';
 export function ProductionResults(){
  const [all,setAll]=useState(false);const [data,setData]=useState<Result>();const [error,setError]=useState('');const [busy,setBusy]=useState(true);const [refresh,setRefresh]=useState(0);
@@ -27,6 +28,7 @@ export function ProductionResults(){
  {error&&<p role="alert" className="error">{error} Saved results are not being shown as current.</p>}{!data&&!error&&<p role="status">Loading production results…</p>}
  {data&&<><section className="card site-overview"><div><span className="eyebrow">CONNECTED WEBSITE</span><h2>{data.site.name}</h2><a href={data.site.url} target="_blank" rel="noreferrer">{data.site.url}</a><p className="site-note">Your connected WordPress website</p></div><div className="schedule-summary"><span className="eyebrow">SCHEDULED RECHECKS</span><h3>{data.schedule.frequency==='off'?'Paused':data.schedule.frequency==='weekly'?'Every week':'Every day'}</h3><p>{data.schedule.frequency==='off'?'No automatic recheck is scheduled.':`Next due: ${date(data.schedule.next_due)}`}</p><details><summary>Schedule details</summary><p>Last started: {date(data.schedule.last_started)}</p><p>Core workers run independently of this dashboard. The due time is not a guarantee of immediate completion.</p></details></div></section>
  <Metrics data={data.metrics} canWrite={!!data.permissions.metrics_write} changed={()=>setRefresh(n=>n+1)}/>
+ {data.permissions.test_emails_manage&&<TestEmails changed={()=>setRefresh(n=>n+1)}/>}
  <Impact data={data.metrics?{...data.metrics,enquiries:data.enquiries}:null} items={[...(data.descriptions||[]),...(data.changes||[])]} url={data.site.url}/>
  {liveSite&&canWrite&&<section className="card"><h2>Improve the homepage description</h2><p>Prepare a revision of the existing description. Nothing is published until you approve the wording and choose Publish.</p><button disabled={requesting} onClick={()=>void draftDescription(4)}>Draft homepage description</button></section>}
  <Descriptions items={data.descriptions||[]} siteUrl={data.site.url} canWrite={canWrite} changed={()=>setRefresh(n=>n+1)}/>
