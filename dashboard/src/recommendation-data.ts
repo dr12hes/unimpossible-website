@@ -1,0 +1,4 @@
+import type {ChangeRecord} from './impact-data';
+export type Recommendation={id:string;recorded_at:string;title:string;url:string;decision:'retain'|'change';observed_on:string;observation:string;audience:string;changes:{label:string;before:string;after:string}[];rationale:string;sources:{title:string;url:string;reviewed_on:string;strength:string}[];applicability:string;downside:string;rationale_confidence:string;outcome_confidence:string;baseline:string;measurement:string;review:{on:string;by:string;conclusion:string;workflow:string;version:string};work_id:string|null};
+export function safeEvidenceUrl(value:string){try{const u=new URL(value);return ['https:','http:'].includes(u.protocol)&&!u.username&&!u.password?u.href:undefined;}catch{return undefined;}}
+export function linkedWork(item:Recommendation,works:ChangeRecord[]){return works.find(work=>work.id===item.work_id&&work.url===item.url);}

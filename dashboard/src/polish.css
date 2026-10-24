@@ -12,3 +12,18 @@
 .metrics-panels{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:28px}.metrics-panels article{min-width:0}.metrics-panels article+article{border-left:1px solid #e4e7eb;padding-left:32px}.metric-bars{display:flex;align-items:end;gap:4px;height:100px;margin:24px 0}.metric-bars>div{height:100%;flex:1;display:flex;align-items:end}.metric-bars span{display:block;width:100%;background:#387769;border-radius:4px 4px 0 0}.metric-empty{padding:28px 0;color:#69737a}@media(max-width:760px){.metrics-panels{grid-template-columns:1fr}.metrics-panels article+article{border-left:0;border-top:1px solid #e4e7eb;padding:24px 0 0}}
 
 .impact-label{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:24px 0;font-weight:600}.impact-label select{font:inherit;color:var(--ink);background:white;border:1px solid var(--line);border-radius:8px;padding:10px;max-width:100%}.impact-scroll{overflow:auto;max-height:480px;border:1px solid var(--line);border-radius:12px}.impact-table{width:100%;border-collapse:collapse;font-size:.85rem;text-align:left}.impact-table caption{text-align:left;padding:14px;color:var(--quiet)}.impact-table th,.impact-table td{padding:12px;border-top:1px solid var(--line);vertical-align:top}.impact-table thead th{background:var(--wash);position:sticky;top:0}.impact-table tbody th{white-space:nowrap;font-weight:500}.impact-table td:last-child{min-width:190px}.impact-table td>div+div{margin-top:10px}.impact-comparisons{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}.impact-comparisons article{background:var(--wash);padding:18px;border-radius:12px}.impact-comparisons strong{font-size:1.6rem}.impact-label select:focus-visible,.impact-scroll:focus-visible{outline:3px solid #387769;outline-offset:3px}
+
+/* Evidence stays readable; native disclosures keep supporting detail out of the main path. */
+.recommendation{padding:1.5rem 0;border-top:1px solid var(--line,#dce3df)}
+.recommendation:first-of-type{margin-top:1.5rem}
+.recommendation-heading{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.recommendation h3{margin:.75rem 0;font-size:1.3rem;line-height:1.25}
+.recommendation h4{margin:1.25rem 0 .4rem;font-size:1rem}
+.recommendation-reason{max-width:70ch}
+.recommendation details{margin-top:1rem}
+.recommendation summary{padding:.6rem 0;font-weight:600;cursor:pointer}
+.recommendation-copy{padding:0 1rem;border-left:3px solid #cedbd3;margin:1.25rem 0}
+.recommendation-confidence{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));gap:1rem}
+.recommendation a{overflow-wrap:anywhere}
+.recommendation li{margin-bottom:.75rem}
+#change-impact{scroll-margin-top:1rem}

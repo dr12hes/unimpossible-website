@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import type {Recommendation} from './recommendation-data';
 type TimelineEvent={kind:string;at:string|null;description?:string|null;note?:string;legacy?:boolean};
 const eventLabels:Record<string,string>={suggested:'Suggested',revised:'Draft revised',approved:'Approved',published:'Published — WordPress confirmed',verified:'Verified on the public page',undo_requested:'Undo requested',undo_applied:'Undo applied — WordPress confirmed',undone:'Undone and verified',conflict:'Stopped: page changed',rejected:'Write rejected',unknown:'Write outcome unknown',verification_pending:'Verification pending'};
 function SuggestionTimeline({events}:{events:TimelineEvent[]}){
@@ -10,12 +11,14 @@ export async function descriptionAction(body:object){
  const r=await fetch('/api/production-results/descriptions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
  const value=await r.json();if(!r.ok)throw new Error(value.detail||'Description action failed.');return value;
 }
-function Draft({work,changed,canWrite}:{work:DescriptionWork;changed:()=>void;canWrite:boolean}){
+function Draft({work,changed,canWrite,recommendations}:{work:DescriptionWork;changed:()=>void;canWrite:boolean;recommendations:Recommendation[]}){
  const [text,setText]=useState(work.description);const [busy,setBusy]=useState(false);const [error,setError]=useState('');
  async function act(action:string){setBusy(true);setError('');try{await descriptionAction({action,key:work.id,...(action==='approve'?{description:text}:{})});changed();}catch(e){setError(e instanceof Error?e.message:'Action failed');}finally{setBusy(false);}}
  return <article className="card description-card"><span className={`status ${work.state}`}>{work.state==='ready'?'Awaiting your approval':work.state.replaceAll('_',' ')}</span><h3>{work.title}</h3><p className="page-url">{work.url}</p><p className="before-copy"><strong>Before:</strong> {work.before??'No search description'}</p>
  {work.state==='ready'&&canWrite?<label>Proposed search description<textarea rows={3} maxLength={320} value={text} onChange={e=>setText(e.target.value)} style={{width:'100%',boxSizing:'border-box',minHeight:90,fontFamily:'inherit'}}/><small>{text.length} characters · review for accuracy and clarity</small></label>:<p className="approved-copy"><strong>{work.state==='ready'?'Proposed description:':'Approved description:'}</strong> {work.description}</p>}
  <details><summary>Source paragraph used for the draft</summary><p>{work.source}</p></details>
+ {recommendations.filter(item=>item.work_id===work.id&&item.url===work.url).map(item=><p key={item.id}><a href={`#recommendation-${item.id}`}>Read the dated evidence review ↑</a></p>)}
+ {work.state==='ready'&&!recommendations.some(item=>item.work_id===work.id&&item.url===work.url)&&<p className="notice">Page excerpt only. No evidence review is attached to this draft; check the facts, reasoning and risks before approving.</p>}
  <SuggestionTimeline events={work.timeline??[]}/>
  <div className="actions">
  {canWrite&&work.state==='ready'&&<button disabled={busy||!text.trim()} onClick={()=>void act('approve')}>Approve this description</button>}
@@ -26,6 +29,6 @@ function Draft({work,changed,canWrite}:{work:DescriptionWork;changed:()=>void;ca
  </div>{work.message&&<p>{work.message}</p>}{error&&<p className="error" role="alert">{error}</p>}{busy&&<p role="status">Checking with Core…</p>}
  </article>;
 }
-export function Descriptions({items,changed,canWrite,siteUrl}:{items:DescriptionWork[];changed:()=>void;canWrite:boolean;siteUrl?:string}){
- return <section className="card suggestions-section"><span className="eyebrow">SEARCH DESCRIPTIONS</span><h2>Suggestions and change history</h2><p>Clear descriptions help explain each page. Review the wording, approve it, then publish when you are ready.</p>{items.length?items.map(work=><Draft key={work.id+':'+work.state+':'+work.description} work={work} changed={changed} canWrite={canWrite&&(!siteUrl||new URL(work.url).origin===new URL(siteUrl).origin)}/>):<p>{canWrite?'Choose “Draft description” beside a missing-description finding below.':'No suggestions have been drafted yet.'}</p>}</section>;
+export function Descriptions({items,changed,canWrite,siteUrl,recommendations=[]}:{items:DescriptionWork[];changed:()=>void;canWrite:boolean;siteUrl?:string;recommendations?:Recommendation[]}){
+ return <section className="card suggestions-section"><span className="eyebrow">SEARCH DESCRIPTIONS</span><h2>Suggestions and change history</h2><p>Clear descriptions help explain each page. Review the wording, approve it, then publish when you are ready.</p>{items.length?items.map(work=><Draft key={work.id+':'+work.state+':'+work.description} work={work} recommendations={recommendations} changed={changed} canWrite={canWrite&&(!siteUrl||new URL(work.url).origin===new URL(siteUrl).origin)}/>):<p>{canWrite?'Choose “Draft description” beside a missing-description finding below.':'No suggestions have been drafted yet.'}</p>}</section>;
 }
