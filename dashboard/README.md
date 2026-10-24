@@ -45,3 +45,7 @@ The same read returns own-site aggregate retained homepage enquiry submissions f
 ## Test email settings
 
 The optional exact-site `test-emails:manage` key grant enables Test email addresses in the dashboard. Save applies the latest list to retained past and future enquiries; Undo records another version. The first saved list replaces old per-submission exclusions, while their audit stays visible. Read-only results expose only aggregate counts, not the settings emails. All controls stay localhost-only and publishing approval stays separate. Manual per-enquiry review was abandoned before deployment.
+
+## Recommendation evidence
+
+“Why this change?” reads dated evidence records from Core results: exact wording, observed page facts, sources, risks, rationale/outcome confidence, measurement and independent review provenance. The first records are the three previously reviewed own-site decisions, imported once. Linked publication/verification/undo dates come from existing work records, not review acceptance. Reviews are historical, not fresh page checks; no uplift is implied. New excerpt drafts explicitly show when no evidence review is attached. This slice adds no model generation, publication controls or permission; see `../docs/plan-2026-10-24-recommendation-evidence.md`.
