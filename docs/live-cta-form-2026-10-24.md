@@ -16,3 +16,7 @@ WordPress revisions and `_unimp_approved_copy_event` metadata retain publication
 Undo, only when authorised: on isolated-vm run `wp --allow-root --path=/var/www/unimpossible eval-file /root/unimp-undo-cta-form.php`. The script refuses if the body changed since this publication, checks backup integrity, restores only the body and records undo. Syntax checked; not executed against live content. Source in wordpress/operations/undo-cta-form.php. Do not rerun the publication script: its preflight deliberately rejects already-applied edits.
 
 Task outputs: live-cta-form-published.json and live-cta-form.png. These contain public verification evidence; credentials remain in 1Password.
+
+## Timeline follow-up
+
+The operator publication and public verification are now included in the dashboard impact timeline via Core release sha-7623f8f (PRs #2308/#2309). This supersedes the earlier note that the edit was absent from the dashboard. It is a read-only operator record, compared alongside search, AI referrals and retained homepage enquiry counts. See `plan-2026-10-24-operator-change-impact.md`.
