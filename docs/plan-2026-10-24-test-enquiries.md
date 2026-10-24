@@ -7,3 +7,9 @@ Core keeps append-only classification receipts in its existing operation store, 
 Reviewed IDs 41–45 are explicitly labelled internal tests. Four were counted as homepage submissions; one lacks source_page and remains outside that population. Receipt 86918cb5-6d07-48dc-9c02-68efc792b8db recorded 24 October 2026. SQL verification: all eight form submissions retained, zero non-test tagged homepage submissions, four excluded homepage tests. Other non-homepage submissions are not claimed to be leads.
 
 Validation: four focused Core tests, five impact tests and production-results TypeScript/Vite build. No new test framework. Deployment and browser proof to be recorded after release.
+
+## Delivered
+
+Core PR #2310 merged after required validation. Normal release returned `RELEASE PASS sha-2cfebcf`, verifying beta and production API/workers. Live local-dashboard proxy assertions confirmed four excluded homepage tests, zero other tagged homepage submissions in the retained window, five reviewed IDs in the classification audit and approval_required=true. Browser verified the separate count, dated reason/actor/IDs and unchanged incomplete-day handling. Evidence: workspace outputs/test-enquiry-results.json and outputs/test-enquiries-audit.png.
+
+No live form submissions, website edits or publishing-setting changes were made. No automatic spam/lead qualification was added. Future tests require explicit operator classification; corrections append a new receipt.
