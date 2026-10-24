@@ -20,3 +20,16 @@ test('seven-day comparison excludes change day, respects source timezone and rej
  const a=comparison(data,'2026-10-10T01:00:00Z','ai');assert.equal(a.anchor,'2026-10-10');assert.equal(a.after,0);
  assert.equal(comparison(data,'2026-10-19T12:00:00Z','clicks').after,null);
 });
+
+test('operator changes keep their publication date and exclude other sites; enquiry gaps are not zero',()=>{
+ const items=[{id:'operator',title:'CTA and form labels',url:'https://unimpossible.co.uk/',source:'operator_record',timeline:[{kind:'published',at:'2026-10-24T19:27:06Z',description:'Approved wording'}]}];
+ assert.equal(siteEvents(items,'https://unimpossible.co.uk')[0].source,'operator_record');
+ assert.equal(siteEvents(items,'https://another.test').length,0);
+ assert.equal(daily(data,'2026-10-10').enquiries,null);
+ const measured={...data,enquiries:{started_at:'2026-10-01T12:00:00Z',checked_at:'2026-10-21T12:00:00Z',retention_days:90,days:[{date:'2026-10-10',submissions:2}]}};
+ assert.equal(daily(measured,'2026-10-01').enquiries,null);
+ assert.equal(daily(measured,'2026-10-10').enquiries,2);
+ assert.equal(daily(measured,'2026-10-11').enquiries,0);
+ assert.equal(daily(measured,'2026-10-21').enquiries,null);
+ assert.equal(comparison(measured,'2026-10-10T01:00:00Z','enquiries').anchor,'2026-10-10');
+});

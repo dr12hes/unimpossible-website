@@ -2,7 +2,8 @@ import {useState} from 'react';
 type SearchDay={date:string;clicks:number;impressions:number;ctr:number;position:number};
 type ReferralDay={date:string;source:string;page:string;requests:number};
 type Source={last_success?:string;checked_at?:string;error?:string|null};
-export type MetricsData={google_email:string|null;property:string|null;next_due:string;google:Source&{days?:SearchDay[];from?:string;through?:string};referrals:Source&{days?:ReferralDay[];started_at?:string;updated_at?:string}};
+export type EnquiryData={days:{date:string;submissions:number}[];started_at:string;checked_at:string;source:string;retention_days:number};
+export type MetricsData={enquiries?:EnquiryData|null;google_email:string|null;property:string|null;next_due:string;google:Source&{days?:SearchDay[];from?:string;through?:string};referrals:Source&{days?:ReferralDay[];started_at?:string;updated_at?:string}};
 const ai=new Set(['chatgpt','claude','perplexity','copilot','gemini']);
 const stamp=(s?:string)=>s?new Date(s).toLocaleString():'Not imported yet';
 function Trend({rows,label}:{rows:{date:string;value:number}[];label:string}){
