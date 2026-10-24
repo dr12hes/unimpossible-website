@@ -20,5 +20,5 @@ function Draft({work,changed}:{work:DescriptionWork;changed:()=>void}){
  </article>;
 }
 export function Descriptions({items,changed}:{items:DescriptionWork[];changed:()=>void}){
- return <section className="card"><span className="eyebrow">SEARCH DESCRIPTIONS</span><h2>Review, approve and publish</h2><p>Drafts are excerpts from existing page text. Edit them before approval. Approval saves the exact text; publishing is a separate action. Staging stays blocked from search indexing.</p>{items.length?items.map(work=><Draft key={work.id+':'+work.state} work={work} changed={changed}/>):<p>Choose “Draft description” beside a missing-description finding below.</p>}</section>;
+ return <section className="card"><span className="eyebrow">SEARCH DESCRIPTIONS</span><h2>Review, approve and publish</h2><p>Drafts use existing page text. Review and edit them before approval. Approval saves the exact text; publishing is a separate action. Staging stays blocked from search indexing.</p>{items.length?items.map(work=><Draft key={work.id+':'+work.state+':'+work.description} work={work} changed={changed}/>):<p>Choose “Draft description” beside a missing-description finding below.</p>}</section>;
 }
