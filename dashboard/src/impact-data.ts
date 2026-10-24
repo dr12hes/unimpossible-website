@@ -13,7 +13,7 @@ export function daily(data:MetricsData,date:string){
  const covered=!!(data.referrals.last_success&&data.referrals.started_at&&data.referrals.updated_at&&date>day(data.referrals.started_at)&&date<day(data.referrals.updated_at)&&date>=offset(day(data.referrals.updated_at),-400));
  const enquiries=data.enquiries;
  const enquiryCovered=!!(enquiries&&date>day(enquiries.started_at)&&date<day(enquiries.checked_at)&&date>offset(day(enquiries.checked_at),-enquiries.retention_days));
- return {enquiries:enquiryCovered?(enquiries!.days.find(d=>d.date===date)?.submissions??0):null,clicks:google?.clicks??null,impressions:google?.impressions??null,ai:covered?(data.referrals.days||[]).filter(d=>d.date===date&&aiSources.has(d.source)).reduce((n,d)=>n+d.requests,0):null};
+ return {excludedTests:enquiryCovered&&enquiries?.classification_history!==undefined?(enquiries.days.find(d=>d.date===date)?.excluded_tests??0):null,enquiries:enquiryCovered?(enquiries!.days.find(d=>d.date===date)?.submissions??0):null,clicks:google?.clicks??null,impressions:google?.impressions??null,ai:covered?(data.referrals.days||[]).filter(d=>d.date===date&&aiSources.has(d.source)).reduce((n,d)=>n+d.requests,0):null};
 }
 export function comparison(data:MetricsData,at:string,metric:'clicks'|'impressions'|'ai'|'enquiries'){
  const anchor=day(at,metric==='ai'||metric==='enquiries'?'UTC':'America/Los_Angeles');

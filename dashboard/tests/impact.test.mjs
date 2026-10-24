@@ -33,3 +33,11 @@ test('operator changes keep their publication date and exclude other sites; enqu
  assert.equal(daily(measured,'2026-10-21').enquiries,null);
  assert.equal(comparison(measured,'2026-10-10T01:00:00Z','enquiries').anchor,'2026-10-10');
 });
+
+test('excluded tests stay separate from comparisons and incomplete dates stay unknown',()=>{
+ const measured={...data,enquiries:{started_at:'2026-10-01T12:00:00Z',checked_at:'2026-10-21T12:00:00Z',retention_days:90,classification_history:[],days:[{date:'2026-10-10',submissions:2,excluded_tests:4}]}};
+ assert.equal(daily(measured,'2026-10-10').enquiries,2);
+ assert.equal(daily(measured,'2026-10-10').excludedTests,4);
+ assert.equal(daily(measured,'2026-10-21').excludedTests,null);
+ assert.equal(comparison(measured,'2026-10-09T12:00:00Z','enquiries').after,2);
+});
