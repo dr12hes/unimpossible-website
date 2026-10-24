@@ -8,7 +8,7 @@ function Draft({work,changed}:{work:DescriptionWork;changed:()=>void}){
  const [text,setText]=useState(work.description);const [busy,setBusy]=useState(false);const [error,setError]=useState('');
  async function act(action:string){setBusy(true);setError('');try{await descriptionAction({action,key:work.id,...(action==='approve'?{description:text}:{})});changed();}catch(e){setError(e instanceof Error?e.message:'Action failed');}finally{setBusy(false);}}
  return <article className="card"><span className="status">{work.state==='ready'?'Awaiting your approval':work.state.replaceAll('_',' ')}</span><h3>{work.title}</h3><p>{work.url}</p><p><strong>Before:</strong> {work.before??'No search description'}</p>
- {work.state==='ready'?<label>Proposed search description<textarea rows={3} maxLength={320} value={text} onChange={e=>setText(e.target.value)} style={{width:'100%',boxSizing:'border-box'}}/><small>{text.length} characters · review for accuracy and clarity</small></label>:<p><strong>Approved description:</strong> {work.description}</p>}
+ {work.state==='ready'?<label>Proposed search description<textarea rows={3} maxLength={320} value={text} onChange={e=>setText(e.target.value)} style={{width:'100%',boxSizing:'border-box',minHeight:90,fontFamily:'inherit'}}/><small>{text.length} characters · review for accuracy and clarity</small></label>:<p><strong>Approved description:</strong> {work.description}</p>}
  <details><summary>Source paragraph used for the draft</summary><p>{work.source}</p></details>
  <div className="actions">
  {work.state==='ready'&&<button disabled={busy||!text.trim()} onClick={()=>void act('approve')}>Approve this description</button>}
