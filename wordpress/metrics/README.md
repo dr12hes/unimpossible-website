@@ -12,7 +12,7 @@ Older sitemap submissions were retained as history.
 
 Open https://search.google.com/search-console?resource_id=sc-domain%3Aunimpossible.co.uk
 for clicks, impressions, CTR and average position. Google's own reporting is now
-active; OAuth/API import into the Core dashboard is not yet configured. No new
+active; the Unimpossible OAuth connection is deployed and awaiting user consent. No new
 Google API credential or third-party analytics subscription was created.
 
 ## Referral counts
@@ -35,11 +35,11 @@ Files on isolated-vm:
 - `/etc/nginx/conf.d/unimpossible-metrics.conf`
 - `/var/log/nginx/unimpossible-referrals.jsonl` (daily rotation, 35 archives)
 - `/usr/local/sbin/unimpossible-metrics`
-- `/var/lib/unimpossible-metrics/referrals.json` (root-only daily totals, 400 days)
+- `/var/lib/unimpossible-metrics/referrals.json` (root-owned, PHP-readable daily totals, 400 days)
 - `unimpossible-metrics.timer` (hourly, persistent across downtime)
 
 Read or refresh the operator report with `sudo /usr/local/sbin/unimpossible-metrics`.
-The output is JSON; counters are not automatically imported into the local dashboard.
+The output is JSON; Core imports these counters daily into the Unimpossible dashboard.
 Synthetic test rows are always excluded, and rereading logs does not add totals again.
 
 Privacy disclosure was added to the existing WordPress privacy page; original
@@ -67,4 +67,13 @@ server keeps the scoped key and browser-binding cookie out of JavaScript.
 
 Implementation checks: dashboard build and six proxy-boundary cases; Core
 property/owner/state, stale-worker, independent source failure and data-validation
-checks. Live consent and production daily-import proof remain pending deployment.
+checks. Production release `sha-f4498a3` passed the normal beta/production gates.
+
+Live referral proof: task 5731243 completed at 2026-10-24 15:27:53 UTC;
+next daily import is due 2026-10-25 15:27:53 UTC. The dashboard displays the real
+empty baseline (zero attributed requests), source freshness and next due time.
+Only the existing exact-site key gained `metrics:write`; its value/expiry and
+publication approval remain unchanged. Optaro Production metadata was updated.
+Google consent was started from the dashboard as david@unimpossible.co.uk;
+user consent and the first Google import remain unverified. Google uses the
+existing Optaro OAuth app; the user does not sign into Core.

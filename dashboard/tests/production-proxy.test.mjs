@@ -50,7 +50,7 @@ test('Google return requires initiating browser cookie and exchanges code server
  }finally{globalThis.fetch=original;}
 });
 
-test('Google start hides state from JavaScript and sets a short-lived HttpOnly cookie',async()=>{
+test('Google start sets a short-lived HttpOnly browser-binding cookie',async()=>{
  const original=globalThis.fetch;globalThis.fetch=async()=>({ok:true,status:200,json:async()=>({state:'signed',url:'https://accounts.google.com/test'})});
  try{const res=response();await handler({url:'/api/production-results/metrics',method:'POST',headers:{host:'127.0.0.1:5187',origin:'http://127.0.0.1:5187'},async *[Symbol.asyncIterator](){yield JSON.stringify({action:'google_start'});}},res);
  assert.equal(JSON.parse(res.body).state,undefined);assert.match(res.headers['Set-Cookie'],/HttpOnly; SameSite=Lax/);
