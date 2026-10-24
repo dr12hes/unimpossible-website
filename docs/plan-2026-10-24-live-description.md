@@ -24,3 +24,12 @@ Independent canonical-URL fetches verified exact published and restored text,
 single meta-description, unchanged title/canonical/robots. Core confirms the undo
 receipt equals the original page revision. All seven dated events are retained;
 approval_required remains true. The homepage ends restored, not left changed.
+
+## Retained publication — 24 October 2026
+At the user's request, fresh work 4493697d-967c-47c9-850b-8bdd9bb0a8e1 was
+approved and published at 18:50:53 UTC, verified at 18:50:54 UTC, and LEFT LIVE.
+The four dated lifecycle events retain the new approval and exact wording.
+Independent public verification confirms the single approved description and
+unchanged robots, canonical and title. Approval remains required. The earlier
+undo proof is retained separately. Next metrics import: 25 October 15:48:39 UTC.
+No ranking or traffic improvement is yet established.
