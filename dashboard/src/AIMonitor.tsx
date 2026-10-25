@@ -4,10 +4,11 @@ export type AIMonitorRun={id:string;state:string;created_at:string;finished_at?:
 const date=(value:string)=>new Date(value).toLocaleString();
 function counts(run:AIMonitorRun){
  const pages=run.result?.evidence.filter(e=>e.kind==='page_check')||[];
- const issues=pages.flatMap(e=>e.checks||[]).filter(c=>c.state==='review').length;
+ const checked=pages.filter(e=>e.checks?.length);
+ const issues=checked.length?checked.flatMap(e=>e.checks||[]).filter(c=>c.state==='review').length:'Unknown';
  const crawler=run.result?.evidence.find(e=>e.kind==='crawler_observation')?.data as {window_end?:string;freshness?:string;providers?:Record<string,{identity_available:boolean;range_matched?:number;homepage?:number}>}|undefined;
  const bots=Object.values(crawler?.providers||{});
- return {pages:pages.length,issues,requests:bots.length?String(bots.reduce((sum,b)=>sum+(b.range_matched||0),0)):'Unknown',window:crawler?.window_end?date(crawler.window_end):'Not collected',coverage:bots.length&&bots.every(b=>b.identity_available)?'Retained logs':'Incomplete identity coverage'};
+ return {pages:checked.length||'Unknown',issues,requests:bots.length?String(bots.reduce((sum,b)=>sum+(b.range_matched||0),0)):'Unknown',window:crawler?.window_end?date(crawler.window_end):'Not collected',coverage:bots.length&&bots.every(b=>b.identity_available)?'Retained logs':'Incomplete identity coverage'};
 }
 export function AIMonitor({runs}:{runs:AIMonitorRun[]}){
  const latest=runs[0];
