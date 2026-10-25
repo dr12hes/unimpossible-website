@@ -11,3 +11,9 @@ Deploy from dashboard/Dockerfile and deploy/dashboard-compose.yml in /home/docke
 Acceptance checks: authentication and cross-site denial; hosted results/metrics/history; a scheduler-created completed audit and next due; a hosted recommendation run; existing publication verification with approval retained. Do not churn live copy solely for a hosting test. Previous live publish/undo proof remains part of the release evidence.
 
 Known limits: single owner pilot login, existing scoped key expiry, manual transfer of accepted advice into the existing draft flow, and insufficient search traffic for causal claims. Password/account management and customer onboarding are deferred.
+
+## Background monitoring proof
+
+Daily audits resumed using the existing schedule with an integration audit entry. Core picked up run `28bd8fdc-88e2-470d-9548-8b17fca8bd1c` at 10:10 UTC on 25 October 2026 and completed both pages with zero failures. Next scheduled audit: 26 October at 10:10 UTC. A fresh existing-account Google/referral import completed at 10:12 UTC with no reported errors; next due 26 October at 10:12 UTC. Approval remains required. See hosted-monitoring-proof.json. Missing Google rows remain missing data, not confirmed zero traffic.
+
+The existing scoped dashboard key expires on 22 January 2027 at 12:24 UTC; renew it before then. Hosting DNS/login/configuration awaits the explicit access-scope approval requested after automatic approval review blocked provisioning. No hosting credential has yet been created.
