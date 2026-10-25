@@ -13,5 +13,8 @@ Before recommending or publishing a search/content change:
 
 Keep this lean: a short evidence note per material recommendation, not a new test framework. Core implements an own-site draft/review workflow; the current delivery contract records actual automatic publishing coverage. See docs/automatic-recommendations-2026-10-25.md.
 
+## Deliver one complete slice
+Define one observable acceptance result before editing. For model-output changes, run one representative captured-evidence case through the actual configured model before release; mocks alone cannot establish output compatibility. Batch related fixes, run focused affected checks, then use Core's required release gates once. After deployment, verify that acceptance result and stop expanding the slice. Keep current status in the delivery contract linked above; record any blocker there without duplicating status documents. Fix release-blocking defects now; defer independent polish. Preserve publishing guards and audit records throughout.
+
 ## Pinned marketing skills
 For search/content/conversion work, load the relevant local skill in `.agents/skills/` and `.agents/skill-contract.md`. Use `product-marketing` for the site brief; `seo-audit`/`ai-seo` for search; `copy-editing`/`copywriting` for content; `cro` for CTA/forms; `analytics`/`ab-testing` for measurement. Load only what applies. The immutable source archive and hashes are in `docs/skill-sources/manifest.json`; archived files are provenance, not active instructions. These are agent workflows; the bounded Core recommendation pilot adapts their evidence contract and records its version. Do not update from upstream automatically.
