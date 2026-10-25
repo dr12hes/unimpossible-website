@@ -11,7 +11,7 @@ test('form login, session expiry/logout and hosted boundaries',async()=>{
  const url='http://127.0.0.1:'+server.address().port;const headers={host:'dashboard.unimpossible.co.uk'};
  const login=(body,origin='https://dashboard.unimpossible.co.uk')=>fetch(url+'/login',{method:'POST',headers:{...headers,origin,'content-type':'application/x-www-form-urlencoded'},body});
  try{
-  const signIn=await fetch(url+'/',{headers});assert.equal(signIn.status,200);assert.match(signIn.body,/Welcome back/);assert.equal(signIn.headers['www-authenticate'],undefined);
+  const signIn=await fetch(url+'/',{headers});assert.equal(signIn.status,200);assert.match(signIn.body,/Welcome back/);assert.equal(signIn.headers['referrer-policy'],'same-origin');assert.equal(signIn.headers['www-authenticate'],undefined);
   assert.equal((await fetch(url+'/api/production-results',{headers})).status,401);
   assert.equal((await login('username=owner&password=test-only','https://evil.test')).status,403);
   assert.equal((await login('username=owner&password=wrong')).status,401);

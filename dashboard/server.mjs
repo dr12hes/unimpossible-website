@@ -14,7 +14,7 @@ export async function dashboardServer(config){
  const cookie='__Host-unimp_session';const ttl=12*60*60*1000;
  const signIn=await readFile(new URL('./sign-in.html',import.meta.url),'utf8');
  return createServer(async(req,res)=>{
-  res.setHeader('Cache-Control','no-store');res.setHeader('Referrer-Policy','no-referrer');
+  res.setHeader('Cache-Control','no-store');res.setHeader('Referrer-Policy','same-origin');
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','DENY');
   res.setHeader('X-Robots-Tag','noindex, nofollow');
   if(req.url==='/healthz'){res.end('ok');return;}
