@@ -84,3 +84,13 @@ test('hosted origin requires exact origin and sets Secure Google cookie',async()
   const good=response();await hosted(request('https://dashboard.unimpossible.co.uk'),good);assert.equal(good.statusCode,200);assert.match(good.headers['Set-Cookie'],/; Secure/);
  }finally{globalThis.fetch=original;}
 });
+
+test('content recovery permits only verify and undo on the fixed site',async()=>{
+ const original=globalThis.fetch;let sent;
+ globalThis.fetch=async(url,options)=>{sent={url,options};return {ok:true,status:200,json:async()=>({state:'undone'})};};
+ const req=value=>({url:'/api/production-results/content',method:'POST',headers:{host:'127.0.0.1:5187',origin:'http://127.0.0.1:5187'},async *[Symbol.asyncIterator](){yield JSON.stringify(value);}});
+ try{
+  for(const value of [{action:'publish',key:'a'.repeat(36)},{action:'undo',key:'a'.repeat(36),content:'replacement'}]){const res=response();await handler(req(value),res);assert.equal(res.statusCode,422);assert.equal(sent,undefined);}
+  const res=response();await handler(req({action:'undo',key:'a'.repeat(36)}),res);assert.equal(res.statusCode,200);assert.ok(sent.url.endsWith('/'+'a'.repeat(32)+'/content'));
+ }finally{globalThis.fetch=original;}
+});
