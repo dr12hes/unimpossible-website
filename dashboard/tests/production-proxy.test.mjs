@@ -75,3 +75,12 @@ test('recommendation generation requires same origin and uses only the fixed Cor
   assert.equal(res.statusCode,202);assert.equal(sent.url,'https://core.optaro.io/api/v1/integration/websites/'+'a'.repeat(32)+'/recommendations');assert.equal(sent.options.body,undefined);
  }finally{globalThis.fetch=original;}
 });
+test('hosted origin requires exact origin and sets Secure Google cookie',async()=>{
+ const hosted=productionProxy({key:'opt_i_private',tenant:'pilot',site:'a'.repeat(32),origin:'https://dashboard.unimpossible.co.uk'});
+ const original=globalThis.fetch;let calls=0;globalThis.fetch=async()=>{calls++;return {ok:true,status:200,json:async()=>({state:'signed',url:'https://accounts.google.com/test'})};};
+ const request=origin=>({url:'/api/production-results/metrics',method:'POST',headers:{host:'dashboard.unimpossible.co.uk',origin},async *[Symbol.asyncIterator](){yield JSON.stringify({action:'google_start'});}});
+ try{
+  const bad=response();await hosted(request('http://127.0.0.1:5187'),bad);assert.equal(bad.statusCode,403);assert.equal(calls,0);
+  const good=response();await hosted(request('https://dashboard.unimpossible.co.uk'),good);assert.equal(good.statusCode,200);assert.match(good.headers['Set-Cookie'],/; Secure/);
+ }finally{globalThis.fetch=original;}
+});

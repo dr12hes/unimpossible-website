@@ -1,0 +1,29 @@
+services:
+  dashboard:
+    build: ./dashboard
+    image: unimpossible-dashboard:pilot
+    container_name: unimpossible-dashboard
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    volumes:
+      - ./dashboard.json:/run/secrets/dashboard.json:ro
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:8080/healthz').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.unimpossible-dashboard.rule=Host(`dashboard.unimpossible.co.uk`)
+      - traefik.http.routers.unimpossible-dashboard.entrypoints=websecure
+      - traefik.http.routers.unimpossible-dashboard.tls.certresolver=letsencrypt
+      - traefik.http.routers.unimpossible-dashboard.middlewares=unimpossible-dashboard-limit
+      - traefik.http.middlewares.unimpossible-dashboard-limit.ratelimit.average=10
+      - traefik.http.middlewares.unimpossible-dashboard-limit.ratelimit.burst=30
+      - traefik.http.services.unimpossible-dashboard.loadbalancer.server.port=8080
+    networks: [traefik-public]
+networks:
+  traefik-public:
+    external: true

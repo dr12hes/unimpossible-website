@@ -1,7 +1,10 @@
 import {createHash} from 'node:crypto';
 import type {IncomingMessage,ServerResponse} from 'node:http';
-export function productionProxy(config:{key:string;tenant:string;site:string}){
+export function productionProxy(config:{key:string;tenant:string;site:string;origin?:string}){
  if(!config.key.startsWith('opt_i_')||!config.tenant||!/^[a-f0-9]{32}$/.test(config.site))throw new Error('Production results require a scoped Core key, tenant and site.');
+ const origin=config.origin||'http://127.0.0.1:5187';
+ if(!['http://127.0.0.1:5187','https://dashboard.unimpossible.co.uk'].includes(origin))throw new Error('Unsupported dashboard origin');
+ const host=new URL(origin).host;const secure=origin.startsWith('https:')?'; Secure':'';
  return async(req:IncomingMessage,res:ServerResponse)=>{
   res.setHeader('Cache-Control','no-store');res.setHeader('Content-Type','application/json');
   const send=(status:number,detail:string)=>{res.statusCode=status;res.end(JSON.stringify({detail}));};
@@ -14,9 +17,9 @@ export function productionProxy(config:{key:string;tenant:string;site:string}){
   const testEmails=req.url==='/api/production-results/test-emails';
   const write=recommendations||audit||description||metrics||(testEmails&&req.method==='POST');
   if(req.url!=='/api/production-results'&&!audit&&!description&&!metrics&&!googleReturn&&!testEmails&&!recommendations)return send(404,'Not found');
-  if(req.headers.host!=='127.0.0.1:5187'||(req.headers.origin&&req.headers.origin!=='http://127.0.0.1:5187')||(!googleReturn&&req.headers['sec-fetch-site']==='cross-site'))return send(403,'Local dashboard only');
+  if(req.headers.host!==host||(req.headers.origin&&req.headers.origin!==origin)||(!googleReturn&&req.headers['sec-fetch-site']==='cross-site'))return send(403,'Dashboard origin required');
   if(req.method!==(write?'POST':'GET'))return send(405,'Method not allowed');
-  if(write&&req.headers.origin!=='http://127.0.0.1:5187')return send(403,'Local dashboard only');
+  if(write&&req.headers.origin!==origin)return send(403,'Dashboard origin required');
   try{
    let body:string|undefined;
    if(description||metrics||(testEmails&&write)){
@@ -31,7 +34,7 @@ export function productionProxy(config:{key:string;tenant:string;site:string}){
     const state=incoming.searchParams.get('state')||'';
     const cookie=(req.headers.cookie||'').split(';').map(v=>v.trim()).find(v=>v.startsWith('unimp_google='))?.slice(13);
     if(!cookie||cookie!==createHash('sha256').update(state).digest('hex'))return send(403,'Connection browser did not match. Start again from the dashboard.');
-    res.setHeader('Set-Cookie','unimp_google=; HttpOnly; SameSite=Lax; Path=/api/production-results; Max-Age=0');
+    res.setHeader('Set-Cookie','unimp_google=; HttpOnly; SameSite=Lax; Path=/api/production-results; Max-Age=0'+secure);
     if(incoming.searchParams.get('error')){res.statusCode=303;res.setHeader('Location','/?google=cancelled');res.end();return;}
     body=JSON.stringify({action:'google_finish',state,code:incoming.searchParams.get('code')||''});
    }
@@ -42,7 +45,7 @@ export function productionProxy(config:{key:string;tenant:string;site:string}){
    const result=await response.json();
    if(googleReturn){res.statusCode=303;res.setHeader('Location','/?google=connected');res.end();return;}
    if(metrics&&result.state){
-    res.setHeader('Set-Cookie','unimp_google='+createHash('sha256').update(result.state).digest('hex')+'; HttpOnly; SameSite=Lax; Path=/api/production-results; Max-Age=600');
+    res.setHeader('Set-Cookie','unimp_google='+createHash('sha256').update(result.state).digest('hex')+'; HttpOnly; SameSite=Lax; Path=/api/production-results; Max-Age=600'+secure);
     delete result.state;
    }
    res.statusCode=response.status;
