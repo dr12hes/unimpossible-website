@@ -72,9 +72,9 @@
     },
     {
       "name": "ai-seo",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "path": ".agents/skills/ai-seo/SKILL.md",
-      "sha256": "6b2491ece068ddd32ef044ea6a3f002f066d90fa68b79099c546ad35aeb0c470",
+      "sha256": "a509cc8273cfb205ff9beae65d22a52fba363290d343fb982545929cc38af452",
       "upstream_version": "2.10.1"
     },
     {

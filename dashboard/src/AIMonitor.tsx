@@ -1,0 +1,24 @@
+type Evidence={id:string;kind:string;url?:string;fact?:string;checks?:{id:string;state:string;fact:string}[];[key:string]:unknown};
+type Finding={title:string;fact:string;evidence_ids:string[];hypothesis:string;uncertainty:string;proposed_change:string;measure:string;priority:string};
+export type AIMonitorRun={id:string;state:string;created_at:string;finished_at?:string;message?:string;result?:{version:string;assessment:{summary:string;findings:Finding[]};review:{outcome:string;conclusion:string};evidence:Evidence[];searches:{query:string;observed_at:string;state:string;provider:string;count:number}[]}};
+const date=(value:string)=>new Date(value).toLocaleString();
+function counts(run:AIMonitorRun){
+ const pages=run.result?.evidence.filter(e=>e.kind==='page_check')||[];
+ const issues=pages.flatMap(e=>e.checks||[]).filter(c=>c.state==='review').length;
+ const crawler=run.result?.evidence.find(e=>e.kind==='crawler_observation')?.data as {window_end?:string;freshness?:string;providers?:Record<string,{identity_available:boolean;range_matched?:number;homepage?:number}>}|undefined;
+ const bots=Object.values(crawler?.providers||{});
+ return {pages:pages.length,issues,requests:bots.length?String(bots.reduce((sum,b)=>sum+(b.range_matched||0),0)):'Unknown',window:crawler?.window_end?date(crawler.window_end):'Not collected',coverage:bots.length&&bots.every(b=>b.identity_available)?'Retained logs':'Incomplete identity coverage'};
+}
+export function AIMonitor({runs}:{runs:AIMonitorRun[]}){
+ const latest=runs[0];
+ const result=latest?.result;
+ return <section className="card" id="ai-readiness"><span className="eyebrow">AI SEARCH READINESS</span><h2>Evidence before changes</h2><p>Page checks, crawler observations and public search evidence. These checks do not measure how often AI engines recommend you.</p>
+ {!latest?<p>No automated AI review recorded yet. Reviews follow completed scheduled audits.</p>:<><p><span className="status">{latest.state}</span> · {date(latest.created_at)}</p><p>{latest.message}</p>
+ {result&&<><p>{result.assessment.summary}</p><p><strong>Independent review: {result.review.outcome.replace('_',' ')}</strong> — {result.review.conclusion}</p>
+ {result.review.outcome==='accepted'?result.assessment.findings.map((item,i)=><article className="priority-row" key={i}><div><span className="status">{item.priority} priority · advisory</span><h3>{item.title}</h3><p><strong>Observed evidence:</strong> {item.fact}</p>{item.hypothesis&&<p><strong>Possible explanation:</strong> {item.hypothesis}</p>}<p><strong>What we don’t know:</strong> {item.uncertainty}</p><p><strong>Proposed improvement:</strong> {item.proposed_change||'Retain the current page.'}</p><p><strong>What to monitor:</strong> {item.measure}</p><details><summary>Sources and captured checks</summary>{item.evidence_ids.map(id=>{const evidence=result.evidence.find(e=>e.id===id);return <div key={id}><strong>{id}</strong><pre style={{whiteSpace:'pre-wrap',overflowWrap:'anywhere'}}>{JSON.stringify(evidence,null,2)}</pre></div>;})}</details></div></article>):<p>The reviewer withheld these suggestions. No publishing action follows a rejected or incomplete review.</p>}
+ <details><summary>Search coverage</summary><p>Search result position is not an AI recommendation rank. Unavailable searches are not zero visibility.</p>{result.searches.map((s,i)=><p key={i}>{s.query} · {s.state} · {s.provider} · {s.count} captured results · {date(s.observed_at)}</p>)}</details>
+ <details><summary>Page and crawler evidence</summary>{result.evidence.filter(e=>e.kind!=='search_snippet').map(e=><div key={e.id}><h3>{e.id}</h3><pre style={{whiteSpace:'pre-wrap',overflowWrap:'anywhere'}}>{JSON.stringify(e,null,2)}</pre></div>)}</details></>}
+ </>}
+ <details><summary>Review history ({runs.length})</summary><p>Compare observations, not a synthetic visibility score. Different coverage or sources can explain changes.</p><div style={{overflowX:'auto'}}><table><caption>Latest 20 review attempts. Crawler counts refer to each stated collection window; repeated windows are not additional visits.</caption><thead><tr><th scope="col">Review date</th><th scope="col">Page checks</th><th scope="col">Checks to review</th><th scope="col">Matched crawler requests</th><th scope="col">Log window ends</th></tr></thead><tbody>{runs.map(run=>{const n=counts(run);return <tr key={run.id}><td>{date(run.created_at)}<br/>{run.state}</td><td>{run.result?n.pages:'Unknown'}</td><td>{run.result?n.issues:'Unknown'}</td><td>{n.requests}<br/>{n.coverage}</td><td>{n.window}</td></tr>;})}</tbody></table></div></details>
+ </section>;
+}
