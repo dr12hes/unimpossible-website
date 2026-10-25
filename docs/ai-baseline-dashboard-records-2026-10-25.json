@@ -1,0 +1,143 @@
+[
+  {
+    "url": "https://unimpossible.co.uk/",
+    "decision": "retain",
+    "observed_on": "2026-10-25",
+    "audience": "Unimpossible owner reviewing AI-search eligibility and visibility.",
+    "work_id": null,
+    "review": {
+      "on": "2026-10-25",
+      "by": "Codex: inspected source logs, provider ranges and completed browser answers",
+      "workflow": "Manual evidence baseline; no content generation",
+      "version": "1",
+      "outcome": "accepted",
+      "conclusion": "Observed results checked against captured evidence. Unavailable searches and unverified bot identities are excluded from success/absence counts. No website change or publishing approval is implied."
+    },
+    "title": "Crawler baseline \u2014 OpenAI robots access verified; page access unproven",
+    "observation": "Window: 22 October 11:40 to 25 October 11:40 UTC. 14 OAI-SearchBot requests match OpenAI\u2019s published address ranges: 12 HTTP 200 responses and 2 HTTP 301 redirects, all for /robots.txt. No matching homepage fetch. No verified Claude-SearchBot or PerplexityBot in retained website logs. Excluded 7 OpenAI-labelled, 11 Claude-search-labelled and 12 Perplexity-labelled requests with unmatched identities.",
+    "rationale": "Actual OpenAI robots access is verified. This does not yet prove an AI search crawler fetched the homepage. No public-content access failure was established, so retain current access rules and collect further observations.",
+    "changes": [
+      {
+        "label": "OpenAI search crawler",
+        "before": "Actual access unverified.",
+        "after": "12 successful /robots.txt fetches; two redirects. Latest successful request: 25 October 06:57:39 UTC. User-agent and forwarded client address match current official ranges. Homepage fetch not observed."
+      },
+      {
+        "label": "Claude and Perplexity search crawlers",
+        "before": "Actual access unverified.",
+        "after": "No verified search-crawler request observed in this 72-hour window. Unknown, not failed. Bot-name-only requests do not count."
+      },
+      {
+        "label": "Protected WordPress endpoint",
+        "before": "Existing XML-RPC restriction.",
+        "after": "A provider-range-verified ClaudeBot training request received 403 at /xmlrpc.php on 25 October 07:21:20 UTC. This is not Claude-SearchBot or a public page. Retain the restriction."
+      }
+    ],
+    "sources": [
+      {
+        "title": "OpenAI search crawler IP ranges",
+        "url": "https://openai.com/searchbot.json",
+        "strength": "Official identity source; checked 25 October",
+        "reviewed_on": "2026-10-25"
+      },
+      {
+        "title": "Anthropic crawler IP ranges",
+        "url": "https://claude.com/crawling/bots.json",
+        "strength": "Official identity source; checked 25 October",
+        "reviewed_on": "2026-10-25"
+      },
+      {
+        "title": "Perplexity search crawler IP ranges",
+        "url": "https://www.perplexity.com/perplexitybot.json",
+        "strength": "Official identity source; checked 25 October",
+        "reviewed_on": "2026-10-25"
+      },
+      {
+        "title": "Traefik forwarded-header handling",
+        "url": "https://doc.traefik.io/traefik/reference/install-configuration/entrypoints/",
+        "strength": "Official proxy documentation",
+        "reviewed_on": "2026-10-25"
+      }
+    ],
+    "applicability": "Read existing nginx website logs and Traefik website-router errors. Checked the proxy trust configuration and absence of public container port bindings; matched the forwarded client address rather than the internal proxy address. Current provider IP lists may differ from historic lists.",
+    "downside": "HTTP logs cannot prove the absence of network-level drops, missing retained history or other retrieval paths. Edge error logging covers only 4xx/5xx. No access-rule change is warranted from an unobserved visit.",
+    "rationale_confidence": "High for the logged OpenAI robots responses; insufficient evidence for homepage retrieval by these search crawlers.",
+    "outcome_confidence": "Crawler access is not a citation or recommendation outcome.",
+    "baseline": "72-hour point-in-time sample; 12 successful OpenAI robots responses, no verified search-crawler homepage fetch. Anthropic training-bot RPC denial retained separately.",
+    "measurement": "On the next review use the same identity rules and record genuine homepage/content fetches, redirects and denials separately. No logging configuration, firewall, robots policy or recurring monitor was changed.",
+    "id": "8e8cf613-ea88-5063-92d7-be66a2b01692"
+  },
+  {
+    "url": "https://unimpossible.co.uk/",
+    "decision": "retain",
+    "observed_on": "2026-10-25",
+    "audience": "Unimpossible owner reviewing AI-search eligibility and visibility.",
+    "work_id": null,
+    "review": {
+      "on": "2026-10-25",
+      "by": "Codex: inspected source logs, provider ranges and completed browser answers",
+      "workflow": "Manual evidence baseline; no content generation",
+      "version": "1",
+      "outcome": "accepted",
+      "conclusion": "Observed results checked against captured evidence. Unavailable searches and unverified bot identities are excluded from success/absence counts. No website change or publishing approval is implied."
+    },
+    "title": "AI-search baseline \u2014 Google cites us by name; buyer searches omit us",
+    "observation": "Four completed answers on 25 October, approximately 11:41\u201311:46 UTC: three Google AI Mode questions and one Perplexity Search question. Google mentioned and cited our homepage only for the branded question (1 of 3); its two unbranded buyer answers omitted us. Perplexity omitted us in its one completed unbranded answer. No completed answer recommended us as a supplier.",
+    "rationale": "This is the first dated answer sample for the plugin\u2019s goal. It shows branded recognition, but no discovery in the three completed unbranded observations. It is a starting point, not a visibility score or evidence of improvement.",
+    "changes": [
+      {
+        "label": "Q1 \u2014 Who can help a Norfolk business automate enquiry handling?",
+        "before": "No recorded sample.",
+        "after": "Google AI Mode: no Unimpossible mention/citation/recommendation; named providers include Edcana AI and East Anglia AI Services. Perplexity Search: no Unimpossible mention/citation/recommendation; recommended Nova and Prime AI Agency Norwich."
+      },
+      {
+        "label": "Q2 \u2014 Who builds AI assistants for small UK businesses?",
+        "before": "No recorded sample.",
+        "after": "Google AI Mode: no Unimpossible mention/citation/recommendation; listed providers include Creative Agent, Seahorse and First Essential. Perplexity required sign-in: unavailable, excluded from counts."
+      },
+      {
+        "label": "Q3 \u2014 What does UNimpossible do?",
+        "before": "No recorded sample.",
+        "after": "Google AI Mode: mentioned Unimpossible and cited https://unimpossible.co.uk/. Described the Norfolk engineering team, AI automation examples and website audit. Branded recognition, not an independent supplier recommendation. Perplexity not run after the sign-in requirement."
+      },
+      {
+        "label": "Coverage and repeatability",
+        "before": "No fixed question portfolio.",
+        "after": "Same exact three questions, fresh Google thread per question, no URL supplied. Google: UK English UI in existing signed-in owner session, personalisation possible. Perplexity: signed out, Search mode. Exact models not exposed. ChatGPT account/browser check failed before any question; excluded. Claude not sampled."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Observed branded source: Unimpossible homepage",
+        "url": "https://unimpossible.co.uk/",
+        "strength": "Actual source linked by Google AI Mode in the branded answer",
+        "reviewed_on": "2026-10-25"
+      },
+      {
+        "title": "Perplexity Q1 observed answer",
+        "url": "https://www.perplexity.ai/search/4b92ff89-6b7e-47bb-90a4-f30230c66e90",
+        "strength": "Dated browser observation; session availability may expire",
+        "reviewed_on": "2026-10-25"
+      },
+      {
+        "title": "Google Q1 source: Edcana AI",
+        "url": "https://edcana.co.uk/",
+        "strength": "Observed answer link; provider claims not independently endorsed",
+        "reviewed_on": "2026-10-25"
+      },
+      {
+        "title": "Google Q2 source: Creative Agent",
+        "url": "https://creativeagent.co.uk/virtual-assistant-services/",
+        "strength": "Observed answer link; provider claims not independently endorsed",
+        "reviewed_on": "2026-10-25"
+      }
+    ],
+    "applicability": "Separate mentions, links/citations and supplier recommendations. One branded citation does not establish unbranded visibility. Full question-level summaries and displayed source URLs are retained with the baseline evidence.",
+    "downside": "One run per question/product is noisy. Owner-account personalisation and product/model changes affect answers. The branded answer describes illustrative examples as offerings; it does not verify delivered client outcomes. Do not compare missing answers as zeros.",
+    "rationale_confidence": "High for these captured answers; low representativeness beyond this small sample.",
+    "outcome_confidence": "No uplift demonstrated. Search impressions, referrals and enquiries remain separate measures.",
+    "baseline": "Google AI Mode: 3 completed answers, 1 branded mention/citation, 0 supplier recommendations; 0/2 unbranded inclusions. Perplexity: 1 completed answer, no mention/citation/recommendation; 1 unavailable query. Do not combine into a market-wide percentage.",
+    "measurement": "Repeat the same exact questions on the same product surfaces and account/locale conditions before comparing. Keep unavailable attempts separate. Record dated answer summaries and cited URLs alongside approved site changes. This is a manual initial baseline, not a new automated daily monitor.",
+    "id": "5ea0f8b2-5255-5415-b44d-56892c75dab0"
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "reviews": [
+    {
+      "id": "ede0cc3c-86b5-5bc1-8eac-3587ac655b80",
+      "outcome": "accepted",
+      "conclusion": "The recommendation to add a verifiable project example is supported by the evidence. The current homepage text lists several industry sectors (network assurance, guest WiFi, etc.) and automation use cases, but these are presented as general capabilities rather than documented, first-hand case studies. Adding specific, owner-verified details aligns with the guidance to provide 'useful original first-hand content' and addresses the observed lack of attributable evidence."
+    },
+    {
+      "id": "8a9756fc-d93a-542c-88fb-25846680cacd",
+      "outcome": "accepted",
+      "conclusion": "The recommendation to verify actual crawler access via logs is technically sound and avoids speculative advice. The evidence confirms that `robots.txt` allows all agents and Google indexing is successful, but as noted in the guidance, robots permission is not verified HTTP delivery. Distinguishing between robots.txt permission and actual successful fetches by specific AI bots (OpenAI, Anthropic, Perplexity) is a necessary step for technical verification."
+    },
+    {
+      "id": "e2272e59-bab7-5326-bff4-58aaed46df88",
+      "outcome": "accepted",
+      "conclusion": "The recommendation to establish a manual AI-answer baseline is accepted as a measurement strategy. The rationale correctly identifies that Search Console referral data does not capture direct AI citations or recommendations. The proposed method of using fixed, relevant questions to sample engine responses is a valid practitioner approach for monitoring visibility, consistent with the 'practice' guidance provided."
+    }
+  ],
+  "model": null,
+  "workflow": "website_recommendations_review_v1",
+  "version": 2
+}

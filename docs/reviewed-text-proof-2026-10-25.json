@@ -1,0 +1,1052 @@
+{
+  "core_release": "sha-10a1153",
+  "dashboard_commit": "90392cc",
+  "connector_version": "0.5.0",
+  "publishing_policy_id": "9c8b39fe-f7c5-4ee8-8d99-b8cff45ff068",
+  "verified_results": {
+    "fetched_at": "2026-10-25T16:37:45.925530+00:00",
+    "site": {
+      "id": "1b81e91094da2fec6386cae20a4e799d",
+      "name": "UNimpossible",
+      "url": "https://unimpossible.co.uk",
+      "state": "connected",
+      "approval_required": true,
+      "publishing_mode": "automatic_page_text"
+    },
+    "permissions": {
+      "results_read": true,
+      "test_emails_manage": true,
+      "metrics_write": true,
+      "audits_run": true,
+      "publish": true,
+      "content_write": true,
+      "descriptions_write": true,
+      "schedule_write": false
+    },
+    "schedule": {
+      "site_id": "1b81e91094da2fec6386cae20a4e799d",
+      "frequency": "daily",
+      "next_due": "2026-10-26T10:10:23.495599+00:00",
+      "last_started": "2026-10-25T10:10:23.495599+00:00",
+      "generation": 1
+    },
+    "audit": {
+      "id": "c567e5c0-e370-4389-8235-490bce08fcd0",
+      "state": "complete",
+      "updated_at": "2026-10-25T16:29:50.353500+00:00",
+      "completed": 2,
+      "pages": [
+        {
+          "page_id": 5,
+          "state": "complete",
+          "title": "Privacy — UNimpossible",
+          "message": ""
+        },
+        {
+          "page_id": 4,
+          "state": "complete",
+          "title": "UNimpossible",
+          "message": ""
+        }
+      ]
+    },
+    "recommendation_run": {
+      "id": "fd72504e-bc1b-58fc-8e5a-15daf3db1597",
+      "state": "complete",
+      "created_at": "2026-10-25T16:30:19.557539+00:00",
+      "finished_at": null,
+      "message": "Page reviews: 2. See individual outcomes below.",
+      "count": null,
+      "pages": [
+        {
+          "state": "complete",
+          "page_id": 4,
+          "page_url": "https://unimpossible.co.uk/",
+          "message": "Review complete. Publication follows the recorded site policy."
+        },
+        {
+          "state": "excluded",
+          "page_id": 5,
+          "page_url": "https://unimpossible.co.uk/privacy",
+          "message": "Indexing is restricted or uncertain; preserve the current exclusion."
+        }
+      ]
+    },
+    "ai": [
+      {
+        "id": "98067fb0-bdbd-5f83-ad20-1052a65c3ac9",
+        "state": "failed",
+        "created_at": "2026-10-25T16:30:19.557539+00:00",
+        "finished_at": "2026-10-25T16:31:19.718259+00:00",
+        "message": "Core's worker stopped before completing the review. You can retry.",
+        "result": null,
+        "audit_id": "c567e5c0-e370-4389-8235-490bce08fcd0"
+      }
+    ],
+    "recommendations": [
+      {
+        "id": "57cc0e55-e6e5-45a2-b05c-c8fea99c317f",
+        "recorded_at": "2026-10-25T16:30:50.932274+00:00",
+        "title": "Current Search Description",
+        "url": "https://unimpossible.co.uk/",
+        "decision": "retain",
+        "observed_on": "2026-10-25T16:30:20.685524+00:00",
+        "observation": "The current description accurately reflects the business's location (Norfolk), core service (AI exploration and software building), and the primary call to action (free 30-minute conversation).\nCaptured quote: “Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.”",
+        "audience": "Norfolk-based business owners and decision-makers looking for practical AI implementations.",
+        "changes": [
+          {
+            "label": "Retain original description",
+            "before": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.",
+            "after": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible."
+          }
+        ],
+        "rationale": "The existing description is concise, includes the location, clearly states the value proposition, and provides a specific call to action that matches the site's content. No evidence suggests a more effective description for AI search queries.",
+        "sources": [
+          {
+            "title": "Google: control snippets in search results",
+            "url": "https://developers.google.com/search/docs/appearance/snippet",
+            "reviewed_on": "2026-10-25",
+            "strength": "Primary search-engine guidance; not an uplift study"
+          }
+        ],
+        "applicability": "High; this is the primary snippet used to represent the site in search results.",
+        "downside": "None.",
+        "rationale_confidence": "high",
+        "outcome_confidence": "medium",
+        "baseline": "Current search description",
+        "measurement": "N/A",
+        "review": {
+          "on": "2026-10-25T16:30:50.929747+00:00",
+          "by": "Automated second-pass review",
+          "conclusion": "The current description is accurate and aligns with the site's content. It correctly identifies the location (Norfolk), the service (AI exploration and practical software), and the primary CTA (free 30-minute conversation). It follows the guidance to use accurate, page-specific descriptions for snippets.",
+          "workflow": "Evidence-backed recommendations",
+          "version": "1.2.0",
+          "outcome": "accepted"
+        },
+        "work_id": null
+      },
+      {
+        "id": "d0a6cca9-3614-4815-a5a8-2af2fa7749ca",
+        "recorded_at": "2026-10-25T15:18:18.736225+00:00",
+        "title": "UNimpossible",
+        "url": "https://unimpossible.co.uk/",
+        "decision": "retain",
+        "observed_on": "2026-10-25T15:18:05.933155+00:00",
+        "observation": "The current search description accurately reflects the page content, including the service offering (AI and practical software), the location (Norfolk), and the primary call to action (free 30-minute conversation).\nCaptured quote: “Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.”",
+        "audience": "Norfolk-based businesses exploring practical AI and software solutions.",
+        "changes": [
+          {
+            "label": "Retain original description",
+            "before": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.",
+            "after": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible."
+          }
+        ],
+        "rationale": "The existing description is highly relevant to the page's stated purpose and audience. It captures the core value proposition (helping businesses explore AI/build software) and the specific geographic focus (Norfolk), while providing a clear CTA. There is no evidence to suggest that an alternative description would improve performance, and the current wording aligns with the site's plain-English, practical tone.",
+        "sources": [
+          {
+            "title": "Google: control snippets in search results",
+            "url": "https://developers.google.com/search/docs/appearance/snippet",
+            "reviewed_on": "2026-10-25",
+            "strength": "Primary search-engine guidance; not an uplift study"
+          }
+        ],
+        "applicability": "Applies to search engine results snippets for the homepage.",
+        "downside": "None identified; changing a working description without evidence of poor performance or misalignment risks losing current clarity.",
+        "rationale_confidence": "high",
+        "outcome_confidence": "medium",
+        "baseline": "Current description: Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.",
+        "measurement": "Comparison of current snippet against page content and site brief.",
+        "review": {
+          "on": "2026-10-25T15:18:18.734363+00:00",
+          "by": "Automated second-pass review",
+          "conclusion": "The candidate is accepted. The description accurately reflects the page content (Norfolk-based engineers, AI/software services) and the primary CTA (30-minute conversation) as stated in the site brief. It maintains the brand's practical, plain-English tone and aligns with the target audience of Norfolk-based businesses. No evidence suggests a need for revision.",
+          "workflow": "Evidence-backed recommendations",
+          "version": "1.1.0",
+          "outcome": "accepted"
+        },
+        "work_id": null
+      },
+      {
+        "id": "e31f75f1-4384-47d8-99fe-13e5fb036fa8",
+        "recorded_at": "2026-10-25T13:34:42.498610+00:00",
+        "title": "Retain current search description",
+        "url": "https://unimpossible.co.uk/",
+        "decision": "retain",
+        "observed_on": "2026-10-25T13:34:28.975198+00:00",
+        "observation": "The current description accurately reflects the page content, including the location (Norfolk), the service (AI and software engineering), and the primary call to action (30-minute conversation).\nCaptured quote: “Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.”",
+        "audience": "Norfolk businesses exploring practical AI and software help.",
+        "changes": [
+          {
+            "label": "Retain original description",
+            "before": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.",
+            "after": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible."
+          }
+        ],
+        "rationale": "The current description is an accurate, page-specific summary of the services and value proposition offered. It aligns with the site brief's requirement to preserve the 30-minute conversation duration and the practical tone. There is no evidence to suggest that an alternative description would improve click-through rates or search relevance.",
+        "sources": [
+          {
+            "title": "Google: control snippets in search results",
+            "url": "https://developers.google.com/search/docs/appearance/snippet",
+            "reviewed_on": "2026-10-25",
+            "strength": "Primary search-engine guidance; not an uplift study"
+          }
+        ],
+        "applicability": "The description is highly applicable to the target audience of Norfolk-based businesses seeking practical AI solutions.",
+        "downside": "None identified; changing the description without evidence of poor performance or inaccuracy risks losing current search visibility or relevance.",
+        "rationale_confidence": "high",
+        "outcome_confidence": "low",
+        "baseline": "Current search description as provided in the evidence.",
+        "measurement": "No current outcome evidence (CTR or conversion) is available to justify a change.",
+        "review": {
+          "on": "2026-10-25T13:34:42.495545+00:00",
+          "by": "Automated second-pass review",
+          "conclusion": "The current description is an accurate, page-specific summary of the services and value proposition offered. It aligns with the site brief's requirement to preserve the 30-minute conversation duration and the practical tone. It correctly identifies the location (Norfolk), the service (AI and software engineering), and the primary call to action (30-minute conversation). As no outcome evidence (CTR or conversion) is available to justify a change, retaining the current version is the only supported action.",
+          "workflow": "Evidence-backed recommendations",
+          "version": "1.0.1",
+          "outcome": "accepted"
+        },
+        "work_id": null
+      },
+      {
+        "id": "c611c5f3-c40d-491a-8bb8-ac30927eae96",
+        "recorded_at": "2026-10-25T13:23:56.480237+00:00",
+        "title": "Retain current search description",
+        "url": "https://unimpossible.co.uk/",
+        "decision": "retain",
+        "observed_on": "2026-10-25T13:21:57.567481+00:00",
+        "observation": "The current description accurately reflects the page content, including the location (Norfolk), the service (AI and practical software), and the primary call to action (30-minute conversation).\nCaptured quote: “Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.”",
+        "audience": "Norfolk businesses exploring practical AI/software help.",
+        "changes": [
+          {
+            "label": "Retain original description",
+            "before": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.",
+            "after": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible."
+          }
+        ],
+        "rationale": "The description is an accurate, page-specific summary of the business's value proposition and location. It aligns with the site brief's requirement to preserve the 30-minute conversation duration and the practical tone. Since there is no evidence of poor performance or conflicting user intent, changing the wording lacks evidence-backed justification.",
+        "sources": [
+          {
+            "title": "Google: control snippets in search results",
+            "url": "https://developers.google.com/search/docs/appearance/snippet",
+            "reviewed_on": "2026-10-25",
+            "strength": "Primary search-engine guidance; not an uplift study"
+          }
+        ],
+        "applicability": "High; the description summarizes the core service and CTA found in the page text.",
+        "downside": "None identified; changing the description without evidence of failure risks losing current relevance or accuracy.",
+        "rationale_confidence": "high",
+        "outcome_confidence": "medium",
+        "baseline": "Current search description as provided in evidence.",
+        "measurement": "No uplift study or conversion data provided to justify a change.",
+        "review": {
+          "on": "2026-10-25T13:23:56.478611+00:00",
+          "by": "Automated second-pass review",
+          "conclusion": "The current description is an accurate, page-specific summary of the business's value proposition and location. It correctly identifies the service (AI and practical software), the location (Norfolk), and the primary CTA (30-minute conversation), aligning with the site brief. As there is no evidence of poor performance or conflicting user intent, and the guidance suggests retaining working copies when evidence does not justify change, the recommendation to retain the current description is accepted.",
+          "workflow": "Evidence-backed recommendations",
+          "version": "1.0.1",
+          "outcome": "accepted"
+        },
+        "work_id": null
+      }
+    ],
+    "work": [
+      {
+        "id": "4493697d-967c-47c9-850b-8bdd9bb0a8e1",
+        "kind": "description",
+        "state": "published",
+        "public_verified": true
+      },
+      {
+        "id": "f511feb9-72b3-45f0-8230-4f73db1789fb",
+        "kind": "description",
+        "state": "undone",
+        "public_verified": true
+      },
+      {
+        "id": "b08cfa77-7701-4b20-9605-d9ff0553b8cf",
+        "kind": "description",
+        "state": "undone",
+        "public_verified": true
+      },
+      {
+        "id": "d14eb7c0-7ab6-47fe-8a8f-30f00cf8c674",
+        "kind": "description",
+        "state": "undone",
+        "public_verified": true
+      }
+    ]
+  },
+  "limitations": [
+    "First live exact-text publication/undo not yet exercised; fixture proof only.",
+    "Homepage observation window ends 2026-10-31T18:50:25Z.",
+    "AI evidence repair release pending; prior failed review preserved."
+  ],
+  "v1_closure": {
+    "core_pr": "https://github.com/Optaro/optaro-core/pull/2352",
+    "dashboard_commit": "bbd17ee",
+    "state": "awaiting_release",
+    "checks": {
+      "focused_core_tests": 37,
+      "dashboard_recommendation_tests": 3,
+      "dashboard_build": "passed"
+    },
+    "model_preflight": {
+      "ai_run_id": "d217f40b8661",
+      "ai_review": {
+        "outcome": "accepted",
+        "conclusion": "The candidate provides two findings based on the provided evidence. \n\nFinding 1: 'Absence in local service recommendations' is supported by saved_ai_answer-0, which shows the website is absent from a list of Norfolk providers for 'Who can help a Norfolk business automate enquiry handling?' (observed_at: 2026-10-25T11:44:00Z/2026-10-25T11:46:30Z). The hypothesis and proposed change (adding explicit language for 'enquiry handling automation') are reasonable responses to this observation and do not attempt to control search algorithms. \n\nFinding 2: 'Branded recognition in direct queries' is supported by saved_ai_answer-2, which shows the AI identifies the brand for the query 'What does UNimpossible do?' (observed_at: 2026-10-25T11:44:00Z/2026-10-25T11:46:30Z). The decision to 'retain' is a justified response to a successful observation. \n\nAll factual claims are correctly attributed to the evidence, and the candidate avoids generalizing single samples or treating search results as AI recommendations."
+      },
+      "page_run_id": "859cd3e91135",
+      "recommendations": [
+        {
+          "category": "description",
+          "decision": "change",
+          "title": "Description Update",
+          "quote": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.",
+          "observation": "The current description is accurate but lacks specific mentions of high-value use cases like enquiry handling or automation, which are prominent in the page text and relevant to local search queries.",
+          "audience": "Norfolk-based business owners looking for practical AI implementation and automation.",
+          "changes": [
+            {
+              "label": "Improved Description for AI Search",
+              "before": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.",
+              "after": "Norfolk-based engineers helping businesses automate enquiries, manage admin, and build practical AI software. Book a free 30-minute conversation with UNimpossible."
+            }
+          ],
+          "rationale": "Adding 'automate enquiries' and 'manage admin' aligns the description with specific services described on the page (e.g., 'Quotes out the same morning', 'Invoices that file themselves') and addresses observed gaps in local AI service recommendations for 'enquiry handling'.",
+          "source_ids": [
+            "google_snippets"
+          ],
+          "applicability": "High; improves relevance for users searching for specific automation tasks.",
+          "downside": "Slightly increases description length, though still well within typical limits.",
+          "rationale_confidence": "high",
+          "outcome_confidence": "medium",
+          "baseline": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.",
+          "measurement": "Monitor visibility in queries related to 'Norfolk AI automation' or 'enquiry handling automation'."
+        },
+        {
+          "category": "text",
+          "decision": "change",
+          "title": "Service Clarity Update",
+          "quote": "What AI is already doing for businesses like yours",
+          "observation": "The heading 'What AI is already doing for businesses like yours' is a bit vague. The content below it describes specific automation tasks (quotes, invoices, customer service) that provide immediate value.",
+          "audience": "Business owners seeking concrete examples of AI utility.",
+          "changes": [
+            {
+              "label": "More descriptive service heading",
+              "before": "What AI is already doing for businesses like yours",
+              "after": "Practical AI automation for your business"
+            }
+          ],
+          "rationale": "Changing the heading to 'Practical AI automation for your business' more clearly signals the value proposition (automation) and matches the specific examples provided (quotes, invoices, etc.), making it more useful for AI models summarizing the page's capabilities.",
+          "source_ids": [
+            "google_ai"
+          ],
+          "applicability": "Medium; improves semantic clarity for LLM summarization.",
+          "downside": "Changes the slightly more conversational tone of the original heading.",
+          "rationale_confidence": "high",
+          "outcome_confidence": "medium",
+          "baseline": "What AI is already doing for businesses like yours",
+          "measurement": "N/A"
+        }
+      ],
+      "reviews": [
+        {
+          "category": "description",
+          "outcome": "accepted",
+          "conclusion": "The proposed update to the meta description is supported by the evidence. The current description is broad, whereas the page text provides specific, high-value examples of automation (enquiry handling, quotes, invoices). The recommendation to include 'automate enquiries' and 'manage admin' directly addresses the observed gap where the site is absent from AI-generated recommendations for 'enquiry handling' in Norfolk. This aligns with the goal of improving semantic relevance for AI-search discovery without violating the principle of being people-first and truthful."
+        },
+        {
+          "category": "text",
+          "outcome": "accepted",
+          "conclusion": "The change to the heading 'What AI is already doing for businesses like yours' to 'Practical AI automation for your business' is accepted. The evidence shows the section contains concrete use cases (quotes, invoices, customer service) that are fundamentally about automation. The proposed change improves semantic clarity for LLM summarization and search indexing by explicitly labeling the service category, making the page's utility more apparent to both users and AI models."
+        }
+      ],
+      "additional_search_queries": 0
+    },
+    "baseline": {
+      "fetched_at": "2026-10-25T18:59:11.690825+00:00",
+      "site": {
+        "id": "1b81e91094da2fec6386cae20a4e799d",
+        "name": "UNimpossible",
+        "url": "https://unimpossible.co.uk",
+        "state": "connected",
+        "approval_required": true,
+        "publishing_mode": "automatic_page_text"
+      },
+      "permissions": {
+        "results_read": true,
+        "test_emails_manage": true,
+        "metrics_write": true,
+        "audits_run": true,
+        "publish": true,
+        "content_write": true,
+        "descriptions_write": true,
+        "schedule_write": false
+      },
+      "schedule": {
+        "site_id": "1b81e91094da2fec6386cae20a4e799d",
+        "frequency": "daily",
+        "next_due": "2026-10-26T10:10:23.495599+00:00",
+        "last_started": "2026-10-25T10:10:23.495599+00:00",
+        "generation": 1
+      },
+      "audit": {
+        "id": "6b303ae2-845f-4a0c-b3da-fb267ad3e5cc",
+        "state": "complete",
+        "updated_at": "2026-10-25T17:00:48.673483+00:00",
+        "completed": 2,
+        "pages": [
+          {
+            "page_id": 5,
+            "state": "complete",
+            "title": "Privacy — UNimpossible",
+            "message": ""
+          },
+          {
+            "page_id": 4,
+            "state": "complete",
+            "title": "UNimpossible",
+            "message": ""
+          }
+        ]
+      },
+      "recommendation_run": {
+        "id": "5af5074f-f27b-519a-aa99-02103374df0f",
+        "state": "complete",
+        "created_at": "2026-10-25T17:01:17.978580+00:00",
+        "finished_at": "2026-10-25T17:01:26.514340+00:00",
+        "message": "Page reviews: 2. See individual outcomes below.",
+        "count": 1,
+        "pages": [
+          {
+            "state": "complete",
+            "page_id": 4,
+            "page_url": "https://unimpossible.co.uk/",
+            "message": "Review complete. Publication follows the recorded site policy."
+          },
+          {
+            "state": "excluded",
+            "page_id": 5,
+            "page_url": "https://unimpossible.co.uk/privacy",
+            "message": "Indexing is restricted or uncertain; preserve the current exclusion."
+          }
+        ]
+      },
+      "ai": [
+        {
+          "id": "917b2307-b683-54b1-8963-3db809731aa2",
+          "state": "complete",
+          "created_at": "2026-10-25T17:01:17.978580+00:00",
+          "finished_at": "2026-10-25T17:01:47.106496+00:00",
+          "message": "AI readiness review complete. Facts and hypotheses are separate; no changes published by this skill.",
+          "result": {
+            "version": "1.1.0",
+            "assessment": {
+              "summary": "The audit of UNimpossible reveals that while the brand is recognized by AI models as a Norfolk-based engineering team building practical AI solutions (saved-answer-2), the website is currently absent from AI-generated recommendations for general queries regarding AI automation and assistant building in the UK and Norfolk regions (saved-answer-0, saved-answer-1). Search engine snippets show the site is indexed for its own brand and specific service keywords, but competitors are frequently surfaced for broader regional service queries (search-2-1, search-2-3, search-2-5). No specific website defects were identified that would prevent AI discovery, as robots.txt allows major AI crawlers (robots-policy).",
+              "findings": []
+            },
+            "review": {
+              "outcome": "accepted",
+              "conclusion": "The candidate correctly identifies that UNimpossible is recognized by AI for branded queries (saved-answer-2: \"Identifies Unimpossible as a Norfolk engineering team building practical AI solutions\") but is absent from general service recommendations (saved-answer-0, saved-answer-1). The assessment accurately notes that competitors appear in search results for broader regional queries (search-2-1, search-2-3, search-2-5) and correctly concludes that no website defects preventing discovery were found, noting that robots.txt allows major AI crawlers (robots-policy). The summary avoids speculating on engine reasoning or treating search results as AI recommendations."
+            },
+            "evidence": [
+              {
+                "id": "coverage",
+                "kind": "audit_coverage",
+                "text": {
+                  "total": 2,
+                  "selected": 2,
+                  "completed": null,
+                  "exclusions": "Private, draft, password-protected content and attachments excluded. Archives, taxonomy, feeds and non-content routes are not inventoried."
+                },
+                "observed_at": "2026-10-25 17:00:48.673483+00:00"
+              },
+              {
+                "id": "robots-policy",
+                "data": {
+                  "url": "https://unimpossible.co.uk/robots.txt",
+                  "state": "observed",
+                  "limitation": "Standard robots parser checks the listed audited URLs. Provider implementations can differ. Allowed policy does not prove actual access, indexing or recommendations.",
+                  "page_policy": {
+                    "https://unimpossible.co.uk/": {
+                      "Googlebot": true,
+                      "OAI-SearchBot": true,
+                      "PerplexityBot": true,
+                      "Claude-SearchBot": true
+                    },
+                    "https://unimpossible.co.uk/privacy": {
+                      "Googlebot": true,
+                      "OAI-SearchBot": true,
+                      "PerplexityBot": true,
+                      "Claude-SearchBot": true
+                    }
+                  },
+                  "homepage_policy": {
+                    "Googlebot": true,
+                    "OAI-SearchBot": true,
+                    "PerplexityBot": true,
+                    "Claude-SearchBot": true
+                  }
+                },
+                "kind": "robots_policy",
+                "observed_at": "2026-10-25 17:00:48.673483+00:00"
+              },
+              {
+                "id": "saved-answer-0",
+                "kind": "saved_ai_answer",
+                "answer": "Saved observer summary, not a verbatim answer: Recommends Norfolk providers including Edcana AI, East Anglia AI Services, Kaizen Solutions UK, Crushed Ice, Osiris IT, Breakwater IT and S2 Computers. Unimpossible is absent from the answer and displayed links.",
+                "coverage": "United Kingdom; English UI; existing signed-in owner browser session, personalisation possible; New thread for each question; no URL supplied or follow-up prompt; one manual sample; displayed links can include related sources rather than inline citations.",
+                "platform": "Google AI Mode",
+                "question": "Who can help a Norfolk business automate enquiry handling?",
+                "citations": "['https://edcana.co.uk/', 'https://eastangliaaiservices.co.uk/', 'https://kaizensolutionsuk.com/services/crm-automation', 'https://crushedice.uk/services/workflow-automation/norfolk/thetford', 'https://crushedice.uk/services/ai/norfolk/norwich', 'https://osirisit.co.uk/ai-advisory', 'https://breakwaterit.co.uk/service/ai-and-automation/', 'https://s2-computers.co.uk/services/ai-solutions-for-businesses-in-norwich-norfolk-and-suffolk-s2-computers/', 'https://norfolkchamber.co.uk/content/edcana-ai/']",
+                "observed_at": "2026-10-25T11:44:00Z/2026-10-25T11:46:30Z"
+              },
+              {
+                "id": "saved-answer-1",
+                "kind": "saved_ai_answer",
+                "answer": "Saved observer summary, not a verbatim answer: Lists custom AI builders, managed chat providers and receptionists. Examples include Creative Agent, Seahorse, First Essential, KlarifAi, The Epitome, Delegait, Orbis AI and Converse360. Unimpossible is absent.",
+                "coverage": "United Kingdom; English UI; existing signed-in owner browser session, personalisation possible; New thread for each question; no URL supplied or follow-up prompt; one manual sample; displayed links can include related sources rather than inline citations.",
+                "platform": "Google AI Mode",
+                "question": "Who builds AI assistants for small UK businesses?",
+                "citations": "['https://delegait.co.uk/ai', 'https://creativeagent.co.uk/best-ai-agents-small-business-uk', 'https://firstessential.uk/ai-solutions/', 'https://creativeagent.co.uk/virtual-assistant-services/', 'https://seahorseltd.co.uk/ai-agents.html', 'https://klarifai.co.uk/blog/ai-consulting-for-small-businesses', 'https://theepitome.co.uk/ai-agents', 'https://converse360.co.uk/solutions/small-and-medium-businesses', 'https://aiassistsmes.co.uk/', 'https://orbisai.co.uk/', 'https://cxassist.io/blog/best-ai-receptionist-uk-small-business']",
+                "observed_at": "2026-10-25T11:44:00Z/2026-10-25T11:46:30Z"
+              },
+              {
+                "id": "saved-answer-2",
+                "kind": "saved_ai_answer",
+                "answer": "Saved observer summary, not a verbatim answer: Identifies Unimpossible as a Norfolk engineering team building practical AI solutions and repeatedly cites the homepage. Describes automation examples and the website audit. This is branded recognition, not an unsolicited supplier recommendation.",
+                "coverage": "United Kingdom; English UI; existing signed-in owner browser session, personalisation possible; New thread for each question; no URL supplied or follow-up prompt; one manual sample; displayed links can include related sources rather than inline citations.",
+                "platform": "Google AI Mode",
+                "question": "What does UNimpossible do?",
+                "citations": "['https://unimpossible.co.uk/']",
+                "observed_at": "2026-10-25T11:44:00Z/2026-10-25T11:46:30Z"
+              },
+              {
+                "id": "page-5",
+                "url": "https://unimpossible.co.uk/privacy",
+                "kind": "page_check",
+                "page": {
+                  "id": 5,
+                  "url": "https://unimpossible.co.uk/privacy",
+                  "hash": "dd3b2603f8b1de8ac9f97a83c8ba0da134a3d618310d730a6cfd3943b93a27ba",
+                  "text": "Skip to content UN impossible What AI can do How we work Who we are Chamber members Book a conversation Privacy UNimpossible Consultants Limited, Watton, Norfolk, is the data controller for this website. We do not use advertising trackers or third-party visitor analytics scripts. Our optional AI chat uses a session identifier to keep a conversation together. When you contact us If you use the form or email hello@unimpossible.co.uk, we receive what you send: your name, company, email address and message. We use it to reply to you and, if we go on to work together, to do the work. We keep enquiries for as long as the conversation is live and for up to two years afterwards, then delete them. Website enquiries are stored in our Optaro Core system and the team receives an email notification through Postmark. We don't add you to a mailing list or sell your details. Service providers process only the information needed to deliver the service. The website read and the audit When you enter a website address in the read on our home page, our server fetches a few public pages from that site and sends their text to Anthropic's Claude API, which produces the read. We keep the address, the fetched text and the result to complete the audit and reuse recent results. If you ask for the full audit we also keep your email address and name, send you one confirmation email, fetch public pages from the competitor sites we find, and send you the report as a link. A copy of the report goes to hello@unimpossible.co.uk so we can follow up if you reply. None of it is sold or shared, and we'll delete it if you ask. Audit confirmation and delivery emails are sent through Postmark. Competitor discovery uses Tavily search. We send these providers only the information needed to perform those steps. The AI assistant The chat is an AI assistant, not a live member of staff. Optaro Core stores conversation messages to provide answers and lets our team review enquiries. AI providers process messages to generate responses. If you provide contact details, Core may save them with your enquiry so the team can follow up. Please use the enquiry form when you need a reply, and do not share passwords, payment details or confidential customer information in chat. We apply the enquiry retention period above to conversations and contact details, and you can request deletion by email. Search and referral measurement We use Google Search Console to view Google's reports about our website's search visibility and traffic. We also keep daily counts of requests to our public pages that arrive with a recognised search-engine or AI-assistant referral. These counters use no analytics cookies or visitor identifiers. They record the time, page and a source category, not your IP address or the referring page's full address. Known automated clients and our test requests are excluded, but these counts are not a measure of unique people. We keep the separate referral records for up to 36 days and daily totals for up to 400 days. Hosting The site is served from servers we run in the EU and UK. Like any web server they keep short-lived access logs (IP address, pages requested, browser type) for security and fault-finding, which rotate automatically. Your rights You can ask what we hold about you, ask us to correct it or delete it, at any time: hello@unimpossible.co.uk. If you're unhappy with how we've handled your information you can complain to the Information Commissioner's Office (ico.org.uk). Last updated October 2026. UNimpossible Consultants Limited, Watton, Norfolk. Member of Norfolk Chambers of Commerce. Privacy",
+                  "title": "Privacy — UNimpossible",
+                  "revision": "c200043bfc6004bfa93eec0613d4f1cf340182e68d1b6637d5fbc20487e028ad",
+                  "description": "What UNimpossible collects when you contact us or use the free website check, and what we do with it.",
+                  "text_blocks": [
+                    "Privacy",
+                    "UNimpossible Consultants Limited, Watton, Norfolk, is the data controller for this website. We do not use advertising trackers or third-party visitor analytics scripts. Our optional AI chat uses a session identifier to keep a conversation together.",
+                    "When you contact us",
+                    "If you use the form or email hello@unimpossible.co.uk, we receive what you send: your name, company, email address and message. We use it to reply to you and, if we go on to work together, to do the work. We keep enquiries for as long as the conversation is live and for up to two years afterwards, then delete them. Website enquiries are stored in our Optaro Core system and the team receives an email notification through Postmark. We don't add you to a mailing list or sell your details. Service providers process only the information needed to deliver the service.",
+                    "The website read and the audit",
+                    "When you enter a website address in the read on our home page, our server fetches a few public pages from that site and sends their text to Anthropic's Claude API, which produces the read. We keep the address, the fetched text and the result to complete the audit and reuse recent results. If you ask for the full audit we also keep your email address and name, send you one confirmation email, fetch public pages from the competitor sites we find, and send you the report as a link. A copy of the report goes to hello@unimpossible.co.uk so we can follow up if you reply. None of it is sold or shared, and we'll delete it if you ask.",
+                    "Audit confirmation and delivery emails are sent through Postmark. Competitor discovery uses Tavily search. We send these providers only the information needed to perform those steps.",
+                    "The AI assistant",
+                    "The chat is an AI assistant, not a live member of staff. Optaro Core stores conversation messages to provide answers and lets our team review enquiries. AI providers process messages to generate responses. If you provide contact details, Core may save them with your enquiry so the team can follow up. Please use the enquiry form when you need a reply, and do not share passwords, payment details or confidential customer information in chat. We apply the enquiry retention period above to conversations and contact details, and you can request deletion by email.",
+                    "Search and referral measurement",
+                    "We use Google Search Console to view Google's reports about our website's search visibility and traffic. We also keep daily counts of requests to our public pages that arrive with a recognised search-engine or AI-assistant referral. These counters use no analytics cookies or visitor identifiers. They record the time, page and a source category, not your IP address or the referring page's full address. Known automated clients and our test requests are excluded, but these counts are not a measure of unique people. We keep the separate referral records for up to 36 days and daily totals for up to 400 days.",
+                    "Hosting",
+                    "The site is served from servers we run in the EU and UK. Like any web server they keep short-lived access logs (IP address, pages requested, browser type) for security and fault-finding, which rotate automatically.",
+                    "Your rights",
+                    "You can ask what we hold about you, ask us to correct it or delete it, at any time: hello@unimpossible.co.uk. If you're unhappy with how we've handled your information you can complain to the Information Commissioner's Office (ico.org.uk).",
+                    "Last updated October 2026."
+                  ],
+                  "text_truncated": false,
+                  "indexing_blocked": false
+                },
+                "state": "complete",
+                "checks": [
+                  {
+                    "id": "public_html",
+                    "fact": "Public HTML returned HTTP 200; this is our fetch, not evidence of an AI crawler visit.",
+                    "state": "observed"
+                  },
+                  {
+                    "id": "readable_text",
+                    "fact": "611 words in public HTML excluding scripts/styles/templates; no minimum word count is a ranking requirement.",
+                    "state": "observed"
+                  },
+                  {
+                    "id": "indexing",
+                    "fact": "Captured robots directives: max-image-preview:large, noindex. Exclusions may be intentional; do not remove automatically.",
+                    "state": "review"
+                  },
+                  {
+                    "id": "snippets",
+                    "fact": "Snippet restrictions must be interpreted per engine; absence does not prove indexing or inclusion.",
+                    "state": "observed"
+                  },
+                  {
+                    "id": "canonical",
+                    "fact": "Declared canonical URLs: https://unimpossible.co.uk/privacy",
+                    "state": "observed"
+                  }
+                ],
+                "observed_at": "2026-10-25 17:00:48.673483+00:00",
+                "review_exclusion": "Indexing is restricted or uncertain; preserve the current exclusion."
+              },
+              {
+                "id": "page-4",
+                "url": "https://unimpossible.co.uk/",
+                "kind": "page_check",
+                "page": {
+                  "id": 4,
+                  "url": "https://unimpossible.co.uk/",
+                  "hash": "ff1095e55f84c0f3ce4772f9e77973a56327377a3c2b1e060f00719d243c1511",
+                  "text": "Skip to content UN impossible What AI can do How we work Who we are Chamber members Book a conversation We help businesses understand what AI can do for them. Then we build it. Fast. UNimpossible is a small team of engineers in Norfolk. We've built AI platforms that are sold around the world, and we bring the same work to businesses that know AI matters but not yet where to start. Request a free 30-minute conversation See how we work Try it: your website, read the way an AI expert reads it. Enter your address. In about fifteen seconds we'll say what we think your business does, what a customer of a business like yours needs to see, and three things we noticed. Then, if you want it, the full audit: how you compare with the competitors we find, regional and national. Website address {\"element\": \"input\", \"type\": \"text\", \"name\": \"site\", \"placeholder\": \"yourbusiness.co.uk\"} Read my site What we think you do What a customer of a business like yours needs to see Three things we noticed The full audit Who you're up against, regionally and nationally, and how you compare on the things that win business. We find the competitors ourselves from what your site says. It takes a few minutes, so it arrives by email as a link. Email {\"element\": \"input\", \"type\": \"email\", \"name\": \"email\"} Name {\"element\": \"input\", \"type\": \"text\", \"name\": \"name\", \"placeholder\": \"optional\"} Website {\"element\": \"input\", \"type\": \"text\", \"name\": \"website\"} Send me the full audit A real read of your pages by Claude, Anthropic's model, with our own fetching and measurements. Nothing invented: where we can't tell, we say so. We keep your address and email only to send the audit. Privacy . What AI is already doing for businesses like yours None of this needs new software your team has to learn. It runs inside the email, accounts and website you already have, and a person approves anything that matters. Quotes out the same morning An enquiry arrives by email. The assistant reads it, pulls the right items from the price list, drafts the quote in the firm's usual wording and leaves it for the owner to check and send. What used to wait for Friday afternoon goes out before coffee. Invoices that file themselves Supplier invoices are read, matched to the order and posted to the accounts package. Anything that doesn't match is set aside with a note saying why. The bookkeeper looks at the exceptions, not the pile. Questions answered at eleven at night An assistant on the website answers from the business's own information, not the internet: opening hours, what's included, how long it takes. When someone is ready, it books the call. Enquiries that would have gone to a competitor stay put. The weekly report nobody had time to write Jobs, cash and overdue items pulled together every Monday in plain English, with the three things that need a decision at the top. The team starts the week knowing where it stands. How we work 1 Understand A free 30-minute conversation about what's slowing the business down. If it's worth going further, a two-week review of how work actually moves through your inboxes, systems and people, ending in a ranked list of where AI would pay, and where it wouldn't. 2 Build The first win built in weeks, not months, inside the tools you already use, at a price agreed before we start. You see it working as it takes shape, not in a slide deck at the end. 3 Run We can look after it, improve it and send you a plain-English monthly note, or hand it over completely. Either way the code, the accounts and the documentation are yours. A team that builds systems for a living The platforms we've built are sold around the world through reseller partners: network assurance for hotel groups, guest WiFi, an AI helpdesk, business search. Every one of them started as a problem someone needed solved, and every one is in production today. That's the experience we bring to a business in Norfolk with a spreadsheet that's got out of hand, an inbox nobody can keep up with, or a website that doesn't bring work in. Same engineers, same standards, smaller problems. We understand business, we build fast, and we'll tell you plainly when AI isn't the answer. Norfolk Chambers of Commerce members get a free one-hour AI session Bring one problem. Leave with a written view of whether AI can help, what it would take, and roughly what it would cost. No slides, no obligation. We're members too, so we'll probably see you at the next breakfast. Claim your session Tell us what's slowing you down Thirty minutes with an engineer, not a salesperson. You'll leave with at least one idea worth acting on, whether or not you work with us. We reply within one working day. hello@unimpossible.co.uk Name (required) {\"element\": \"input\", \"type\": \"text\", \"name\": \"name\", \"required\": null} Company (optional) {\"element\": \"input\", \"type\": \"text\", \"name\": \"company\"} Email (required) {\"element\": \"input\", \"type\": \"email\", \"name\": \"email\", \"required\": null} What takes up too much of your team's time? (optional) {\"element\": \"textarea\", \"name\": \"message\"} Leave this empty {\"element\": \"input\", \"type\": \"text\", \"name\": \"website\"} {\"element\": \"input\", \"type\": \"hidden\", \"name\": \"interest\"} Your enquiry is saved securely for our team to reply. No mailing list. Privacy Request a conversation UNimpossible Consultants Limited, Watton, Norfolk. Member of Norfolk Chambers of Commerce. Privacy",
+                  "title": "UNimpossible",
+                  "revision": "86360b20f1094e78e70f94027d2075b93c6b3af549e450228d55beeed3a1c1d3",
+                  "description": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.",
+                  "text_blocks": [
+                    "We help businesses understand what AI can do for them. Then we build it. Fast.",
+                    "UNimpossible is a small team of engineers in Norfolk. We've built AI platforms that are sold around the world, and we bring the same work to businesses that know AI matters but not yet where to start.",
+                    "Try it: your website, read the way an AI expert reads it.",
+                    "Enter your address. In about fifteen seconds we'll say what we think your business does, what a customer of a business like yours needs to see, and three things we noticed. Then, if you want it, the full audit: how you compare with the competitors we find, regional and national.",
+                    ".",
+                    "What AI is already doing for businesses like yours",
+                    "None of this needs new software your team has to learn. It runs inside the email, accounts and website you already have, and a person approves anything that matters.",
+                    "Quotes out the same morning",
+                    "An enquiry arrives by email. The assistant reads it, pulls the right items from the price list, drafts the quote in the firm's usual wording and leaves it for the owner to check and send. What used to wait for Friday afternoon goes out before coffee.",
+                    "Invoices that file themselves",
+                    "Supplier invoices are read, matched to the order and posted to the accounts package. Anything that doesn't match is set aside with a note saying why. The bookkeeper looks at the exceptions, not the pile.",
+                    "Questions answered at eleven at night",
+                    "An assistant on the website answers from the business's own information, not the internet: opening hours, what's included, how long it takes. When someone is ready, it books the call. Enquiries that would have gone to a competitor stay put.",
+                    "The weekly report nobody had time to write",
+                    "Jobs, cash and overdue items pulled together every Monday in plain English, with the three things that need a decision at the top. The team starts the week knowing where it stands.",
+                    "How we work",
+                    "1",
+                    "Understand",
+                    "A free 30-minute conversation about what's slowing the business down. If it's worth going further, a two-week review of how work actually moves through your inboxes, systems and people, ending in a ranked list of where AI would pay, and where it wouldn't.",
+                    "2",
+                    "Build",
+                    "The first win built in weeks, not months, inside the tools you already use, at a price agreed before we start. You see it working as it takes shape, not in a slide deck at the end.",
+                    "3",
+                    "Run",
+                    "We can look after it, improve it and send you a plain-English monthly note, or hand it over completely. Either way the code, the accounts and the documentation are yours.",
+                    "A team that builds systems for a living",
+                    "The platforms we've built are sold around the world through reseller partners: network assurance for hotel groups, guest WiFi, an AI helpdesk, business search. Every one of them started as a problem someone needed solved, and every one is in production today.",
+                    "That's the experience we bring to a business in Norfolk with a spreadsheet that's got out of hand, an inbox nobody can keep up with, or a website that doesn't bring work in. Same engineers, same standards, smaller problems.",
+                    "We understand business, we build fast, and we'll tell you plainly when AI isn't the answer.",
+                    "Norfolk Chambers of Commerce members get a free one-hour AI session",
+                    "Bring one problem. Leave with a written view of whether AI can help, what it would take, and roughly what it would cost. No slides, no obligation. We're members too, so we'll probably see you at the next breakfast.",
+                    "Tell us what's slowing you down",
+                    "Thirty minutes with an engineer, not a salesperson. You'll leave with at least one idea worth acting on, whether or not you work with us. We reply within one working day."
+                  ],
+                  "text_truncated": false,
+                  "indexing_blocked": false
+                },
+                "state": "complete",
+                "checks": [
+                  {
+                    "id": "public_html",
+                    "fact": "Public HTML returned HTTP 200; this is our fetch, not evidence of an AI crawler visit.",
+                    "state": "observed"
+                  },
+                  {
+                    "id": "readable_text",
+                    "fact": "844 words in public HTML excluding scripts/styles/templates; no minimum word count is a ranking requirement.",
+                    "state": "observed"
+                  },
+                  {
+                    "id": "indexing",
+                    "fact": "Captured robots directives: max-image-preview:large. Exclusions may be intentional; do not remove automatically.",
+                    "state": "observed"
+                  },
+                  {
+                    "id": "snippets",
+                    "fact": "Snippet restrictions must be interpreted per engine; absence does not prove indexing or inclusion.",
+                    "state": "observed"
+                  },
+                  {
+                    "id": "canonical",
+                    "fact": "Declared canonical URLs: https://unimpossible.co.uk/",
+                    "state": "observed"
+                  }
+                ],
+                "observed_at": "2026-10-25 17:00:48.673483+00:00",
+                "review_exclusion": null
+              },
+              {
+                "id": "guidance",
+                "url": "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide",
+                "kind": "primary_guidance",
+                "text": "Google AI eligibility requires indexable, snippet-eligible content. Original useful content matters; there is no required special AI file or guaranteed citation. This is Google guidance, not proof of other engines' ranking factors.",
+                "observed_at": "2026-10-25"
+              },
+              {
+                "id": "crawlers",
+                "data": {
+                  "kind": "crawler_observation",
+                  "site_id": "1b81e91094da2fec6386cae20a4e799d",
+                  "freshness": "recent",
+                  "providers": {
+                    "OAI-SearchBot": {
+                      "robots": 5,
+                      "http_2xx": 4,
+                      "http_3xx": 1,
+                      "range_matched": 5,
+                      "identity_source": "https://openai.com/searchbot.json",
+                      "identity_available": true
+                    },
+                    "PerplexityBot": {
+                      "unverified": 2,
+                      "identity_source": "https://www.perplexity.com/perplexitybot.json",
+                      "identity_available": true
+                    },
+                    "Claude-SearchBot": {
+                      "identity_source": "https://claude.com/crawling/bots.json",
+                      "identity_available": true
+                    }
+                  },
+                  "limitation": "Retained proxy logs only. IP range plus user-agent matching, not cryptographic identity. No observed request is not proof of blocking; other endpoints include protected paths. No network-drop coverage.",
+                  "window_end": "2026-10-25T00:00:00+00:00",
+                  "collected_at": "2026-10-25T13:18:22.859926+00:00",
+                  "window_start": "2026-10-24T00:00:00+00:00",
+                  "malformed_bot_lines": 0
+                },
+                "kind": "crawler_observation"
+              },
+              {
+                "id": "search-1-1",
+                "url": "https://unimpossible.co.uk",
+                "kind": "search_snippet",
+                "text": "Skip to content\n\nUNimpossible \nBook a conversation\n\n# We help businesses understand what AI can do for them. Then we build it. Fast.\n\nUNimpossible is a small team of engineers in Norfolk. We've built AI platforms that are sold around the world, and we bring the same work to businesses that know AI matters but not yet where to start.\n\nRequest a free 30-minute conversation See how we work\n\nTry it: your website, read the way an AI expert reads it.\n\nEnter your address. In about fifteen seconds we'll",
+                "query": "Unimpossible site:unimpossible.co.uk",
+                "title": "UNimpossible — understand what AI can do for your business",
+                "position": 1,
+                "provider": "not reported",
+                "observed_at": "2026-10-25T17:01:18.903966+00:00"
+              },
+              {
+                "id": "search-2-1",
+                "url": "https://breakwaterit.co.uk/service/ai-and-automation",
+                "kind": "search_snippet",
+                "text": "View Client Story\n\n               St Paul's Cathedral in London in the distance from Millennium Bridge.\n\nClient Story\n\n### Blue Sky Leisure\n\nOpening to visitors post lockdown with Power Apps.\n\nView Client Story\n\n               Blue Sky Leisure Kelling-Heath-Woodland-Lodges\n\nBreakwater IT\n\nMake An Enquiry\n\nEnquiries: 01603 709300 09:00 – 17:00 | Monday to Friday Service Desk: 01603 709301 08:00 – 18:00 | Monday to Friday Email [...] Breakwater IT\n\nWide Screen monitor showing Breakwater IT's desk ",
+                "query": "Norfolk UK business AI automation enquiry handling",
+                "title": "AI and Automation Services | Breakwater IT | Norwich, Norfolk",
+                "position": 1,
+                "provider": "not reported",
+                "observed_at": "2026-10-25T17:01:24.426313+00:00"
+              },
+              {
+                "id": "search-2-2",
+                "url": "https://www.edp24.co.uk/news/26602128.norfolk-businesses-preparing-next-wave-ai-adoption",
+                "kind": "search_snippet",
+                "text": "The UK Business Data Survey 2026 found that 36% of businesses handling digitised data in the East of England reported using AI-based technologies.\n\nWhile this represents a significant level of adoption, the figure remains below London, where 60% of businesses handling digitised data said they were using AI.\n\nSeparate Office for National Statistics research shows how quickly artificial intelligence is becoming part of UK business.\n\nAmong businesses with 10 or more employees, the proportion report",
+                "query": "Norfolk UK business AI automation enquiry handling",
+                "title": "How Norfolk Businesses Are Preparing for the Next Wave of AI Adoption  | Eastern Daily Press",
+                "position": 2,
+                "provider": "not reported",
+                "observed_at": "2026-10-25T17:01:24.426313+00:00"
+              },
+              {
+                "id": "search-2-3",
+                "url": "https://vistoplex.com/services/ai-automation",
+                "kind": "search_snippet",
+                "text": "Skip to content \n\nBook consultation Get a free quote →\n\nVISTOPLEX · DIGITAL GROWTH\n\n# AI Automation for UK Small Businesses — Save Hours Every Week — Vistoplex\n\nHome / Services / AI Automation\n\nAI & Automation — Custom Build\n\n## AI Automation for UK small businesses — save hours daily.\n\nWe build custom AI automation systems that handle enquiries, follow up leads, book appointments, manage admin, and keep your business running — even when you are not. Most clients save 10–20 hours every week with",
+                "query": "Norfolk UK business AI automation enquiry handling",
+                "title": "AI Automation Services UK & UAE | Vistoplex",
+                "position": 3,
+                "provider": "not reported",
+                "observed_at": "2026-10-25T17:01:24.426313+00:00"
+              },
+              {
+                "id": "search-2-4",
+                "url": "https://www.linkedin.com/posts/norfolk-ai_every-new-hire-needs-months-to-learn-how-activity-7514023592293089280-76WJ",
+                "kind": "search_snippet",
+                "text": "Norfolk AI agents are built to handle exactly that. Each one works from your company's own knowledge: → Product details, pricing and",
+                "query": "Norfolk UK business AI automation enquiry handling",
+                "title": "Norfolk AI Agents Handle Complex Customer Questions ...",
+                "position": 4,
+                "provider": "not reported",
+                "observed_at": "2026-10-25T17:01:24.426313+00:00"
+              },
+              {
+                "id": "search-2-5",
+                "url": "https://www.zfort.com/artificial-intelligence/artificial-intelligence-development-in-Norfolk-England",
+                "kind": "search_snippet",
+                "text": "## AI Development Services in Norfolk\n\nCompanies in Norfolk choose Zfort Group for AI projects that need both deep technical expertise and a clear focus on business outcomes.\n\n### AI Agents\n\nWe develop AI agents that execute multi-step tasks across your systems, from data entry to request processing.\n\nHuman-in-the-loop controls keep critical actions transparent and approved.\n\n### Computer Vision Solutions\n\nWe create vision systems for object detection, quality inspection, and image or video anal",
+                "query": "Norfolk UK business AI automation enquiry handling",
+                "title": "AI Development for Norfolk Companies | Zfort Group",
+                "position": 5,
+                "provider": "not reported",
+                "observed_at": "2026-10-25T17:01:24.426313+00:00"
+              },
+              {
+                "id": "search-3-1",
+                "url": "https://unimpossible.co.uk",
+                "kind": "search_snippet",
+                "text": "Skip to content\n\nUNimpossible \nBook a conversation\n\n# We help businesses understand what AI can do for them. Then we build it. Fast.\n\nUNimpossible is a small team of engineers in Norfolk. We've built AI platforms that are sold around the world, and we bring the same work to businesses that know AI matters but not yet where to start.\n\nRequest a free 30-minute conversation See how we work\n\nTry it: your website, read the way an AI expert reads it.\n\nEnter your address. In about fifteen seconds we'll",
+                "query": "Unimpossible AI software Norfolk UK",
+                "title": "UNimpossible — understand what AI can do for your business",
+                "position": 1,
+                "provider": "not reported",
+                "observed_at": "2026-10-25T17:01:29.325176+00:00"
+              },
+              {
+                "id": "search-3-2",
+                "url": "https://uk.linkedin.com/company/unpossibleai",
+                "kind": "search_snippet",
+                "text": "Description: At Unpossible AI, we’re transforming the way businesses operate with cutting-edge AI-powered solutions designed for smarter, faster, and more efficient growth. 💡 What We Do: We specialize in AI tools that revolutionize customer engagement, automate lead responses, and streamline operations. From 24/7 AI virtual assistants to automated lead capture and personalized e-commerce experiences, our solutions help businesses stay ahead in a competitive market. 🎯 Why Choose Us: Respond Insta",
+                "query": "Unimpossible AI software Norfolk UK",
+                "title": "Unpossible AI",
+                "position": 2,
+                "provider": "not reported",
+                "observed_at": "2026-10-25T17:01:29.325176+00:00"
+              },
+              {
+                "id": "search-3-3",
+                "url": "https://crushedice.uk/services/ai/norfolk",
+                "kind": "search_snippet",
+                "text": "## Our AI Software Solutions\n\nWe offer flexible AI solutions that work either as standalone tools tailored to specific business needs or as integrated components within larger Crushed Ice bespoke software systems. Our approach adapts to your requirements - whether you need a focused AI application or a complete business transformation.\n\n### Custom AI Development\n\nTailored AI systems built for your specific business challenges, seamlessly integrated with your workflows and focused exactly on what",
+                "query": "Unimpossible AI software Norfolk UK",
+                "title": "AI Solutions in Norfolk | Crushed Ice",
+                "position": 3,
+                "provider": "not reported",
+                "observed_at": "2026-10-25T17:01:29.325176+00:00"
+              },
+              {
+                "id": "search-3-4",
+                "url": "https://www.netmatters.co.uk/bespoke-software",
+                "kind": "search_snippet",
+                "text": "Insights\n\n        \n\nContact\n\n Home\n Bespoke Software\n\n# Bespoke Software Consultancy & Development\n\nBespoke software and AI-driven systems for UK businesses, proven with a free working prototype before you commit.\n\nGet Started\n\nFree Working Prototype  See it before you buy it.\n\nNo Obligation  \n  Walk away any time, no cost.\n\nBuilt Around You  Not off-the-shelf, not a template.\n\nAI-Ready Systems  Built for how businesses work now.\n\nExample software\n\n## See It Working Before You Commit to It [...]",
+                "query": "Unimpossible AI software Norfolk UK",
+                "title": "Software Development Agency Norfolk | Bespoke Software | Netmatters",
+                "position": 4,
+                "provider": "not reported",
+                "observed_at": "2026-10-25T17:01:29.325176+00:00"
+              },
+              {
+                "id": "search-3-5",
+                "url": "https://ireland.dealroom.co/companies/unpossible_ai",
+                "kind": "search_snippet",
+                "text": "Unpossible AI provides artificial intelligence solutions designed to automate and enhance business operations, with a focus on customer engagement, lead",
+                "query": "Unimpossible AI software Norfolk UK",
+                "title": "Unpossible AI company information, funding & investors",
+                "position": 5,
+                "provider": "not reported",
+                "observed_at": "2026-10-25T17:01:29.325176+00:00"
+              }
+            ],
+            "searches": [
+              {
+                "count": 1,
+                "query": "Unimpossible site:unimpossible.co.uk",
+                "state": "complete",
+                "provider": "not reported",
+                "observed_at": "2026-10-25T17:01:18.903966+00:00"
+              },
+              {
+                "count": 5,
+                "query": "Norfolk UK business AI automation enquiry handling",
+                "state": "complete",
+                "provider": "not reported",
+                "observed_at": "2026-10-25T17:01:24.426313+00:00"
+              },
+              {
+                "count": 5,
+                "query": "Unimpossible AI software Norfolk UK",
+                "state": "complete",
+                "provider": "not reported",
+                "observed_at": "2026-10-25T17:01:29.325176+00:00"
+              }
+            ]
+          },
+          "audit_id": "6b303ae2-845f-4a0c-b3da-fb267ad3e5cc"
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "5ca4a583-6a0e-468c-82f5-1e4cc00802f4",
+          "recorded_at": "2026-10-25T17:01:26.517006+00:00",
+          "title": "Current Search Description",
+          "url": "https://unimpossible.co.uk/",
+          "decision": "retain",
+          "observed_on": "2026-10-25T17:01:19.050613+00:00",
+          "observation": "The current description accurately reflects the business's location (Norfolk), core service (AI exploration and software building), and the primary call to action (free 30-minute conversation).\nCaptured quote: “Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.”",
+          "audience": "Norfolk-based business owners and decision-makers looking for practical AI implementation.",
+          "changes": [
+            {
+              "label": "Retain original description",
+              "before": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.",
+              "after": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible."
+            }
+          ],
+          "rationale": "The description is concise, contains the key value propositions found in the page text, and includes a clear call to action. It aligns with the site brief's emphasis on practical AI and the 30-minute conversation.",
+          "sources": [
+            {
+              "title": "Google: control snippets in search results",
+              "url": "https://developers.google.com/search/docs/appearance/snippet",
+              "reviewed_on": "2026-10-25",
+              "strength": "Primary search-engine guidance; not an uplift study"
+            }
+          ],
+          "applicability": "High; this is the primary snippet used for search results.",
+          "downside": "None identified.",
+          "rationale_confidence": "high",
+          "outcome_confidence": "medium",
+          "baseline": "Current search description",
+          "measurement": "Search engine result visibility and click-through rate (CTR).",
+          "review": {
+            "on": "2026-10-25T17:01:26.514340+00:00",
+            "by": "Automated second-pass review",
+            "conclusion": "The current description is accurate and well-aligned with the page content and site brief. It correctly identifies the location (Norfolk), the core service (AI exploration and practical software), and the primary CTA (free 30-minute conversation). No changes are required as the existing text provides a clear, factual summary for the target audience.",
+            "workflow": "Evidence-backed recommendations",
+            "version": "1.2.0",
+            "outcome": "accepted"
+          },
+          "work_id": null
+        },
+        {
+          "id": "57cc0e55-e6e5-45a2-b05c-c8fea99c317f",
+          "recorded_at": "2026-10-25T16:30:50.932274+00:00",
+          "title": "Current Search Description",
+          "url": "https://unimpossible.co.uk/",
+          "decision": "retain",
+          "observed_on": "2026-10-25T16:30:20.685524+00:00",
+          "observation": "The current description accurately reflects the business's location (Norfolk), core service (AI exploration and software building), and the primary call to action (free 30-minute conversation).\nCaptured quote: “Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.”",
+          "audience": "Norfolk-based business owners and decision-makers looking for practical AI implementations.",
+          "changes": [
+            {
+              "label": "Retain original description",
+              "before": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.",
+              "after": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible."
+            }
+          ],
+          "rationale": "The existing description is concise, includes the location, clearly states the value proposition, and provides a specific call to action that matches the site's content. No evidence suggests a more effective description for AI search queries.",
+          "sources": [
+            {
+              "title": "Google: control snippets in search results",
+              "url": "https://developers.google.com/search/docs/appearance/snippet",
+              "reviewed_on": "2026-10-25",
+              "strength": "Primary search-engine guidance; not an uplift study"
+            }
+          ],
+          "applicability": "High; this is the primary snippet used to represent the site in search results.",
+          "downside": "None.",
+          "rationale_confidence": "high",
+          "outcome_confidence": "medium",
+          "baseline": "Current search description",
+          "measurement": "N/A",
+          "review": {
+            "on": "2026-10-25T16:30:50.929747+00:00",
+            "by": "Automated second-pass review",
+            "conclusion": "The current description is accurate and aligns with the site's content. It correctly identifies the location (Norfolk), the service (AI exploration and practical software), and the primary CTA (free 30-minute conversation). It follows the guidance to use accurate, page-specific descriptions for snippets.",
+            "workflow": "Evidence-backed recommendations",
+            "version": "1.2.0",
+            "outcome": "accepted"
+          },
+          "work_id": null
+        },
+        {
+          "id": "d0a6cca9-3614-4815-a5a8-2af2fa7749ca",
+          "recorded_at": "2026-10-25T15:18:18.736225+00:00",
+          "title": "UNimpossible",
+          "url": "https://unimpossible.co.uk/",
+          "decision": "retain",
+          "observed_on": "2026-10-25T15:18:05.933155+00:00",
+          "observation": "The current search description accurately reflects the page content, including the service offering (AI and practical software), the location (Norfolk), and the primary call to action (free 30-minute conversation).\nCaptured quote: “Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.”",
+          "audience": "Norfolk-based businesses exploring practical AI and software solutions.",
+          "changes": [
+            {
+              "label": "Retain original description",
+              "before": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.",
+              "after": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible."
+            }
+          ],
+          "rationale": "The existing description is highly relevant to the page's stated purpose and audience. It captures the core value proposition (helping businesses explore AI/build software) and the specific geographic focus (Norfolk), while providing a clear CTA. There is no evidence to suggest that an alternative description would improve performance, and the current wording aligns with the site's plain-English, practical tone.",
+          "sources": [
+            {
+              "title": "Google: control snippets in search results",
+              "url": "https://developers.google.com/search/docs/appearance/snippet",
+              "reviewed_on": "2026-10-25",
+              "strength": "Primary search-engine guidance; not an uplift study"
+            }
+          ],
+          "applicability": "Applies to search engine results snippets for the homepage.",
+          "downside": "None identified; changing a working description without evidence of poor performance or misalignment risks losing current clarity.",
+          "rationale_confidence": "high",
+          "outcome_confidence": "medium",
+          "baseline": "Current description: Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.",
+          "measurement": "Comparison of current snippet against page content and site brief.",
+          "review": {
+            "on": "2026-10-25T15:18:18.734363+00:00",
+            "by": "Automated second-pass review",
+            "conclusion": "The candidate is accepted. The description accurately reflects the page content (Norfolk-based engineers, AI/software services) and the primary CTA (30-minute conversation) as stated in the site brief. It maintains the brand's practical, plain-English tone and aligns with the target audience of Norfolk-based businesses. No evidence suggests a need for revision.",
+            "workflow": "Evidence-backed recommendations",
+            "version": "1.1.0",
+            "outcome": "accepted"
+          },
+          "work_id": null
+        },
+        {
+          "id": "e31f75f1-4384-47d8-99fe-13e5fb036fa8",
+          "recorded_at": "2026-10-25T13:34:42.498610+00:00",
+          "title": "Retain current search description",
+          "url": "https://unimpossible.co.uk/",
+          "decision": "retain",
+          "observed_on": "2026-10-25T13:34:28.975198+00:00",
+          "observation": "The current description accurately reflects the page content, including the location (Norfolk), the service (AI and software engineering), and the primary call to action (30-minute conversation).\nCaptured quote: “Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.”",
+          "audience": "Norfolk businesses exploring practical AI and software help.",
+          "changes": [
+            {
+              "label": "Retain original description",
+              "before": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible.",
+              "after": "Norfolk-based engineers helping businesses explore AI and build practical software. Book a free 30-minute conversation with UNimpossible."
+            }
+          ],
+          "rationale": "The current description is an accurate, page-specific summary of the services and value proposition offered. It aligns with the site brief's requirement to preserve the 30-minute conversation duration and the practical tone. There is no evidence to suggest that an alternative description would improve click-through rates or search relevance.",
+          "sources": [
+            {
+              "title": "Google: control snippets in search results",
+              "url": "https://developers.google.com/search/docs/appearance/snippet",
+              "reviewed_on": "2026-10-25",
+              "strength": "Primary search-engine guidance; not an uplift study"
+            }
+          ],
+          "applicability": "The description is highly applicable to the target audience of Norfolk-based businesses seeking practical AI solutions.",
+          "downside": "None identified; changing the description without evidence of poor performance or inaccuracy risks losing current search visibility or relevance.",
+          "rationale_confidence": "high",
+          "outcome_confidence": "low",
+          "baseline": "Current search description as provided in the evidence.",
+          "measurement": "No current outcome evidence (CTR or conversion) is available to justify a change.",
+          "review": {
+            "on": "2026-10-25T13:34:42.495545+00:00",
+            "by": "Automated second-pass review",
+            "conclusion": "The current description is an accurate, page-specific summary of the services and value proposition offered. It aligns with the site brief's requirement to preserve the 30-minute conversation duration and the practical tone. It correctly identifies the location (Norfolk), the service (AI and software engineering), and the primary call to action (30-minute conversation). As no outcome evidence (CTR or conversion) is available to justify a change, retaining the current version is the only supported action.",
+            "workflow": "Evidence-backed recommendations",
+            "version": "1.0.1",
+            "outcome": "accepted"
+          },
+          "work_id": null
+        }
+      ],
+      "work": [
+        {
+          "id": "4493697d-967c-47c9-850b-8bdd9bb0a8e1",
+          "kind": "description",
+          "state": "published",
+          "public_verified": true
+        },
+        {
+          "id": "f511feb9-72b3-45f0-8230-4f73db1789fb",
+          "kind": "description",
+          "state": "undone",
+          "public_verified": true
+        },
+        {
+          "id": "b08cfa77-7701-4b20-9605-d9ff0553b8cf",
+          "kind": "description",
+          "state": "undone",
+          "public_verified": true
+        },
+        {
+          "id": "d14eb7c0-7ab6-47fe-8a8f-30f00cf8c674",
+          "kind": "description",
+          "state": "undone",
+          "public_verified": true
+        }
+      ]
+    }
+  }
+}

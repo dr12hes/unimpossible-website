@@ -1,0 +1,142 @@
+{
+  "observed_on": "2026-10-25",
+  "kind": "manual_initial_baseline",
+  "questions": [
+    "Who can help a Norfolk business automate enquiry handling?",
+    "Who builds AI assistants for small UK businesses?",
+    "What does UNimpossible do?"
+  ],
+  "observations": [
+    {
+      "question_id": "q1",
+      "question": "Who can help a Norfolk business automate enquiry handling?",
+      "engine": "Google AI Mode",
+      "model": "Default; exact model not exposed",
+      "status": "complete",
+      "observed_window_utc": "2026-10-25T11:44:00Z/2026-10-25T11:46:30Z",
+      "locale": "United Kingdom; English UI; existing signed-in owner browser session, personalisation possible",
+      "context": "New thread for each question; no URL supplied or follow-up prompt",
+      "answer_summary": "Recommends Norfolk providers including Edcana AI, East Anglia AI Services, Kaizen Solutions UK, Crushed Ice, Osiris IT, Breakwater IT and S2 Computers. Unimpossible is absent from the answer and displayed links.",
+      "mentioned": false,
+      "cited": false,
+      "recommended": false,
+      "displayed_answer_and_related_source_urls": [
+        "https://edcana.co.uk/",
+        "https://eastangliaaiservices.co.uk/",
+        "https://kaizensolutionsuk.com/services/crm-automation",
+        "https://crushedice.uk/services/workflow-automation/norfolk/thetford",
+        "https://crushedice.uk/services/ai/norfolk/norwich",
+        "https://osirisit.co.uk/ai-advisory",
+        "https://breakwaterit.co.uk/service/ai-and-automation/",
+        "https://s2-computers.co.uk/services/ai-solutions-for-businesses-in-norwich-norfolk-and-suffolk-s2-computers/",
+        "https://norfolkchamber.co.uk/content/edcana-ai/"
+      ],
+      "evidence_sha256": "0bc04b420484c4847089cb907b04b9936b2172f1ef8d56ab16927b659c6c0927"
+    },
+    {
+      "question_id": "q2",
+      "question": "Who builds AI assistants for small UK businesses?",
+      "engine": "Google AI Mode",
+      "model": "Default; exact model not exposed",
+      "status": "complete",
+      "observed_window_utc": "2026-10-25T11:44:00Z/2026-10-25T11:46:30Z",
+      "locale": "United Kingdom; English UI; existing signed-in owner browser session, personalisation possible",
+      "context": "New thread for each question; no URL supplied or follow-up prompt",
+      "answer_summary": "Lists custom AI builders, managed chat providers and receptionists. Examples include Creative Agent, Seahorse, First Essential, KlarifAi, The Epitome, Delegait, Orbis AI and Converse360. Unimpossible is absent.",
+      "mentioned": false,
+      "cited": false,
+      "recommended": false,
+      "displayed_answer_and_related_source_urls": [
+        "https://delegait.co.uk/ai",
+        "https://creativeagent.co.uk/best-ai-agents-small-business-uk",
+        "https://firstessential.uk/ai-solutions/",
+        "https://creativeagent.co.uk/virtual-assistant-services/",
+        "https://seahorseltd.co.uk/ai-agents.html",
+        "https://klarifai.co.uk/blog/ai-consulting-for-small-businesses",
+        "https://theepitome.co.uk/ai-agents",
+        "https://converse360.co.uk/solutions/small-and-medium-businesses",
+        "https://aiassistsmes.co.uk/",
+        "https://orbisai.co.uk/",
+        "https://cxassist.io/blog/best-ai-receptionist-uk-small-business"
+      ],
+      "evidence_sha256": "7a97d23ddfa516e6ec247781946a4ca97b100cf4bf9cba081f4a0e311440b7c7"
+    },
+    {
+      "question_id": "q3",
+      "question": "What does UNimpossible do?",
+      "engine": "Google AI Mode",
+      "model": "Default; exact model not exposed",
+      "status": "complete",
+      "observed_window_utc": "2026-10-25T11:44:00Z/2026-10-25T11:46:30Z",
+      "locale": "United Kingdom; English UI; existing signed-in owner browser session, personalisation possible",
+      "context": "New thread for each question; no URL supplied or follow-up prompt",
+      "answer_summary": "Identifies Unimpossible as a Norfolk engineering team building practical AI solutions and repeatedly cites the homepage. Describes automation examples and the website audit. This is branded recognition, not an unsolicited supplier recommendation.",
+      "mentioned": true,
+      "cited": true,
+      "recommended": false,
+      "displayed_answer_and_related_source_urls": [
+        "https://unimpossible.co.uk/"
+      ],
+      "evidence_sha256": "1a9629d8b508614914eee9d9d1df742ce6647866b1f903c99b783afd4ed04eb5"
+    },
+    {
+      "question_id": "q1",
+      "question": "Who can help a Norfolk business automate enquiry handling?",
+      "engine": "Perplexity Search",
+      "model": "Default; exact model not exposed",
+      "status": "complete",
+      "observed_window_utc": "2026-10-25T11:41:00Z/2026-10-25T11:43:00Z",
+      "locale": "UK browser/network; signed out; no explicit location override",
+      "context": "New session; Search checked; no URL or follow-up supplied",
+      "answer_summary": "Recommends Nova and Prime AI Agency Norwich. Neither Unimpossible nor its domain appears in the answer or ten displayed search sources.",
+      "mentioned": false,
+      "cited": false,
+      "recommended": false,
+      "inline_cited_urls": [
+        "https://withnova.uk/ai-automation-norwich",
+        "https://primeaiagencynorwich.co.uk/"
+      ],
+      "retrieved_source_urls": [
+        "https://withnova.uk/ai-automation-norwich",
+        "https://primeaiagencynorwich.co.uk/",
+        "https://eastangliaaiservices.co.uk/",
+        "https://evanssalesconsultancy.co.uk/customer-enquiry-automation",
+        "https://callhandlingservice.co.uk/near-me/norfolk/",
+        "https://smallbusinesscallsanswering.co.uk/norfolk",
+        "https://floai.co.uk/",
+        "https://overflowcallhandlingservice.co.uk/near-me/norfolk/",
+        "https://apexautomationsuk.com/",
+        "https://hellohorizon.uk/automation-ai-norwich/"
+      ],
+      "evidence_sha256": "0425e4c56b319065fa6f06f3d240c18fe4a9638ae56459910c5a3ee2cfd3e4ca"
+    },
+    {
+      "question_id": "q2",
+      "question": "Who builds AI assistants for small UK businesses?",
+      "engine": "Perplexity Search",
+      "status": "unavailable",
+      "reason": "Sign-in required after submitting the second query. No completed answer captured. Excluded from counts.",
+      "mentioned": null,
+      "cited": null,
+      "recommended": null
+    }
+  ],
+  "coverage": {
+    "complete_answers": 4,
+    "google_ai_mode_complete": 3,
+    "perplexity_complete": 1,
+    "perplexity_unavailable": 1,
+    "perplexity_q3": "not run after sign-in requirement",
+    "chatgpt": "Unavailable: account/browser check failed; no question submitted; not counted",
+    "claude": "Not sampled"
+  },
+  "summary": "Google AI Mode: 1/3 answers mention and cite Unimpossible (branded q3), 0/2 unbranded answers include it. Perplexity: 0/1 completed answer mentions, cites or recommends it. No aggregate visibility score.",
+  "limits": [
+    "One observation per question/product, not repeated yet.",
+    "Signed-in owner Google session can be personalised; not independent market-wide sampling.",
+    "Displayed related-source links differ from inline citations; stored separately where exposed.",
+    "Competitor claims in answers are observations, not endorsed or fact-checked business claims.",
+    "The branded answer treats illustrative automation examples as offerings; no case-study outcomes are validated.",
+    "No causal uplift can be measured from this initial sample. No recurring monitor was configured."
+  ]
+}

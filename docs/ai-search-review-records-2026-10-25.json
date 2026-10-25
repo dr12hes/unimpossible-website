@@ -1,0 +1,146 @@
+[
+  {
+    "url": "https://unimpossible.co.uk/",
+    "decision": "change",
+    "observed_on": "2026-10-25",
+    "audience": "Businesses in Norfolk and the UK evaluating practical AI engineering help.",
+    "work_id": null,
+    "baseline": "Audit 28bd8fdc-88e2-470d-9548-8b17fca8bd1c completed 25 October: two pages. Google URL Inspection: submitted and indexed, last crawl 24 October 15:30 UTC, matching canonical. Search Console AI inclusion enabled. Imported search/referral rows are empty through 22 October; this is missing coverage, not proven zero traffic. No repeatable AI-answer sample exists in this review.",
+    "title": "Priority 1 \u2014 Show one verifiable example of our engineering work",
+    "observation": "The homepage names network assurance, guest WiFi, an AI helpdesk and business search, but provides no named project, attributable engineer or linked evidence. Its four automation examples are illustrations, not documented customer outcomes. The homepage is the only URL in the public sitemap.",
+    "changes": [
+      {
+        "label": "Content brief \u2014 not publication-ready copy",
+        "before": "The team section describes production platforms in general terms without a linked worked example.",
+        "after": "Add one concise, owner-verified project example beside the team section: the problem, what we built, our role, an attributable engineer and a public evidence link or permitted screenshot. Include measured results only when records support them. Preserve the existing offers and description. Draft exact copy after those facts are confirmed."
+      }
+    ],
+    "rationale": "Highest-priority content improvement: give visitors and search systems specific, verifiable first-hand information that the current broad claims do not supply. This is supported practice, not a proven citation uplift.",
+    "sources": [
+      {
+        "title": "Google: AI search guidance",
+        "url": "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide",
+        "reviewed_on": "2026-10-25",
+        "strength": "Official provider guidance"
+      }
+    ],
+    "applicability": "Uses an existing expertise claim and strengthens its evidence. Start with one genuine project; no mass-generated service pages or invented case studies.",
+    "downside": "Requires owner confirmation and permission for any customer material. Do not reveal confidential implementation details or imply the illustrative examples are client results.",
+    "rationale_confidence": "High that the evidence gap exists; moderate that this is the best content investment until query evidence develops.",
+    "outcome_confidence": "Unknown. Neither citation nor ranking improvement is established.",
+    "measurement": "After exact copy is separately approved and published, record its date and URL, verify rendered text and links, then compare dated AI-answer observations, relevant Search Console queries and referrals. Keep other material edits stable; before/after changes are descriptive, not causal.",
+    "id": "ede0cc3c-86b5-5bc1-8eac-3587ac655b80",
+    "review": {
+      "on": "2026-10-25",
+      "by": "Core independent automated review; Codex evidence check",
+      "conclusion": "The recommendation to add a verifiable project example is supported by the evidence. The current homepage text lists several industry sectors (network assurance, guest WiFi, etc.) and automation use cases, but these are presented as general capabilities rather than documented, first-hand case studies. Adding specific, owner-verified details aligns with the guidance to provide 'useful original first-hand content' and addresses the observed lack of attributable evidence.",
+      "workflow": "website_recommendations_review_v1",
+      "version": "2; operator AI-search brief",
+      "outcome": "accepted"
+    }
+  },
+  {
+    "url": "https://unimpossible.co.uk/",
+    "decision": "change",
+    "observed_on": "2026-10-25",
+    "audience": "Businesses in Norfolk and the UK evaluating practical AI engineering help.",
+    "work_id": null,
+    "baseline": "Audit 28bd8fdc-88e2-470d-9548-8b17fca8bd1c completed 25 October: two pages. Google URL Inspection: submitted and indexed, last crawl 24 October 15:30 UTC, matching canonical. Search Console AI inclusion enabled. Imported search/referral rows are empty through 22 October; this is missing coverage, not proven zero traffic. No repeatable AI-answer sample exists in this review.",
+    "title": "Priority 2 \u2014 Verify real AI-crawler access before changing access rules",
+    "observation": "Public homepage returns HTTP 200 with readable HTML and no noindex/nosnippet restriction. robots.txt allows all agents. Google indexing and AI inclusion pass. This review has not verified genuine OpenAI, Anthropic or Perplexity crawler requests against origin/CDN logs.",
+    "changes": [
+      {
+        "label": "Verification task \u2014 no website copy or access change proposed",
+        "before": "Robots permission and ordinary HTTP access are confirmed; genuine AI search crawler access remains unverified.",
+        "after": "Check recent origin/CDN requests for OAI-SearchBot, Claude-SearchBot and PerplexityBot, verifying source identity against each provider\u2019s published guidance. Record successful fetches or specific denials. If no request exists, record \u201cnot observed\u201d. Propose only an evidenced, narrowly scoped fix for approval; leave authentication and security protections intact."
+      }
+    ],
+    "rationale": "Close an important evidence gap in search eligibility without inventing a crawler blockage. An allowed robots file alone cannot establish that a CDN or firewall accepts genuine crawler requests.",
+    "sources": [
+      {
+        "title": "OpenAI crawler purposes and access",
+        "url": "https://developers.openai.com/api/docs/bots",
+        "reviewed_on": "2026-10-25",
+        "strength": "Official provider guidance"
+      },
+      {
+        "title": "Anthropic crawler purposes and identification",
+        "url": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler",
+        "reviewed_on": "2026-10-25",
+        "strength": "Official provider guidance"
+      },
+      {
+        "title": "Perplexity crawlers and WAF configuration",
+        "url": "https://docs.perplexity.ai/docs/resources/perplexity-crawlers",
+        "reviewed_on": "2026-10-25",
+        "strength": "Official provider guidance"
+      }
+    ],
+    "applicability": "Search crawlers differ from model-training crawlers. Do not broaden training permission as an SEO tactic. The existing permissive robots policy does not require redundant named Allow rules.",
+    "downside": "Logs may lack sufficient retention or client-IP identity. A spoofed user-agent test is not proof; absence of a bot visit is not proof of blocking.",
+    "rationale_confidence": "High for the need to distinguish robots permission from verified delivery; no current evidence of a block.",
+    "outcome_confidence": "Unknown. Successful crawling is not a guarantee of citation or recommendation.",
+    "measurement": "Record provider, verified request time, target URL, status and identity-validation method. Retain only necessary aggregate evidence; do not expose unrelated visitor logs.",
+    "id": "8a9756fc-d93a-542c-88fb-25846680cacd",
+    "review": {
+      "on": "2026-10-25",
+      "by": "Core independent automated review; Codex evidence check",
+      "conclusion": "The recommendation to verify actual crawler access via logs is technically sound and avoids speculative advice. The evidence confirms that `robots.txt` allows all agents and Google indexing is successful, but as noted in the guidance, robots permission is not verified HTTP delivery. Distinguishing between robots.txt permission and actual successful fetches by specific AI bots (OpenAI, Anthropic, Perplexity) is a necessary step for technical verification.",
+      "workflow": "website_recommendations_review_v1",
+      "version": "2; operator AI-search brief",
+      "outcome": "accepted"
+    }
+  },
+  {
+    "url": "https://unimpossible.co.uk/",
+    "decision": "change",
+    "observed_on": "2026-10-25",
+    "audience": "Businesses in Norfolk and the UK evaluating practical AI engineering help.",
+    "work_id": null,
+    "baseline": "Audit 28bd8fdc-88e2-470d-9548-8b17fca8bd1c completed 25 October: two pages. Google URL Inspection: submitted and indexed, last crawl 24 October 15:30 UTC, matching canonical. Search Console AI inclusion enabled. Imported search/referral rows are empty through 22 October; this is missing coverage, not proven zero traffic. No repeatable AI-answer sample exists in this review.",
+    "title": "Priority 3 \u2014 Establish a small AI-answer baseline",
+    "observation": "The dashboard has search and referral imports, but this review has no saved, repeatable sample showing whether AI engines cite or recommend Unimpossible. Referrals cannot establish how often the site appears in answers.",
+    "changes": [
+      {
+        "label": "Measurement brief \u2014 no publishing or tracking installation proposed",
+        "before": "Search traffic and attributed referrals are available separately; AI-answer citations and recommendations are not yet sampled.",
+        "after": "Start with three fixed UK buyer questions: \u201cWho can help a Norfolk business automate enquiry handling?\u201d, \u201cWho builds AI assistants for small UK businesses?\u201d, and \u201cWhat does UNimpossible do?\u201d. Record the question, engine/product, date, locale, answer and cited URLs. Distinguish a mention, a citation and a recommendation. Repeat consistently before expanding the sample."
+      }
+    ],
+    "rationale": "Measure the plugin\u2019s actual goal directly, using a small repeatable sample alongside traffic. This is our proposed measurement experiment, not a provider requirement or a market-wide visibility score.",
+    "sources": [
+      {
+        "title": "Peec: AI search visibility analytics",
+        "url": "https://peec.ai/",
+        "reviewed_on": "2026-10-25",
+        "strength": "Vendor-described monitoring practice, not effectiveness proof"
+      },
+      {
+        "title": "Otterly: prompt and citation monitoring",
+        "url": "https://otterly.ai/pricing",
+        "reviewed_on": "2026-10-25",
+        "strength": "Vendor-described monitoring practice, not effectiveness proof"
+      },
+      {
+        "title": "AI-SEO skill: prompt audit workflow",
+        "url": "https://github.com/coreyhaines31/marketingskills/blob/main/skills/ai-seo/SKILL.md",
+        "reviewed_on": "2026-10-25",
+        "strength": "Practitioner checklist; claims independently screened"
+      }
+    ],
+    "applicability": "Questions derive from current public positioning, not proven customer demand. Start manually or reuse an existing approved tool. Do not buy a subscription or add a new monitoring platform for this review.",
+    "downside": "Answers vary by model, location, session and time. Three questions cannot represent all demand; API answers may differ from consumer search products. Record failures rather than treating them as absence.",
+    "rationale_confidence": "High that referrals and citations measure different things; provisional prompt selection.",
+    "outcome_confidence": "Measurement provides evidence, not uplift. No prediction of future citations.",
+    "measurement": "Compare repeated observations on the same questions and product surface. Report counts with their denominator and date, including no-answer/no-search runs separately. Keep referral requests, search impressions and enquiries distinct.",
+    "id": "e2272e59-bab7-5326-bff4-58aaed46df88",
+    "review": {
+      "on": "2026-10-25",
+      "by": "Core independent automated review; Codex evidence check",
+      "conclusion": "The recommendation to establish a manual AI-answer baseline is accepted as a measurement strategy. The rationale correctly identifies that Search Console referral data does not capture direct AI citations or recommendations. The proposed method of using fixed, relevant questions to sample engine responses is a valid practitioner approach for monitoring visibility, consistent with the 'practice' guidance provided. Operator clarification: Search Console search data and the separately collected AI-referral data are distinct sources; neither measures all AI-answer citations.",
+      "workflow": "website_recommendations_review_v1",
+      "version": "2; operator AI-search brief",
+      "outcome": "accepted"
+    }
+  }
+]

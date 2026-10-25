@@ -1,0 +1,408 @@
+{
+  "observed_on": "2026-10-25",
+  "window_start": "2026-10-22T11:40:00Z",
+  "window_end": "2026-10-25T11:40:00Z",
+  "source": "Existing unimpossible-website nginx logs and Traefik website-router error logs on VPS1",
+  "identity_method": "User-agent plus rightmost client address forwarded by Traefik, checked against official provider IP ranges. Website container has no published ports. Traefik has no forwardedHeaders insecure/trusted override in inspected entrypoint configuration. Edge log independently confirms Anthropic source IP for its error.",
+  "providers": {
+    "openai": {
+      "matching_provider_range": 14,
+      "unverified_identity": 7,
+      "verified_requests": [
+        {
+          "provider": "openai",
+          "at": "22/Oct/2026:13:00:48 +0000",
+          "method": "GET",
+          "path": "/robots.txt",
+          "status": 200,
+          "bytes": 71,
+          "range_match": true,
+          "source_ip": "74.7.244.12"
+        },
+        {
+          "provider": "openai",
+          "at": "22/Oct/2026:14:54:25 +0000",
+          "method": "GET",
+          "path": "/robots.txt",
+          "status": 200,
+          "bytes": 71,
+          "range_match": true,
+          "source_ip": "51.8.102.71"
+        },
+        {
+          "provider": "openai",
+          "at": "22/Oct/2026:23:34:03 +0000",
+          "method": "GET",
+          "path": "/robots.txt",
+          "status": 200,
+          "bytes": 71,
+          "range_match": true,
+          "source_ip": "51.8.102.81"
+        },
+        {
+          "provider": "openai",
+          "at": "23/Oct/2026:06:55:36 +0000",
+          "method": "GET",
+          "path": "/robots.txt",
+          "status": 200,
+          "bytes": 71,
+          "range_match": true,
+          "source_ip": "51.8.102.12"
+        },
+        {
+          "provider": "openai",
+          "at": "23/Oct/2026:13:02:08 +0000",
+          "method": "GET",
+          "path": "/robots.txt",
+          "status": 200,
+          "bytes": 71,
+          "range_match": true,
+          "source_ip": "74.7.244.12"
+        },
+        {
+          "provider": "openai",
+          "at": "23/Oct/2026:15:35:00 +0000",
+          "method": "GET",
+          "path": "/robots.txt",
+          "status": 200,
+          "bytes": 71,
+          "range_match": true,
+          "source_ip": "51.8.102.179"
+        },
+        {
+          "provider": "openai",
+          "at": "23/Oct/2026:22:56:16 +0000",
+          "method": "GET",
+          "path": "/robots.txt",
+          "status": 200,
+          "bytes": 71,
+          "range_match": true,
+          "source_ip": "51.8.102.46"
+        },
+        {
+          "provider": "openai",
+          "at": "24/Oct/2026:07:35:43 +0000",
+          "method": "GET",
+          "path": "/robots.txt",
+          "status": 200,
+          "bytes": 71,
+          "range_match": true,
+          "source_ip": "51.8.102.199"
+        },
+        {
+          "provider": "openai",
+          "at": "24/Oct/2026:13:04:06 +0000",
+          "method": "GET",
+          "path": "/robots.txt",
+          "status": 200,
+          "bytes": 71,
+          "range_match": true,
+          "source_ip": "74.7.244.12"
+        },
+        {
+          "provider": "openai",
+          "at": "24/Oct/2026:14:57:01 +0000",
+          "method": "GET",
+          "path": "/robots.txt",
+          "status": 301,
+          "bytes": 169,
+          "range_match": true,
+          "source_ip": "51.8.102.238"
+        },
+        {
+          "provider": "openai",
+          "at": "24/Oct/2026:14:57:01 +0000",
+          "method": "GET",
+          "path": "/robots.txt",
+          "status": 200,
+          "bytes": 71,
+          "range_match": true,
+          "source_ip": "51.8.102.244"
+        },
+        {
+          "provider": "openai",
+          "at": "24/Oct/2026:23:36:23 +0000",
+          "method": "GET",
+          "path": "/robots.txt",
+          "status": 200,
+          "bytes": 71,
+          "range_match": true,
+          "source_ip": "51.8.102.226"
+        },
+        {
+          "provider": "openai",
+          "at": "25/Oct/2026:06:57:39 +0000",
+          "method": "GET",
+          "path": "/robots.txt",
+          "status": 301,
+          "bytes": 169,
+          "range_match": true,
+          "source_ip": "51.8.102.46"
+        },
+        {
+          "provider": "openai",
+          "at": "25/Oct/2026:06:57:39 +0000",
+          "method": "GET",
+          "path": "/robots.txt",
+          "status": 200,
+          "bytes": 71,
+          "range_match": true,
+          "source_ip": "51.8.102.255"
+        }
+      ]
+    },
+    "claude": {
+      "matching_provider_range": 0,
+      "unverified_identity": 11,
+      "verified_requests": []
+    },
+    "perplexity": {
+      "matching_provider_range": 0,
+      "unverified_identity": 12,
+      "verified_requests": []
+    }
+  },
+  "edge": {
+    "window_start": "2026-10-22T11:40:00+00:00",
+    "window_end": "2026-10-25T11:40:00+00:00",
+    "matching_site_error_entries": 784,
+    "provider_ip_error_counts": {
+      "openai": {},
+      "claude": {
+        "403": 1
+      },
+      "perplexity": {}
+    },
+    "coverage": "Traefik records only 4xx/5xx; only website routers checked, no user-agent recorded. Network-level drops are not covered."
+  },
+  "protected_endpoint_observation": {
+    "provider": "Anthropic",
+    "agent": "ClaudeBot (training, not Claude-SearchBot)",
+    "at": "2026-10-25T07:21:20Z",
+    "path": "/xmlrpc.php",
+    "status": 403,
+    "conclusion": "Protected RPC endpoint; no evidence this blocks public page discovery. Retain restriction."
+  },
+  "limitations": [
+    "Only retained 72-hour HTTP logs checked; network drops and older requests are not covered.",
+    "OpenAI verified requests are robots.txt only: 12 successful fetches and 2 redirects; no verified homepage fetch observed.",
+    "No verified Claude-SearchBot or PerplexityBot observed. This does not establish they are blocked.",
+    "Unmatched user-agent identities excluded, including prior test/suspicious requests.",
+    "IP lists checked at review time, not historical signed provider attestations."
+  ],
+  "sources": [
+    {
+      "provider": "openai",
+      "url": "https://openai.com/searchbot.json",
+      "sha256": "81806b1665e9bbbc5e0f307b847ad34f7027abc19e0d2d5d3eca1864bf361be6",
+      "list": {
+        "creationTime": "2026-01-02T11:00:00.000000",
+        "prefixes": [
+          {
+            "ipv4Prefix": "104.210.140.128/28"
+          },
+          {
+            "ipv4Prefix": "13.66.216.176/28"
+          },
+          {
+            "ipv4Prefix": "135.234.64.0/24"
+          },
+          {
+            "ipv4Prefix": "172.182.193.224/28"
+          },
+          {
+            "ipv4Prefix": "172.182.193.80/28"
+          },
+          {
+            "ipv4Prefix": "172.182.194.144/28"
+          },
+          {
+            "ipv4Prefix": "172.182.194.32/28"
+          },
+          {
+            "ipv4Prefix": "172.182.195.48/28"
+          },
+          {
+            "ipv4Prefix": "172.182.209.208/28"
+          },
+          {
+            "ipv4Prefix": "172.182.211.192/28"
+          },
+          {
+            "ipv4Prefix": "172.182.213.192/28"
+          },
+          {
+            "ipv4Prefix": "172.182.224.0/28"
+          },
+          {
+            "ipv4Prefix": "172.203.190.112/28"
+          },
+          {
+            "ipv4Prefix": "172.203.190.128/28"
+          },
+          {
+            "ipv4Prefix": "172.203.190.80/28"
+          },
+          {
+            "ipv4Prefix": "20.14.99.96/28"
+          },
+          {
+            "ipv4Prefix": "20.168.18.32/28"
+          },
+          {
+            "ipv4Prefix": "20.169.6.224/28"
+          },
+          {
+            "ipv4Prefix": "20.169.7.48/28"
+          },
+          {
+            "ipv4Prefix": "20.169.77.0/25"
+          },
+          {
+            "ipv4Prefix": "20.171.123.64/28"
+          },
+          {
+            "ipv4Prefix": "20.171.53.224/28"
+          },
+          {
+            "ipv4Prefix": "20.25.151.224/28"
+          },
+          {
+            "ipv4Prefix": "20.42.10.176/28"
+          },
+          {
+            "ipv4Prefix": "23.102.145.48/28"
+          },
+          {
+            "ipv4Prefix": "4.227.36.0/25"
+          },
+          {
+            "ipv4Prefix": "40.67.175.0/25"
+          },
+          {
+            "ipv4Prefix": "40.90.214.16/28"
+          },
+          {
+            "ipv4Prefix": "51.8.102.0/24"
+          },
+          {
+            "ipv4Prefix": "74.7.175.128/25"
+          },
+          {
+            "ipv4Prefix": "74.7.228.0/25"
+          },
+          {
+            "ipv4Prefix": "74.7.228.128/25"
+          },
+          {
+            "ipv4Prefix": "74.7.229.0/25"
+          },
+          {
+            "ipv4Prefix": "74.7.229.128/25"
+          },
+          {
+            "ipv4Prefix": "74.7.230.0/25"
+          },
+          {
+            "ipv4Prefix": "74.7.241.128/25"
+          },
+          {
+            "ipv4Prefix": "74.7.242.128/25"
+          },
+          {
+            "ipv4Prefix": "74.7.243.0/25"
+          },
+          {
+            "ipv4Prefix": "74.7.244.0/25"
+          }
+        ]
+      }
+    },
+    {
+      "provider": "claude",
+      "url": "https://claude.com/crawling/bots.json",
+      "sha256": "c960bb55504c3c478d0335bc7153e9ca871c26388a69e403cbad121a5bb5c5dd",
+      "list": {
+        "creationTime": "2026-10-20T00:00:00Z",
+        "prefixes": [
+          {
+            "ipv4Prefix": "216.73.216.0/22"
+          },
+          {
+            "ipv4Prefix": "34.162.230.222/32"
+          },
+          {
+            "ipv4Prefix": "34.162.244.71/32"
+          },
+          {
+            "ipv4Prefix": "34.162.191.81/32"
+          },
+          {
+            "ipv4Prefix": "34.162.86.102/32"
+          },
+          {
+            "ipv4Prefix": "136.79.143.251/32"
+          },
+          {
+            "ipv4Prefix": "136.83.20.215/32"
+          },
+          {
+            "ipv4Prefix": "34.162.111.78/32"
+          },
+          {
+            "ipv4Prefix": "34.162.90.102/32"
+          },
+          {
+            "ipv4Prefix": "34.162.27.34/32"
+          },
+          {
+            "ipv4Prefix": "34.152.124.140/32"
+          },
+          {
+            "ipv4Prefix": "34.153.21.190/32"
+          },
+          {
+            "ipv4Prefix": "34.186.252.4/32"
+          },
+          {
+            "ipv4Prefix": "34.162.153.71/32"
+          }
+        ]
+      }
+    },
+    {
+      "provider": "perplexity",
+      "url": "https://www.perplexity.com/perplexitybot.json",
+      "sha256": "2688b50802b42611b412f8ac3bc614248d0eab00d74f4ceda41cb78526bde6b2",
+      "list": {
+        "creationTime": "2025-02-07T16:56:00.000000",
+        "prefixes": [
+          {
+            "ipv4Prefix": "107.20.236.150/32"
+          },
+          {
+            "ipv4Prefix": "3.224.62.45/32"
+          },
+          {
+            "ipv4Prefix": "18.210.92.235/32"
+          },
+          {
+            "ipv4Prefix": "3.222.232.239/32"
+          },
+          {
+            "ipv4Prefix": "3.211.124.183/32"
+          },
+          {
+            "ipv4Prefix": "3.231.139.107/32"
+          },
+          {
+            "ipv4Prefix": "18.97.1.228/30"
+          },
+          {
+            "ipv4Prefix": "18.97.9.96/29"
+          }
+        ]
+      }
+    }
+  ]
+}

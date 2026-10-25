@@ -1,0 +1,15 @@
+{
+  "inspection_url": "https://unimpossible.co.uk/",
+  "site_url": "sc-domain:unimpossible.co.uk",
+  "verdict": "PASS",
+  "coverage_state": "Submitted and indexed",
+  "robots_txt_state": "ALLOWED",
+  "indexing_state": "INDEXING_ALLOWED",
+  "last_crawl_time": "2026-10-24T15:30:04Z",
+  "page_fetch_state": "SUCCESSFUL",
+  "google_canonical": "https://unimpossible.co.uk/",
+  "user_canonical": "https://unimpossible.co.uk/",
+  "ai_inclusion_ui": "Include/default selected; Save disabled; observed 2026-10-25; no change made",
+  "homepage_http_status": 200,
+  "robots": "User-agent: *\nAllow: /\nSitemap: https://unimpossible.co.uk/sitemap.xml"
+}
