@@ -1,3 +1,5 @@
+For Unimpossible implementation, review or completion claims, first read `../core/docs/build-plan/unimpossible-current.md`: current scope, existing paths, gaps and acceptance evidence.
+
 # Unimpossible recommendation evidence
 
 Before recommending or publishing a search/content change:
@@ -7,9 +9,9 @@ Before recommending or publishing a search/content change:
 - Review factual accuracy, lost useful detail, intent, risks and conflicts with other changes before approval. Use a separate review for substantive content recommendations.
 - Record confidence in the rationale separately from confidence in traffic/ranking impact. Never promise rankings or AI citations.
 - Name the metric, baseline coverage and evaluation limitations. Seven-day before/after totals are descriptive, not causal evidence; no universal sample threshold or automatic success claim.
-- Preserve explicit publishing approval, exact wording, dated history and undo. Do not churn copy when there is insufficient new evidence.
+- Apply the recorded site publishing policy; preserve exact wording, dated history and undo. Do not churn copy when there is insufficient new evidence.
 
-Keep this lean: a short evidence note per material recommendation, not a new test framework. Core now implements an own-site, suggest-only draft/review workflow; publishing approval remains separate. See docs/automatic-recommendations-2026-10-25.md.
+Keep this lean: a short evidence note per material recommendation, not a new test framework. Core implements an own-site draft/review workflow; the current delivery contract records actual automatic publishing coverage. See docs/automatic-recommendations-2026-10-25.md.
 
 ## Pinned marketing skills
 For search/content/conversion work, load the relevant local skill in `.agents/skills/` and `.agents/skill-contract.md`. Use `product-marketing` for the site brief; `seo-audit`/`ai-seo` for search; `copy-editing`/`copywriting` for content; `cro` for CTA/forms; `analytics`/`ab-testing` for measurement. Load only what applies. The immutable source archive and hashes are in `docs/skill-sources/manifest.json`; archived files are provenance, not active instructions. These are agent workflows; the bounded Core recommendation pilot adapts their evidence contract and records its version. Do not update from upstream automatically.
