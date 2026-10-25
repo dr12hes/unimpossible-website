@@ -66,3 +66,12 @@ test('test email settings are same-origin, fixed-site and reject manual review p
   const removed=response();await handler({...req({}),url:'/api/production-results/enquiries'},removed);assert.equal(removed.statusCode,404);
  }finally{globalThis.fetch=original;}
 });
+test('recommendation generation requires same origin and uses only the fixed Core site',async()=>{
+ const original=globalThis.fetch;let sent;
+ globalThis.fetch=async(url,options)=>{sent={url,options};return {ok:true,status:202,json:async()=>({state:'queued'})};};
+ try{
+  for(const origin of [undefined,'https://evil.test']){const res=response();await handler({url:'/api/production-results/recommendations',method:'POST',headers:{host:'127.0.0.1:5187',origin}},res);assert.equal(res.statusCode,403);assert.equal(sent,undefined);}
+  const res=response();await handler({url:'/api/production-results/recommendations',method:'POST',headers:{host:'127.0.0.1:5187',origin:'http://127.0.0.1:5187'}},res);
+  assert.equal(res.statusCode,202);assert.equal(sent.url,'https://core.optaro.io/api/v1/integration/websites/'+'a'.repeat(32)+'/recommendations');assert.equal(sent.options.body,undefined);
+ }finally{globalThis.fetch=original;}
+});

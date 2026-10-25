@@ -8,11 +8,12 @@ export function productionProxy(config:{key:string;tenant:string;site:string}){
   const incoming=new URL(req.url||'/', 'http://127.0.0.1:5187');
   const googleReturn=incoming.pathname==='/api/production-results/google-return';
   const metrics=req.url==='/api/production-results/metrics';
+  const recommendations=req.url==='/api/production-results/recommendations';
   const audit=req.url==='/api/production-results/audit';
   const description=req.url==='/api/production-results/descriptions';
   const testEmails=req.url==='/api/production-results/test-emails';
-  const write=audit||description||metrics||(testEmails&&req.method==='POST');
-  if(req.url!=='/api/production-results'&&!audit&&!description&&!metrics&&!googleReturn&&!testEmails)return send(404,'Not found');
+  const write=recommendations||audit||description||metrics||(testEmails&&req.method==='POST');
+  if(req.url!=='/api/production-results'&&!audit&&!description&&!metrics&&!googleReturn&&!testEmails&&!recommendations)return send(404,'Not found');
   if(req.headers.host!=='127.0.0.1:5187'||(req.headers.origin&&req.headers.origin!=='http://127.0.0.1:5187')||(!googleReturn&&req.headers['sec-fetch-site']==='cross-site'))return send(403,'Local dashboard only');
   if(req.method!==(write?'POST':'GET'))return send(405,'Method not allowed');
   if(write&&req.headers.origin!=='http://127.0.0.1:5187')return send(403,'Local dashboard only');
@@ -34,10 +35,10 @@ export function productionProxy(config:{key:string;tenant:string;site:string}){
     if(incoming.searchParams.get('error')){res.statusCode=303;res.setHeader('Location','/?google=cancelled');res.end();return;}
     body=JSON.stringify({action:'google_finish',state,code:incoming.searchParams.get('code')||''});
    }
-   const response=await fetch('https://core.optaro.io/api/v1/integration/websites/'+config.site+(testEmails?'/test-emails':audit?'/audits':description?'/descriptions':metrics||googleReturn?'/metrics':'/results'),{method:write||googleReturn?'POST':'GET',headers:{'X-API-Key':config.key,'X-Tenant-Id':config.tenant,...(description||metrics||googleReturn||testEmails?{'Content-Type':'application/json'}:{})},body,redirect:'error',signal:AbortSignal.timeout(metrics||googleReturn?60000:15000)});
+   const response=await fetch('https://core.optaro.io/api/v1/integration/websites/'+config.site+(recommendations?'/recommendations':testEmails?'/test-emails':audit?'/audits':description?'/descriptions':metrics||googleReturn?'/metrics':'/results'),{method:write||googleReturn?'POST':'GET',headers:{'X-API-Key':config.key,'X-Tenant-Id':config.tenant,...(description||metrics||googleReturn||testEmails?{'Content-Type':'application/json'}:{})},body,redirect:'error',signal:AbortSignal.timeout(metrics||googleReturn?60000:15000)});
    if(!response.ok&&googleReturn){res.statusCode=303;res.setHeader('Location','/?google=failed');res.end();return;}
    if(!response.ok&&(description||metrics||testEmails)){const error=await response.json().catch(()=>({}));return send([401,403,404,409,422].includes(response.status)?response.status:502,typeof error.detail==='string'?error.detail:testEmails?'Test email settings failed.':metrics?'Google connection failed.':'Description action failed.');}
-   if(!response.ok)return send([401,403,409,429].includes(response.status)?response.status:502,response.status===429?'Please wait one minute between audits.':audit?'Core could not queue the audit.':'Core results unavailable');
+   if(!response.ok)return send([401,403,409,429].includes(response.status)?response.status:502,response.status===429?'Please wait one minute between requests.':audit?'Core could not queue the audit.':'Core results unavailable');
    const result=await response.json();
    if(googleReturn){res.statusCode=303;res.setHeader('Location','/?google=connected');res.end();return;}
    if(metrics&&result.state){

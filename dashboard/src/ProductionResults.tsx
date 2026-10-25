@@ -3,12 +3,12 @@ import './polish.css';
 import {Metrics,type MetricsData,type EnquiryData} from './Metrics';
 import {TestEmails} from './TestEmails';
 import {Recommendations} from './Recommendations';
-import type {Recommendation} from './recommendation-data';
+import type {Recommendation,RecommendationRun} from './recommendation-data';
 import {Impact} from './Impact.tsx';
 import type {ChangeRecord} from './impact-data';
 import {Descriptions,descriptionAction,type DescriptionWork} from './Descriptions';
 type Change={title?:string;message:string};
-type Result={recommendations?:Recommendation[];changes?:ChangeRecord[];enquiries?:EnquiryData|null;metrics?:MetricsData|null;permissions:{test_emails_manage?:boolean;publish?:boolean;metrics_write?:boolean;audits_run?:boolean;descriptions_write?:boolean};descriptions:DescriptionWork[];source:string;fetched_at:string;site:{name:string;url:string;approval_required:boolean};schedule:{frequency:string;next_due:string|null;last_started:string|null};history:{id:string;state:string;created_at:string;checked:number;total:number|null;changes:Change[]}[];audit:null|{id:string;state:string;updated_at:string;payload:{total:number|null;selected:number;completed:number;audited:number;failed:number;skipped:number;exclusions?:string;message?:string;priorities:{id:string;page_id:number;page_title:string;title:string;priority:string;priority_reason:string;evidence:string}[];pages:{page_id:number;title:string;state:string;message?:string}[]}}};
+type Result={recommendation_run?:RecommendationRun|null;recommendations?:Recommendation[];changes?:ChangeRecord[];enquiries?:EnquiryData|null;metrics?:MetricsData|null;permissions:{test_emails_manage?:boolean;publish?:boolean;metrics_write?:boolean;audits_run?:boolean;descriptions_write?:boolean};descriptions:DescriptionWork[];source:string;fetched_at:string;site:{name:string;url:string;approval_required:boolean};schedule:{frequency:string;next_due:string|null;last_started:string|null};history:{id:string;state:string;created_at:string;checked:number;total:number|null;changes:Change[]}[];audit:null|{id:string;state:string;updated_at:string;payload:{total:number|null;selected:number;completed:number;audited:number;failed:number;skipped:number;exclusions?:string;message?:string;priorities:{id:string;page_id:number;page_title:string;title:string;priority:string;priority_reason:string;evidence:string}[];pages:{page_id:number;title:string;state:string;message?:string}[]}}};
 const date=(value:string|null)=>value?new Date(value).toLocaleString(): 'Not recorded';
 export function ProductionResults(){
  const [all,setAll]=useState(false);const [data,setData]=useState<Result>();const [error,setError]=useState('');const [busy,setBusy]=useState(true);const [refresh,setRefresh]=useState(0);
@@ -29,7 +29,7 @@ export function ProductionResults(){
  {requestError&&<p role="alert" className="error">{requestError}</p>}
  {error&&<p role="alert" className="error">{error} Saved results are not being shown as current.</p>}{!data&&!error&&<p role="status">Loading production results…</p>}
  {data&&<><section className="card site-overview"><div><span className="eyebrow">CONNECTED WEBSITE</span><h2>{data.site.name}</h2><a href={data.site.url} target="_blank" rel="noreferrer">{data.site.url}</a><p className="site-note">Your connected WordPress website</p></div><div className="schedule-summary"><span className="eyebrow">SCHEDULED RECHECKS</span><h3>{data.schedule.frequency==='off'?'Paused':data.schedule.frequency==='weekly'?'Every week':'Every day'}</h3><p>{data.schedule.frequency==='off'?'No automatic recheck is scheduled.':`Next due: ${date(data.schedule.next_due)}`}</p><details><summary>Schedule details</summary><p>Last started: {date(data.schedule.last_started)}</p><p>Core workers run independently of this dashboard. The due time is not a guarantee of immediate completion.</p></details></div></section>
- <Recommendations items={data.recommendations||[]} works={[...(data.descriptions||[]),...(data.changes||[])]}/>
+ <Recommendations run={data.recommendation_run} canGenerate={liveSite&&!!data.permissions.audits_run} changed={()=>setRefresh(n=>n+1)} items={data.recommendations||[]} works={[...(data.descriptions||[]),...(data.changes||[])]}/>
  <Metrics data={data.metrics} canWrite={!!data.permissions.metrics_write} changed={()=>setRefresh(n=>n+1)}/>
  {data.permissions.test_emails_manage&&<TestEmails changed={()=>setRefresh(n=>n+1)}/>}
  <div id="change-impact"/>

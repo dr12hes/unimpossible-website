@@ -14,3 +14,9 @@ test('a review links only to its exact operation and page, never another draft o
  assert.equal(linkedWork(item,[{id:'published',url:'https://staging.unimpossible.co.uk/'}]),undefined);
  const work={id:'published',url:item.url};assert.equal(linkedWork(item,[work]),work);
 });
+const {reviewLabel}=await import('data:text/javascript;base64,'+Buffer.from(code).toString('base64'));
+test('rejected and needs-revision suggestions never appear accepted',()=>{
+ assert.equal(reviewLabel({decision:'change',review:{outcome:'rejected'}}),'Not recommended');
+ assert.equal(reviewLabel({decision:'retain',review:{outcome:'needs_revision'}}),'Needs revision');
+ assert.equal(reviewLabel({decision:'retain',review:{outcome:'accepted'}}),'Leave unchanged');
+});
